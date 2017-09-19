@@ -1,0 +1,6 @@
+rootProject.name = 'platform-sales'
+include 'registration'
+include 'configuration'
+include 'gateway'
+include 'auth-service'
+
