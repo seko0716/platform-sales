@@ -9,10 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails
 @Canonical
 @Document(collection = "users")
 class User implements UserDetails {
-
     @Id
     String username
-
     String password
 
     @Override

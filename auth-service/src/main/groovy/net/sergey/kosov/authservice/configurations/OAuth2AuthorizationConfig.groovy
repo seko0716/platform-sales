@@ -18,25 +18,18 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @Configuration
 @EnableAuthorizationServer
 class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
-
     private TokenStore tokenStore = new InMemoryTokenStore()
-
     @Autowired
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager
-
     @Autowired
     private MongoUserDetailsService userDetailsService
-
     @Autowired
     private Environment env
 
     @Override
     void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-
         // TODO persist clients details
-
-        // @formatter:off
         clients.inMemory()
                 .withClient("browser")
                 .authorizedGrantTypes("refresh_token", "password")
@@ -56,21 +49,15 @@ class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
                 .secret(env.getProperty("NOTIFICATION_SERVICE_PASSWORD"))
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server")
-        // @formatter:on
     }
 
     @Override
     void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints
-                .tokenStore(tokenStore)
-                .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService)
+        endpoints.tokenStore(tokenStore).authenticationManager(authenticationManager).userDetailsService(userDetailsService)
     }
 
     @Override
     void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        oauthServer
-                .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()")
+        oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()")
     }
 }

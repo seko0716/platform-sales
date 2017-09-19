@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class MongoUserDetailsService implements UserDetailsService {
-
     @Autowired
     private UserRepository repository
 

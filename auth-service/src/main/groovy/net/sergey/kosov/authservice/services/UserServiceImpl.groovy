@@ -11,9 +11,7 @@ import org.springframework.util.Assert
 @Service
 @Slf4j
 class UserServiceImpl implements UserService {
-
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder()
-
     @Autowired
     private UserRepository repository
 
