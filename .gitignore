@@ -1,4 +1,4 @@
-# Created by .ignore support plugin (hsz.mobi)
+# Crundersign.ignore support plugin (hsz.mobi)
 ### Gradle template
 .gradle
 /build/
@@ -84,3 +84,29 @@ fabric.properties
 hs_err_pid*
 
 /platform-sales.iml
+Будет удалено auth-service/build/libs/auth-service-1.0-SNAPSHOT.jar.original
+Будет удалено auth-service/build/tmp/
+Будет удалено auth-service/src/main/java/
+Будет удалено auth-service/src/main/resources/
+Будет удалено auth-service/src/test/
+Будет удалено configuration/build/libs/configuration-1.0-SNAPSHOT.jar.original
+Будет удалено configuration/build/resources/
+Будет удалено configuration/build/tmp/
+Будет удалено configuration/src/main/java/
+Будет удалено configuration/src/test/
+Будет удалено gateway/build/libs/gateway-1.0-SNAPSHOT.jar.original
+Будет удалено gateway/build/tmp/
+Будет удалено gateway/src/main/java/
+Будет удалено gateway/src/main/resources/
+Будет удалено gateway/src/test/
+Будет удалено mongodb/dump/
+Будет удалено monitoring/build/libs/monitoring-1.0-SNAPSHOT.jar.original
+Будет удалено monitoring/build/resources/
+Будет удалено monitoring/build/tmp/
+Будет удалено monitoring/src/main/java/
+Будет удалено monitoring/src/test/
+Будет удалено registration/build/libs/registration-1.0-SNAPSHOT.jar.original
+Будет удалено registration/build/resources/
+Будет удалено registration/build/tmp/
+Будет удалено registration/src/main/java/
+Будет удалено registration/src/test/
