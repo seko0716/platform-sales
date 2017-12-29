@@ -1,5 +1,7 @@
 #!/bin/bash
 
+gradle build
+
 docker build -t seko/platform-sales-config ./configuration/
 docker build -t seko/platform-sales-registry ./registration/.
 docker build -t seko/platform-sales-gateway ./gateway/.
