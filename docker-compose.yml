@@ -53,9 +53,6 @@ services:
   auth-service:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
-      STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
-      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
     image: seko/platform-sales-auth-service
     restart: always
@@ -77,32 +74,6 @@ services:
         max-size: "10m"
         max-file: "10"
 
-#  account-service:
-#    environment:
-#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-#      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-#      MONGODB_PASSWORD: $MONGODB_PASSWORD
-#    image: seko/platform-sales-account-service
-#    restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
-#  account-mongodb:
-#    environment:
-#      INIT_DUMP: account-service-dump.js
-#      MONGODB_PASSWORD: $MONGODB_PASSWORD
-#    image: seko/platform-sales-mongodb
-#    restart: always
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
 #  statistics-service:
 #    environment:
 #      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
@@ -127,32 +98,7 @@ services:
 #      options:
 #        max-size: "10m"
 #        max-file: "10"
-#
-#  notification-service:
-#    environment:
-#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-#      MONGODB_PASSWORD: $MONGODB_PASSWORD
-#      NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
-#    image: seko/platform-sales-notification-service
-#    restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
-#  notification-mongodb:
-#    image: seko/platform-sales-mongodb
-#    restart: always
-#    environment:
-#      MONGODB_PASSWORD: $MONGODB_PASSWORD
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
+
   monitoring:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
