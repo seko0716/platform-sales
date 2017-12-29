@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework.cloud:spring-cloud-config-server:1.4.0.RELEASE'
+    compile 'org.springframework.cloud:spring-cloud-starter-config:1.4.0.RELEASE'
     compile 'org.springframework.cloud:spring-cloud-starter-turbine-stream:1.4.0.RELEASE'
     compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit:1.3.0.RELEASE'
     compile 'org.springframework.cloud:spring-cloud-starter-hystrix-dashboard:1.4.0.RELEASE'
