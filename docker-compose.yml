@@ -26,6 +26,11 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: seko/platform-telegram-sender
     restart: always
+    depends_on:
+      config:
+        condition: service_healthy
+    ports:
+      - 8081:8081
     logging:
       options:
         max-size: "10m"
