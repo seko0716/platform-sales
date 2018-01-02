@@ -1,10 +1,31 @@
 version: '2.1'
 services:
+#для статистики
   rabbitmq:
     image: rabbitmq:3-management
     restart: always
     ports:
       - 15672:15672
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  rabbitmq_social:
+      image: rabbitmq:3-management
+      restart: always
+      ports:
+        - 25672:25672
+      logging:
+        options:
+          max-size: "10m"
+          max-file: "10"
+
+  telegramsender:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    image: seko/platform-telegram-sender
+    restart: always
     logging:
       options:
         max-size: "10m"
