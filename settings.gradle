@@ -7,4 +7,5 @@ include 'monitoring'
 include 'mongodb'
 include 'postresql'
 include 'telegram-sender'
+include 'communication'
 

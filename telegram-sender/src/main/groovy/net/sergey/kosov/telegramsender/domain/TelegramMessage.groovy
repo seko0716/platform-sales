@@ -1,4 +1,4 @@
-package net.sergey.kosov.registrationservice.domain
+package net.sergey.kosov.telegramsender.domain
 
 import groovy.transform.builder.Builder
 

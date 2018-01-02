@@ -1,4 +1,4 @@
-package net.sergey.kosov.registrationservice
+package net.sergey.kosov.telegramsender
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit
 import org.springframework.boot.SpringApplication

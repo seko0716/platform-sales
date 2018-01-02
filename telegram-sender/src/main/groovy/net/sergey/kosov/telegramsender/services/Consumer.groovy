@@ -1,7 +1,7 @@
-package net.sergey.kosov.registrationservice.services
+package net.sergey.kosov.telegramsender.services
 
 import groovy.json.JsonSlurper
-import net.sergey.kosov.registrationservice.domain.TelegramMessage
+import net.sergey.kosov.telegramsender.domain.TelegramMessage
 import org.springframework.amqp.core.Message
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Service
