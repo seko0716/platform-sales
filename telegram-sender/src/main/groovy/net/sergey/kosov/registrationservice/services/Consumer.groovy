@@ -1,24 +1,23 @@
 package net.sergey.kosov.registrationservice.services
 
-import net.sergey.kosov.registrationservice.domain.Message
-import org.springframework.beans.factory.annotation.Autowired
+import groovy.json.JsonSlurper
+import net.sergey.kosov.registrationservice.domain.TelegramMessage
+import org.springframework.amqp.core.Message
+import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
 @Service
 class Consumer {
-    @Autowired
-    private Producer producer
 
-    void send() {
-        Message nextMessage = producer.getNext()
-        def answer = new Message(to: nextMessage.to, mess: "Ответ на ${nextMessage.mess}", accessToken: "521122119:AAG8_db8aW50SkxqFmAx6KS-weYcn4acS7k")
-        RestTemplate template = new RestTemplate()
-
-        template.postForObject("https://api.telegram.org/bot${answer.accessToken}/sendMessage?${getParameters(answer)}", null, String.class)
+    @RabbitListener(queues = "telegram")
+    private void onMessage(Message message) {
+        def mess = new JsonSlurper().parseText(new String(message.getBody()))
+        def answer = new TelegramMessage(to: mess["to"], mess: mess["mess"], accessToken: mess["accessToken"])
+        new RestTemplate().postForObject("https://api.telegram.org/bot${answer.accessToken}/sendMessage?${getParameters(answer)}", null, String.class)
     }
 
-    private String getParameters(Message message) {
+    private String getParameters(TelegramMessage message) {
         return "text=${message.mess}&chat_id=${message.to}"
     }
 }

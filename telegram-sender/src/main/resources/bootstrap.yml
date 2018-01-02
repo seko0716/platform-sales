@@ -1,11 +1,9 @@
-server:
-  port: 8081
 spring:
   application:
-    name: auth-service
+    name: telegram-sender
   cloud:
-#    config:
-#      uri: http://config:8888
-#      fail-fast: true
-#      password: ${CONFIG_SERVICE_PASSWORD}
-#      username: user
+    config:
+      uri: http://config:8888
+      fail-fast: true
+      password: ${CONFIG_SERVICE_PASSWORD}
+      username: user

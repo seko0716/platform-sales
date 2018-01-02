@@ -1,16 +1,21 @@
 package net.sergey.kosov.registrationservice.services
 
+import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
-import net.sergey.kosov.registrationservice.domain.Message
+import net.sergey.kosov.registrationservice.domain.TelegramMessage
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
 import javax.annotation.PostConstruct
 
-
 //todo  перенести в сервис коммуникации
 @Service
 class Listener {
+    @Autowired
+    RabbitTemplate template
+
     private static Integer offset = 0
 
     @PostConstruct
@@ -21,8 +26,9 @@ class Listener {
         def text = new JsonSlurper().parseText(object)
         offset = text["result"].collect({ it["update_id"] }).max()++
         def messages = text["result"].collect({
-            new Message(to: it["message"]["chat"]["id"], from: it["message"]["from"]["first_name"], mess: it["message"]["text"])
+            new TelegramMessage(to: it["message"]["chat"]["id"], from: it["message"]["from"]["first_name"], mess: it["message"]["text"])
         })
-//        todo положить в очередь
+
+        messages.each { this.template.convertAndSend("telegram", JsonOutput.toJson(it)) }
     }
 }
