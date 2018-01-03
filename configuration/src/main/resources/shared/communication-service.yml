@@ -1,0 +1,23 @@
+security:
+  oauth2:
+    client:
+      clientId: communication-service
+      clientSecret: ${COMMUNICATION_SERVICE_PASSWORD}
+      accessTokenUri: http://auth-service:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
+spring:
+  data:
+    mongodb:
+      host: communication-mongodb
+      username: user
+      password: ${MONGODB_PASSWORD}
+      database: communication
+      port: 27017
+
+server:
+  context-path: /communication
+  port: 8082
+
+hostname: rabbitmq_social

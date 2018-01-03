@@ -79,6 +79,7 @@ services:
     environment:
       CONFIG_SERVICE_PASSWORD: 111
       NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
+      COMMUNICATION_SERVICE_PASSWORD: 333
       STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
       ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
       MONGODB_PASSWORD: 222
@@ -102,31 +103,31 @@ services:
         max-size: "10m"
         max-file: "10"
 
-#  account-service:
-#    environment:
-#      CONFIG_SERVICE_PASSWORD: 111
-#      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-#      MONGODB_PASSWORD: 222
-#    image: seko/platform-sales-account-service
-#    restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
-#
-#  account-mongodb:
-#    environment:
-#      INIT_DUMP: account-service-dump.js
-#      MONGODB_PASSWORD: 222
-#    image: seko/platform-sales-mongodb
-#    restart: always
-#    logging:
-#      options:
-#        max-size: "10m"
-#        max-file: "10"
+  communication-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: 111
+      COMMUNICATION_SERVICE_PASSWORD: 333
+      MONGODB_PASSWORD: 222
+    image: seko/platform-sales-communication-service
+    restart: always
+    depends_on:
+      config:
+        condition: service_healthy
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  communication-mongodb:
+    environment:
+      INIT_DUMP: communication-service-dump.js
+      MONGODB_PASSWORD: 222
+    image: seko/platform-sales-mongodb
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
 #
 #  statistics-service:
 #    environment:

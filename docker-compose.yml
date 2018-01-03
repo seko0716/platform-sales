@@ -79,6 +79,7 @@ services:
   auth-service:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      COMMUNICATION_SERVICE_PASSWORD: $COMMUNICATION_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
     image: seko/platform-sales-auth-service
     restart: always
@@ -92,6 +93,33 @@ services:
 
   auth-mongodb:
     environment:
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    image: seko/platform-sales-mongodb
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+
+  communication-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      COMMUNICATION_SERVICE_PASSWORD: $COMMUNICATION_SERVICE_PASSWORD
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+    image: seko/platform-sales-communication-service
+    restart: always
+    depends_on:
+      config:
+        condition: service_healthy
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  communication-mongodb:
+    environment:
+      INIT_DUMP: communication-service-dump.js
       MONGODB_PASSWORD: $MONGODB_PASSWORD
     image: seko/platform-sales-mongodb
     restart: always

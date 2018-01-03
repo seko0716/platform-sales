@@ -5,7 +5,6 @@ include 'gateway'
 include 'auth-service'
 include 'monitoring'
 include 'mongodb'
-include 'postresql'
 include 'telegram-sender'
 include 'communication'
 

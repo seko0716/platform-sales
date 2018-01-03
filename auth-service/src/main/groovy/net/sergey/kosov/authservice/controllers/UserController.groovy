@@ -21,6 +21,12 @@ class UserController {
         return principal
     }
 
+    @GetMapping("/token/{protocol}")
+    @PreAuthorize("#oauth2.hasScope('server')")
+    String getToken(@PathVariable("protocol") String protocol) {
+        return null
+    }
+
     @PostMapping
     @PreAuthorize("#oauth2.hasScope('server')")
     void createUser(@Valid @RequestBody User user) {

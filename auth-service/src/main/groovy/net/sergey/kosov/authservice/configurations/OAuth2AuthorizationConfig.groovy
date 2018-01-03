@@ -49,6 +49,11 @@ class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
                 .secret(env.getProperty("NOTIFICATION_SERVICE_PASSWORD"))
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server")
+                .and()
+                .withClient("communication-service")
+                .secret(env.getProperty("COMMUNICATION_SERVICE_PASSWORD"))
+                .authorizedGrantTypes("client_credentials", "refresh_token")
+                .scopes("server")
     }
 
     @Override
