@@ -8,13 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class CommunicationService {
-    @Autowired
-    lateinit var template: RabbitTemplate
-    @Autowired
-    lateinit var repository: MessageRepository
-    @Autowired
-    lateinit var authService: AuthService
+class CommunicationService @Autowired constructor(var authService: AuthService,
+                                                  var repository: MessageRepository,
+                                                  var template: RabbitTemplate) {
 
     var supportedProtocols = arrayOf("telegram", "internal")
 
@@ -24,7 +20,7 @@ class CommunicationService {
         }
         val message = Message(mess = mess, to = to, protocol = protocol)
         message.accessToken = getAccessTokenByProtocol(protocol)
-        val storedMessage: Message = repository.save(message)
+        val storedMessage = repository.save(message)
         send(storedMessage)
         return storedMessage
     }

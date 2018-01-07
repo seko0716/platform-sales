@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/communication/")
-class CommunicationController {
-
-    @Autowired
-    lateinit var service: CommunicationService
+class CommunicationController @Autowired constructor(var service: CommunicationService) {
 
     @PostMapping("/send")
     fun send(message: String, protocol: String, to: String) {
