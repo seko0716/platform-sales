@@ -20,6 +20,10 @@ apply plugin: "kotlin-spring"
 apply plugin: "kotlin-jpa"
 apply plugin: 'org.springframework.boot'
 
+noArg{
+    annotation("org.springframework.data.mongodb.core.mapping.Document")
+}
+
 repositories {
     mavenCentral()
 }
