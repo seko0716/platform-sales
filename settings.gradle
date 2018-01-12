@@ -1,6 +1,8 @@
 rootProject.name = 'platform-sales'
+
 def buisness = '/buisness'
 def infrastructures = '/infrastructures'
+
 include 'registration'
 include 'configuration'
 include 'gateway'
@@ -9,7 +11,6 @@ include 'monitoring'
 include 'auth-service'
 include 'telegram-sender'
 include 'communication'
-
 
 project(':telegram-sender').projectDir = "$rootDir$buisness/telegram-sender" as File
 project(':communication').projectDir = "$rootDir$buisness/communication" as File
