@@ -1,10 +1,21 @@
 rootProject.name = 'platform-sales'
+def buisness = '/buisness'
+def infrastructures = '/infrastructures'
 include 'registration'
 include 'configuration'
 include 'gateway'
-include 'auth-service'
 include 'monitoring'
-include 'mongodb'
+
+include 'auth-service'
 include 'telegram-sender'
 include 'communication'
 
+
+project(':telegram-sender').projectDir = "$rootDir$buisness/telegram-sender" as File
+project(':communication').projectDir = "$rootDir$buisness/communication" as File
+project(':auth-service').projectDir = "$rootDir$buisness/auth-service" as File
+
+project(':registration').projectDir = "$rootDir$infrastructures/registration" as File
+project(':configuration').projectDir = "$rootDir$infrastructures/configuration" as File
+project(':gateway').projectDir = "$rootDir$infrastructures/gateway" as File
+project(':monitoring').projectDir = "$rootDir$infrastructures/monitoring" as File
