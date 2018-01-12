@@ -10,3 +10,6 @@ spring:
 server:
   context-path: /uaa
   port: 5000
+
+logging:
+  config: classpath: logback.xml

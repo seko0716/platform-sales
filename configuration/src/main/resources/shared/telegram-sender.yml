@@ -2,3 +2,6 @@ server:
   port: 8081
 
 hostname: rabbitmq_social
+
+logging:
+  config: classpath: logback.xml

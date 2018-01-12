@@ -26,6 +26,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.cloud:spring-cloud-starter-eureka-server:1.4.0.RELEASE'
 
+    compile('ch.qos.logback:logback-core')
+    compile('ch.qos.logback:logback-classic')
+
     compile 'org.springframework.amqp:spring-rabbit'
 
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
