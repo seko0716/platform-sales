@@ -81,6 +81,7 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       COMMUNICATION_SERVICE_PASSWORD: $COMMUNICATION_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
+      MONGO_INITDB_DATABASE: $MONGO_INITDB_DATABASE
     image: seko/platform-sales-auth-service
     restart: always
     depends_on:
@@ -97,8 +98,6 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
     image: mongo
     restart: always
-    ports:
-      - 4444:27017
     logging:
       options:
         max-size: "10m"
@@ -110,6 +109,7 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       COMMUNICATION_SERVICE_PASSWORD: $COMMUNICATION_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
+      MONGO_INITDB_DATABASE: $MONGO_INITDB_DATABASE
     image: seko/platform-sales-communication
     restart: always
     depends_on:
@@ -121,9 +121,9 @@ services:
         max-file: "10"
 
   communication-mongodb:
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=user
+#      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
     image: mongo
     restart: always
     logging:

@@ -11,8 +11,8 @@ spring:
   data:
     mongodb:
       host: communication-mongodb
-      username: user
-      password: ${MONGODB_PASSWORD}
+#      username: user
+#      password: ${MONGODB_PASSWORD}
       database: communication
       port: 27017
 

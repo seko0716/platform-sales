@@ -4,7 +4,7 @@ spring:
       host: auth-mongodb
       username: user
       password: ${MONGODB_PASSWORD}
-      database: piggymetrics
+      database: ${MONGO_INITDB_DATABASE}
       port: 27017
 
 server:
