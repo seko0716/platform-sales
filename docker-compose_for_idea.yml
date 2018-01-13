@@ -23,7 +23,7 @@ services:
   telegramsender:
     environment:
       CONFIG_SERVICE_PASSWORD: 111
-    image: seko/platform-telegram-sender
+    image: seko/platform-sales-telegram-sender
     restart: always
     depends_on:
       config:
@@ -108,7 +108,7 @@ services:
       CONFIG_SERVICE_PASSWORD: 111
       COMMUNICATION_SERVICE_PASSWORD: 333
       MONGODB_PASSWORD: 222
-    image: seko/platform-sales-communication-service
+    image: seko/platform-sales-communication
     restart: always
     depends_on:
       config:
@@ -120,7 +120,7 @@ services:
 
   communication-mongodb:
     environment:
-      INIT_DUMP: communication-service-dump.js
+#      INIT_DUMP: communication-service-dump.js
       MONGODB_PASSWORD: 222
     image: seko/platform-sales-mongodb
     restart: always

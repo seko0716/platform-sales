@@ -24,7 +24,7 @@ services:
   telegramsender:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: seko/platform-telegram-sender
+    image: seko/platform-sales-telegram-sender
     restart: always
     depends_on:
       config:
@@ -107,7 +107,7 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       COMMUNICATION_SERVICE_PASSWORD: $COMMUNICATION_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
-    image: seko/platform-sales-communication-service
+    image: seko/platform-sales-communication
     restart: always
     depends_on:
       config:
