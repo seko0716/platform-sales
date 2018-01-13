@@ -24,8 +24,8 @@ class Listener {
 
         def object = template.getForObject("https://api.telegram.org/bot521122119:AAG8_db8aW50SkxqFmAx6KS-weYcn4acS7k/getUpdates?offset=${offset}", String.class)
         def text = new JsonSlurper().parseText(object)
-        offset = text["result"].collect({ it["update_id"] }).max()++
-        def messages = text["result"].collect({
+        offset = text["result"]?.collect({ it["update_id"] })?.max()++
+        def messages = text["result"]?.collect({
             new TelegramMessage(to: it["message"]["chat"]["id"], from: it["message"]["from"]["first_name"], mess: it["message"]["text"])
         })
 
