@@ -46,7 +46,7 @@
     </appender>
 
 
-    <logger name="net.sergey.kosov" level="DEBUG" additivity="false">
+    <logger name="net.sergey.kosov.telegramsender" level="DEBUG" additivity="false">
         <appender-ref ref="AUTH-AUDIT"/>
         <appender-ref ref="STDOUT"/>
     </logger>

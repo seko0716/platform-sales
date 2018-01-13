@@ -46,7 +46,7 @@
     </appender>
 
 
-    <logger name="ru.lab4up" level="DEBUG" additivity="false">
+    <logger name="net.sergey.kosov.authservice" level="DEBUG" additivity="false">
         <appender-ref ref="AUTH-AUDIT"/>
         <appender-ref ref="STDOUT"/>
     </logger>
