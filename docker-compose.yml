@@ -93,9 +93,9 @@ services:
         max-file: "10"
 
   auth-mongodb:
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=user
+#      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
     image: mongo
     restart: always
     logging:
