@@ -93,9 +93,12 @@ services:
 
   auth-mongodb:
     environment:
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
-    image: seko/platform-sales-mongodb
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+    image: mongo
     restart: always
+    ports:
+      - 4444:27017
     logging:
       options:
         max-size: "10m"
@@ -119,9 +122,9 @@ services:
 
   communication-mongodb:
     environment:
-      INIT_DUMP: communication-service-dump.js
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
-    image: seko/platform-sales-mongodb
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+    image: mongo
     restart: always
     logging:
       options:
