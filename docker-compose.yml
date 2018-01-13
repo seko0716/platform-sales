@@ -108,6 +108,8 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: seko/platform-sales-communication
     restart: always
+    ports:
+      - 8082:8082
     depends_on:
       config:
         condition: service_healthy
@@ -133,6 +135,8 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: seko/platform-sales-market
     restart: always
+    ports:
+      - 8083:8083
     depends_on:
       config:
         condition: service_healthy

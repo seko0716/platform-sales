@@ -10,4 +10,5 @@ docker build -t seko/platform-sales-mongodb ./infrastructures/mongodb/.
 docker build -t seko/platform-sales-monitoring ./infrastructures/monitoring/.
 
 docker build -t seko/platform-sales-communication ./buisness/communication/.
+docker build -t seko/platform-sales-market ./buisness/market/.
 docker build -t seko/platform-sales-telegram-sender ./buisness/telegram-sender/.
