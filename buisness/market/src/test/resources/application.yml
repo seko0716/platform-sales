@@ -3,3 +3,4 @@ spring:
     mongodb:
       database: market
       port: 0
+

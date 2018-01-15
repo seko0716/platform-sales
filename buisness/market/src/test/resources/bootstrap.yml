@@ -1,3 +1,6 @@
 eureka:
   client:
     enabled: false
+
+
+chart.size: 100

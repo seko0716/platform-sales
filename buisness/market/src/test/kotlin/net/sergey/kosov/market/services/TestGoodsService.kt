@@ -1,19 +1,32 @@
 package net.sergey.kosov.market.services
 
+import com.sun.security.auth.UserPrincipal
+import net.sergey.kosov.market.api.StatisticApi
+import net.sergey.kosov.market.configuration.ConfigurationFeign
 import net.sergey.kosov.market.domains.Goods
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.ContextHierarchy
 import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
-@ContextHierarchy(ContextConfiguration(classes = [GoodsServiceConfig::class]))
+@ContextHierarchy(ContextConfiguration(classes = [GoodsServiceConfig::class, ConfigurationFeign::class]))
 class TestGoodsService {
     @Autowired
     private lateinit var goodsService: GoodService
+    @MockBean
+    private lateinit var statisticService: StatisticApi
+
+    @Before
+    fun before() {
+        Mockito.doReturn(listOf("idGoods1", "idGoods2", "idGoods3")).`when`(statisticService).getChart("name", 10)
+    }
 
     @Test
     fun findGoodsById() {
@@ -24,12 +37,7 @@ class TestGoodsService {
 
     @Test
     fun getGoods4Chart() {
-        var goodsList: List<Goods> = goodsService.getGoods4Chart()
-    }
-
-    @Test
-    fun getGoods4ChartForUser() {
-        var goodsList: List<Goods> = goodsService.getGoods4ChartForUser(userId = "")
+        var goodsList: List<Goods> = goodsService.getGoods4Chart(UserPrincipal("name"))
     }
 
     @Test
