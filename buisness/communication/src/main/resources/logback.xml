@@ -9,8 +9,8 @@
 
     </appender>
 
-    <appender name="AUTH-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/AUTH-AUDIT.log</file>
+    <appender name="communication-audit" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/communication-audit.log</file>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
@@ -47,24 +47,24 @@
 
 
     <logger name="net.sergey.kosov.communication" level="DEBUG" additivity="false">
-        <appender-ref ref="AUTH-AUDIT"/>
+        <appender-ref ref="communication-audit"/>
         <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="org.springframework.transaction" level="info" additivity="false">
-        <appender-ref ref="AUTH-AUDIT"/>
+        <appender-ref ref="communication-audit"/>
         <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="org.hibernate.stat" level="info" additivity="false">
-        <appender-ref ref="AUTH-AUDIT"/>
+        <appender-ref ref="communication-audit"/>
         <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="org.hibernate.SQL" level="debug" additivity="false">
+        <appender-ref ref="communication-audit"/>
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="AUTH-AUDIT"/>
     </logger>
     <logger name="org.hibernate.type" level="TRACE" additivity="false">
+        <appender-ref ref="communication-audit"/>
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="AUTH-AUDIT"/>
     </logger>
 
     <root level="info">
