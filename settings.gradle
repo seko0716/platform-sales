@@ -8,6 +8,5 @@ include 'infrastructures:auth-service'
 
 include 'buisness:telegram-sender'
 include 'buisness:communication'
-
 include 'buisness:market'
 findProject(':buisness:market')?.name = 'market'

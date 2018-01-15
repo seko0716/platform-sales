@@ -42,7 +42,8 @@ dependencies {
     compile('ch.qos.logback:logback-core')
     compile('ch.qos.logback:logback-classic')
 
-    compile 'org.springframework.amqp:spring-rabbit'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.0'
 }
 
 compileKotlin {
