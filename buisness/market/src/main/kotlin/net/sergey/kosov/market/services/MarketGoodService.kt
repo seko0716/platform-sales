@@ -12,19 +12,19 @@ class MarketGoodService(var goodsRepository: GoodsRepository) : GoodService {
     override fun createGoods(description: String, title: String): Goods {
         val goods = Goods(title = title, description = description)
         return goodsRepository.save(goods) ?: throw IllegalStateException("не смог сохранить")
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun findGoodsById(id: ObjectId): Goods {
         return goodsRepository.findOne(id) ?: throw ChangeSetPersister.NotFoundException()
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getGoods4Chart(): List<Goods> {
+        //        запросить у сервиса статистики n первых в рейтинге id продуктов, и достать их.
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getGoods4ChartForUser(userId: String): List<Goods> {
+        //        запросить у сервиса статистики n первых в рейтинге id продуктов для юзера, и достать их.
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -37,10 +37,10 @@ class MarketGoodService(var goodsRepository: GoodsRepository) : GoodService {
     }
 
     override fun disabledGoods(goods: Goods): Goods {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return goodsRepository.save(goods.apply { goods.enabled = false })
     }
 
     override fun enabledGoods(goods: Goods): Goods {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return goodsRepository.save(goods.apply { goods.enabled = true })
     }
 }

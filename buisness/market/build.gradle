@@ -14,13 +14,12 @@ buildscript {
 
 group 'net.sergey.kosov'
 version '1.0-SNAPSHOT'
-
 apply plugin: 'kotlin'
+apply plugin: "kotlin-noarg"
 apply plugin: "kotlin-spring"
-apply plugin: "kotlin-jpa"
 apply plugin: 'org.springframework.boot'
 
-noArg{
+noArg {
     annotation("org.springframework.data.mongodb.core.mapping.Document")
 }
 

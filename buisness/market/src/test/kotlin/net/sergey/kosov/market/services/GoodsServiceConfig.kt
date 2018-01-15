@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootConfiguration
 @DataMongoTest
-@EntityScan(value = "net.sergey.kosov.market.domains"/*, basePackageClasses = {Jsr310JpaConverters.class}*/)
+@EntityScan(value = ["net.sergey.kosov.market.domains"]/*, basePackageClasses = {Jsr310JpaConverters.class}*/)
 @EnableMongoRepositories(basePackages = ["net.sergey.kosov.market.repository"])
 @ComponentScan(basePackages = ["net.sergey.kosov.market.services"])
 class GoodsServiceConfig {

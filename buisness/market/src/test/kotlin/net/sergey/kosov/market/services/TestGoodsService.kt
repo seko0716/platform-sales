@@ -13,11 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner
 @ContextHierarchy(ContextConfiguration(classes = [GoodsServiceConfig::class]))
 class TestGoodsService {
     @Autowired
-    lateinit var goodsService: GoodService
+    private lateinit var goodsService: GoodService
 
     @Test
     fun findGoodsById() {
-        val goodsCreated: Goods = goodsService.createGoods(title = "name", description = "description")
+        val goodsCreated = goodsService.createGoods(title = "name", description = "description")
         val goods: Goods = goodsService.findGoodsById(id = goodsCreated.id)
         Assert.assertEquals(goodsCreated.id, goods.id)
     }
@@ -34,12 +34,18 @@ class TestGoodsService {
 
     @Test
     fun disabledGoods() {
-//        var goods: Goods = goodsService.disabledGoods(goodsId = "")
+        val goodsCreated = goodsService.createGoods(title = "name2", description = "description2")
+        val disabledGoods = goodsService.disabledGoods(goodsCreated)
+        Assert.assertEquals(goodsCreated.id, disabledGoods.id)
+        Assert.assertEquals(false, disabledGoods.enabled)
     }
 
     @Test
     fun enabledGoods() {
-//        var goods: Goods = goodsService.enabledGoods(goodsId = "")
+        val goodsCreated = goodsService.createGoods(title = "name3", description = "description3")
+        val enabledGoods = goodsService.enabledGoods(goodsCreated)
+        Assert.assertEquals(goodsCreated.id, enabledGoods.id)
+        Assert.assertEquals(true, enabledGoods.enabled)
     }
 
 }
