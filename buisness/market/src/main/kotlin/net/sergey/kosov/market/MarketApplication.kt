@@ -1,4 +1,4 @@
-package net.sergey.kosov.communication
+package net.sergey.kosov.market
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication

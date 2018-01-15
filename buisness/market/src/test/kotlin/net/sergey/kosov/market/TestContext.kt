@@ -1,4 +1,4 @@
-package net.sergey.kosov.communication
+package net.sergey.kosov.market
 
 import org.junit.Test
 import org.junit.runner.RunWith
