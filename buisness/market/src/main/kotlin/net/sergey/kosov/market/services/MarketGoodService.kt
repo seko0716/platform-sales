@@ -9,11 +9,6 @@ import org.springframework.stereotype.Service
 @Service
 class MarketGoodService(var goodsRepository: GoodsRepository) : GoodService {
 
-    override fun findGoodsById(id: String): Goods {
-        return findGoodsById(ObjectId(id))
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun createGoods(description: String, title: String): Goods {
         val goods = Goods(title = title, description = description)
         return goodsRepository.save(goods) ?: throw IllegalStateException("не смог сохранить")
@@ -33,11 +28,19 @@ class MarketGoodService(var goodsRepository: GoodsRepository) : GoodService {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun disabledGoods(goodsId: String): Goods {
+    override fun disabledGoods(goodsId: ObjectId): Goods {
+        return disabledGoods(findGoodsById(goodsId))
+    }
+
+    override fun enabledGoods(goodsId: ObjectId): Goods {
+        return enabledGoods(findGoodsById(goodsId))
+    }
+
+    override fun disabledGoods(goods: Goods): Goods {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun enabledGoods(goodsId: String): Goods {
+    override fun enabledGoods(goods: Goods): Goods {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
