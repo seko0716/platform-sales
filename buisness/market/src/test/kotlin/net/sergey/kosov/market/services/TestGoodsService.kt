@@ -4,6 +4,7 @@ import com.sun.security.auth.UserPrincipal
 import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.configuration.ConfigurationFeign
 import net.sergey.kosov.market.domains.Goods
+import org.bson.types.ObjectId
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -22,9 +23,10 @@ class TestGoodsService {
     private lateinit var goodsService: GoodService
     @MockBean
     private lateinit var statisticService: StatisticApi
-    private val goodsChartIds = listOf("idGoods1", "idGoods2", "idGoods3")
+    private var goodsChartIds: List<ObjectId>? = null
     @Before
     fun before() {
+        goodsChartIds = (1..10).mapTo(ArrayList()) { goodsService.createGoods(title = "name$it", description = "description$it").id }
         Mockito.doReturn(goodsChartIds).`when`(statisticService).getChart("name", 100)
     }
 
@@ -38,7 +40,7 @@ class TestGoodsService {
     @Test
     fun getGoods4Chart() {
         var goodsList: List<Goods> = goodsService.getGoods4Chart(UserPrincipal("name"))
-        Assert.assertTrue(goodsList.all { goodsChartIds.contains(it.id.toString()) })
+        Assert.assertTrue(goodsList.all { goodsChartIds!!.contains(it.id) })
     }
 
     @Test

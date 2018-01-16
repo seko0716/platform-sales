@@ -11,6 +11,6 @@ interface GoodService {
     fun disabledGoods(goods: Goods): Goods
     fun enabledGoods(goodsId: ObjectId): Goods
     fun enabledGoods(goods: Goods): Goods
-    fun createGoods(description: String, title: String): Goods
+    fun createGoods(title: String, description: String): Goods
 
 }
