@@ -11,4 +11,5 @@ docker build -t seko/platform-sales-monitoring ./infrastructures/monitoring/.
 
 docker build -t seko/platform-sales-communication ./buisness/communication/.
 docker build -t seko/platform-sales-market ./buisness/market/.
+docker build -t seko/platform-sales-statistic ./buisness/statistic-service/.
 docker build -t seko/platform-sales-telegram-sender ./buisness/telegram-sender/.

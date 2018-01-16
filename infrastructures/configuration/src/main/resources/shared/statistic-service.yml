@@ -1,0 +1,16 @@
+security:
+  oauth2:
+    client:
+      clientId: statistic-service
+      clientSecret: ${STATISTIC_SERVICE_PASSWORD}
+      accessTokenUri: http://auth-service:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
+server:
+  context-path: /statistic
+  port: 8082
+
+logging:
+  config: classpath:logback.xml
+

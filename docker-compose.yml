@@ -81,6 +81,7 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       COMMUNICATION_SERVICE_PASSWORD: $COMMUNICATION_SERVICE_PASSWORD
       MARKET_SERVICE_PASSWORD: $MARKET_SERVICE_PASSWORD
+      STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
     image: seko/platform-sales-auth-service
     restart: always
     depends_on:
@@ -106,6 +107,7 @@ services:
   communication-service:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      COMMUNICATION_SERVICE_PASSWORD: $COMMUNICATION_SERVICE_PASSWORD
     image: seko/platform-sales-communication
     restart: always
     ports:
@@ -133,6 +135,7 @@ services:
   market-service:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      MARKET_SERVICE_PASSWORD: $MARKET_SERVICE_PASSWORD
     image: seko/platform-sales-market
     restart: always
     ports:
@@ -151,6 +154,23 @@ services:
 #      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
     image: mongo
     restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+
+  statistic-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
+    image: seko/platform-sales-statistic
+    restart: always
+    ports:
+      - 8084:8084
+    depends_on:
+      config:
+        condition: service_healthy
     logging:
       options:
         max-size: "10m"
