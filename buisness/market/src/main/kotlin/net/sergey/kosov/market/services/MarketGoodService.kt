@@ -3,6 +3,7 @@ package net.sergey.kosov.market.services
 import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.domains.Goods
 import net.sergey.kosov.market.repository.GoodsRepository
+import net.sergey.kosov.market.utils.toObjectId
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.crossstore.ChangeSetPersister
@@ -25,7 +26,7 @@ class MarketGoodService(private val goodsRepository: GoodsRepository,
 
     override fun getGoods4Chart(principal: Principal): List<Goods> {
         val goodsIdsChart = statisticApi.getChart(username = principal.name, chartSize = chartSize)
-        return goodsRepository.findAll(goodsIdsChart).toList()
+        return goodsRepository.findAll(goodsIdsChart.map { it.toObjectId() }).toList()
     }
 
     override fun disabledGoods(goodsId: ObjectId): Goods = disabledGoods(findGoodsById(goodsId))

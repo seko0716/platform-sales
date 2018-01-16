@@ -10,3 +10,6 @@ include 'buisness:telegram-sender'
 include 'buisness:communication'
 include 'buisness:market'
 findProject(':buisness:market')?.name = 'market'
+include 'buisness:statistic-service'
+findProject(':buisness:statistic-service')?.name = 'statistic-service'
+

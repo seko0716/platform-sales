@@ -22,31 +22,23 @@ apply plugin: "kotlin-noarg"
 apply plugin: "kotlin-spring"
 apply plugin: 'org.springframework.boot'
 
-noArg {
-    annotation("org.springframework.data.mongodb.core.mapping.Document")
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile 'org.springframework.cloud:spring-cloud-starter-config:1.4.0.RELEASE'
     compile 'org.springframework.cloud:spring-cloud-starter-feign:1.4.0.RELEASE'
     compile 'org.springframework.cloud:spring-cloud-starter-oauth2:1.2.1.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.security.oauth:spring-security-oauth2'
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.cloud:spring-cloud-starter-eureka-server:1.4.0.RELEASE'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
     compile('ch.qos.logback:logback-core')
     compile('ch.qos.logback:logback-classic')
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.0'
 }
 
 compileKotlin {
