@@ -8,6 +8,5 @@ import javax.validation.constraints.Size
 data class Goods(var id: ObjectId = ObjectId(),
                  var title: String,
                  @Size(min = 10, max = 500) var description: String,
-                 var title2: String? = null,
                  var accountId: ObjectId,
                  var enabled: Boolean = false)
