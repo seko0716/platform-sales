@@ -22,10 +22,10 @@ class TestGoodsService {
     private lateinit var goodsService: GoodService
     @MockBean
     private lateinit var statisticService: StatisticApi
-
+    private val goodsChartIds = listOf("idGoods1", "idGoods2", "idGoods3")
     @Before
     fun before() {
-        Mockito.doReturn(listOf("idGoods1", "idGoods2", "idGoods3")).`when`(statisticService).getChart("name", 10)
+        Mockito.doReturn(goodsChartIds).`when`(statisticService).getChart("name", 100)
     }
 
     @Test
@@ -38,6 +38,7 @@ class TestGoodsService {
     @Test
     fun getGoods4Chart() {
         var goodsList: List<Goods> = goodsService.getGoods4Chart(UserPrincipal("name"))
+        Assert.assertTrue(goodsList.all { goodsChartIds.contains(it.id.toString()) })
     }
 
     @Test

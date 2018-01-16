@@ -22,3 +22,7 @@ server:
 
 logging:
   config: classpath:logback.xml
+
+
+chart:
+  size: 100
