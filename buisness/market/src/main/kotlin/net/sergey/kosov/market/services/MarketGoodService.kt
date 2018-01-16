@@ -16,7 +16,7 @@ class MarketGoodService(private val goodsRepository: GoodsRepository,
                         @Value("\${chart.size}") private var chartSize: Int) : GoodService {
 
     override fun createGoods(description: String, title: String): Goods {
-        val goods = Goods(title = title, description = description)
+        val goods = Goods(title = title, description = description, accountId = ObjectId())
         return goodsRepository.save(goods) ?: throw IllegalStateException("не смог сохранить")
     }
 

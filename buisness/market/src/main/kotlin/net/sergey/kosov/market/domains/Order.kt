@@ -9,10 +9,13 @@ import java.time.LocalDateTime
 @Document(collection = "orders")
 data class Order(@Id var id: ObjectId = ObjectId(),
                  var goods: Goods,
+                 var count: Int = 1,
+                 var customer: User,
                  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
                  var createdTime: LocalDateTime = LocalDateTime.now(),
                  var status: Status = Status.created,
                  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
-                 var submittedTime: LocalDateTime? = null) {
+                 var submittedTime: LocalDateTime? = null,
+                 var messageThreadId: ObjectId? = null) {
 
 }
