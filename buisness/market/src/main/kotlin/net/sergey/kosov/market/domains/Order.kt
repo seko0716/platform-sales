@@ -13,7 +13,7 @@ data class Order(@Id var id: ObjectId = ObjectId(),
                  var customer: User,
                  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
                  var createdTime: LocalDateTime = LocalDateTime.now(),
-                 var status: Status = Status.created,
+                 var status: Status = Status.CREATED,
                  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
                  var submittedTime: LocalDateTime? = null,
                  var messageThreadId: ObjectId? = null) {
