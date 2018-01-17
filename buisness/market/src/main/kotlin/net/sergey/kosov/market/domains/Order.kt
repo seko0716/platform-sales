@@ -2,17 +2,20 @@ package net.sergey.kosov.market.domains
 
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
 @Document(collection = "orders")
 data class Order(@Id var id: ObjectId = ObjectId(),
                  var goods: Goods,
+                 @Indexed
                  var title: String = "Order ${goods.title}",
                  var description: String = "",
                  var count: Int = 1,
                  var customer: User,
                  var createdTime: LocalDateTime = LocalDateTime.now(),
+                 @Indexed
                  var status: Status = Status.CREATED,
                  var statusHistory: MutableList<Pair<Status, LocalDateTime>> = mutableListOf(status to createdTime),
                  var submittedTime: LocalDateTime? = null,
