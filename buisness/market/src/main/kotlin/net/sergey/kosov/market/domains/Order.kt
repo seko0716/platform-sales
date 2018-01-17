@@ -23,6 +23,7 @@ data class Order(@Id var id: ObjectId = ObjectId(),
 
     fun changeStatus(status: Status): Order {
         if (status == Status.CREATED) throw IllegalStateException("Нельзя сетить статус $status, он заполняется только при создании ордера")
+        if (this.statusHistory.any { it.first == Status.COMPLITED }) throw IllegalStateException("Нельзя сетить статус после ${Status.COMPLITED}-- ордер звершен")
         return this.apply {
             this.status = status
             this.statusHistory.add(Pair(status, LocalDateTime.now()))
