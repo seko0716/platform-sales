@@ -52,7 +52,6 @@ dependencies {
     testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
 
-
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${sprinCloudVersion}"
