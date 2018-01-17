@@ -4,4 +4,4 @@ server:
 hostname: rabbitmq_social
 
 logging:
-  config: classpath:logback.xml
+  config: classpath:logback-spring.xml

@@ -21,7 +21,7 @@ server:
   port: 8082
 
 logging:
-  config: classpath:logback.xml
+  config: classpath:logback-spring.xml
 
 
 chart:

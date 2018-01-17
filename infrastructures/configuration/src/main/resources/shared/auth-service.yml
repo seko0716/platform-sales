@@ -12,4 +12,4 @@ server:
   port: 5000
 
 logging:
-  config: classpath:logback.xml
+  config: classpath:logback-spring.xml
