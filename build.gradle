@@ -2,5 +2,6 @@ group 'net.sergey.kosov'
 version '1.0-SNAPSHOT'
 
 ext {
-    springBootVersion = '1.5.8.RELEASE'
+    springBootVersion = '1.5.9.RELEASE'
+    sprinCloudVersion = 'Edgware.SR1'
 }
