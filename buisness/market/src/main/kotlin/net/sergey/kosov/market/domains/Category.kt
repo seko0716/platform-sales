@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document(collection = "Categories")
 data class Category(@Id var id: ObjectId = ObjectId(),
-                    @Indexed
+                    @Indexed(name = "category_title")
                     var title: String,
                     var description: String = "",
-                    @Indexed
+                    @Indexed(name = "category_parentId")
                     var parentId: ObjectId? = null,
                     var characteristics: List<Characteristic> = ArrayList())

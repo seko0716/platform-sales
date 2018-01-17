@@ -9,13 +9,13 @@ import java.time.LocalDateTime
 @Document(collection = "orders")
 data class Order(@Id var id: ObjectId = ObjectId(),
                  var goods: Goods,
-                 @Indexed
+                 @Indexed(name = "orders_title")
                  var title: String = "Order ${goods.title}",
                  var description: String = "",
                  var count: Int = 1,
                  var customer: User,
                  var createdTime: LocalDateTime = LocalDateTime.now(),
-                 @Indexed
+                 @Indexed(name = "orders_status")
                  var status: Status = Status.CREATED,
                  var statusHistory: MutableList<Pair<Status, LocalDateTime>> = mutableListOf(status to createdTime),
                  var submittedTime: LocalDateTime? = null,

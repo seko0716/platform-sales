@@ -9,17 +9,17 @@ import javax.validation.constraints.Size
 
 @Document(collection = "Goods")
 data class Goods(@Id var id: ObjectId = ObjectId(),
-                 @Indexed
+                 @Indexed(name = "goods_title")
                  var title: String,
-                 @Indexed
-                 @Size(min = 10, max = 500) var description: String,
+                 @Size(min = 10, max = 500)
+                 var description: String,
+                 @Indexed(name = "goods_accountId")
                  var accountId: ObjectId,
-                 @Indexed
+                 @Indexed(name = "goods_price")
                  var price: BigDecimal,
-                 @Indexed
                  var category: Category,
                  var characteristic: List<Characteristic> = category.characteristics,
                  var tags: List<String> = ArrayList(),
-                 @Indexed
+                 @Indexed(name = "goods_enabled")
                  var enabled: Boolean = false)
 
