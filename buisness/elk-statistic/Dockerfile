@@ -1,8 +1,3 @@
 FROM sebp/elk
 
-
-# overwrite existing file
-ADD /path/to/your-30-output.conf /etc/logstash/conf.d/30-output.conf
-
-
-#EXPOSE 8083
+ADD /logstash/app_log.conf /etc/logstash/conf.d/app_log.conf
