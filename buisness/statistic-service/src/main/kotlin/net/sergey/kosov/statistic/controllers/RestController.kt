@@ -1,4 +1,4 @@
-package net.sergey.kosov.statistic
+package net.sergey.kosov.statistic.controllers
 
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
