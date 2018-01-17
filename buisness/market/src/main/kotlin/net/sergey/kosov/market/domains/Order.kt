@@ -1,6 +1,5 @@
 package net.sergey.kosov.market.domains
 
-import com.fasterxml.jackson.annotation.JsonFormat
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
@@ -13,11 +12,9 @@ data class Order(@Id var id: ObjectId = ObjectId(),
                  var description: String = "",
                  var count: Int = 1,
                  var customer: User,
-                 @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
                  var createdTime: LocalDateTime = LocalDateTime.now(),
                  var status: Status = Status.CREATED,
                  var statusHistory: MutableList<Pair<Status, LocalDateTime>> = mutableListOf(status to createdTime),
-                 @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
                  var submittedTime: LocalDateTime? = null,
                  var messageThreadId: ObjectId? = null) {
 

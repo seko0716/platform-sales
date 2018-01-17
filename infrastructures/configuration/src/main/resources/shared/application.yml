@@ -25,3 +25,6 @@ security:
 spring:
   rabbitmq:
     host: rabbitmq
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMP: false
