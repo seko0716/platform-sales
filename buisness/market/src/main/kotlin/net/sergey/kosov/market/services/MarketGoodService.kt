@@ -1,6 +1,7 @@
 package net.sergey.kosov.market.services
 
 import net.sergey.kosov.market.api.StatisticApi
+import net.sergey.kosov.market.domains.Category
 import net.sergey.kosov.market.domains.Goods
 import net.sergey.kosov.market.repository.GoodsRepository
 import net.sergey.kosov.market.utils.toObjectId
@@ -8,6 +9,7 @@ import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.security.Principal
 
 @Service
@@ -16,7 +18,8 @@ class MarketGoodService(private val goodsRepository: GoodsRepository,
                         @Value("\${chart.size}") private var chartSize: Int) : GoodService {
 
     override fun createGoods(title: String, description: String): Goods {
-        val goods = Goods(title = title, description = description, accountId = ObjectId())
+        val goods = Goods(title = title, description = description, accountId = ObjectId(), price = BigDecimal.ZERO,
+                category = Category(title = "testCategory"))
         return goodsRepository.save(goods) ?: throw IllegalStateException("не смог сохранить")
     }
 
