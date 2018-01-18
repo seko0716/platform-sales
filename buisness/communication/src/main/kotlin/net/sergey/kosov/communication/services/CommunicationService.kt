@@ -2,7 +2,9 @@ package net.sergey.kosov.communication.services
 
 import net.sergey.kosov.communication.api.AuthService
 import net.sergey.kosov.communication.domains.Message
+import net.sergey.kosov.communication.domains.Status
 import net.sergey.kosov.communication.repository.MessageRepository
+import org.bson.types.ObjectId
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -30,5 +32,10 @@ class CommunicationService @Autowired constructor(var authService: AuthService,
     }
 
     private fun getAccessTokenByProtocol(protocol: String): String = authService.getToken(protocol)
+
+    fun completeMessage(id: ObjectId) {
+        val message: Message = repository.findOne(id)
+        repository.save(message.apply { this.status = Status.COMPLETED })
+    }
 }
 

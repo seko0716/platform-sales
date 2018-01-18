@@ -1,10 +1,10 @@
 package net.sergey.kosov.communication.controllers
 
 import net.sergey.kosov.communication.services.CommunicationService
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/communication/")
@@ -13,5 +13,10 @@ class CommunicationController @Autowired constructor(var service: CommunicationS
     @PostMapping("/send")
     fun send(message: String, protocol: String, to: String) {
         service.createAndSend(message, protocol, to)
+    }
+
+    @GetMapping(value = ["/completed/{messageId}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    fun completedMessage(@PathVariable("messageId") messageId: String) {
+        service.completeMessage(ObjectId(messageId))
     }
 }
