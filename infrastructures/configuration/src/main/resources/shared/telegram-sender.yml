@@ -2,3 +2,5 @@ server:
   port: 8081
 
 hostname: rabbitmq_social
+api: https://api.telegram.org/bot
+method: sendMessage

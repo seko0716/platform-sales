@@ -25,6 +25,8 @@ dependencies {
     compile 'org.springframework.security.oauth:spring-security-oauth2'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+    compile 'org.springframework.cloud:spring-cloud-starter-feign'
+    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
 
     compile('ch.qos.logback:logback-core')
     compile('ch.qos.logback:logback-classic')
