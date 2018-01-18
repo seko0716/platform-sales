@@ -1,0 +1,126 @@
+{
+  "_index": ".kibana",
+  "_type": "doc",
+  "_id": "visualization:bc0141c0-fc7d-11e7-9f8c-45af72a7808v",
+  "_score": 1,
+  "_source": {
+    "type": "visualization",
+    "updated_at": "2018-01-18T18:31:01.340Z",
+    "visualization": {
+      "title": "Pie service name22",
+      "visState": ""
+      "{"
+      title
+      ":"
+      Pie
+      servicename
+      ","
+      type
+      ":"
+      pie
+      ","
+      params
+      ":{"
+      type
+      ":"
+      pie
+      ","
+      addTooltip
+      ":true,"
+      addLegend
+      ":true,"
+      legendPosition
+      ":"
+      right
+      ","
+      isDonut
+      ":false,"
+      labels
+      ":{"
+      show
+      ":false,"
+      values
+      ":true,"
+      last_level
+      ":true,"
+      truncate
+      ":100}},"
+      aggs
+      ":[{"
+      id
+      ":"
+      1
+      ","
+      enabled
+      ":true,"
+      type
+      ":"
+      count
+      ","
+      schema
+      ":"
+      metric
+      ","
+      params
+      ":{}},{"
+      id
+      ":"
+      2
+      ","
+      enabled
+      ":true,"
+      type
+      ":"
+      terms
+      ","
+      schema
+      ":"
+      segment
+      ","
+      params
+      ":{"
+      field
+      ":"
+      service.keyword
+      ","
+      size
+      ":10,"
+      order
+      ":"
+      desc
+      ","
+      orderBy
+      ":"
+      1
+      ","
+      customLabel
+      ":"
+      sevicename
+      "}}]}"
+      "",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": ""
+        "{"
+        index
+        ":"
+        7c38d3a0-fc7d-11e7-9f8c-45af72a7808a
+        ","
+        filter
+        ":[],"
+        query
+        ":{"
+        query
+        ":"
+        ","
+        language
+        ":"
+        lucene
+        "}}"
+        ""
+      }
+    }
+  }
+}

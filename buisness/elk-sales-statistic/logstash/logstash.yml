@@ -1,4 +1,22 @@
-#node.name: logstash-rbm
+# Settings file in YAML
+#
+# Settings can be specified either in hierarchical form, e.g.:
+#
+#   pipeline:
+#     batch:
+#       size: 125
+#       delay: 5
+#
+# Or as flat keys:
+#
+#   pipeline.batch.size: 125
+#   pipeline.batch.delay: 5
+#
+# ------------  Node identity ------------
+#
+# Use a descriptive name for the node:
+#
+# node.name: test
 #
 # If omitted the node name will default to the machine's host name
 #
@@ -8,7 +26,6 @@
 # for any persistent needs. Defaults to LOGSTASH_HOME/data
 #
 # path.data:
-# path.data: /u02/netcracker/otrk/logstash/rbm-pipeline/data
 #
 # ------------ Pipeline Settings --------------
 #
@@ -61,19 +78,56 @@
 #
 # How often to check if the pipeline configuration has changed (in seconds)
 #
-# config.reload.interval: 3
+# config.reload.interval: 3s
 #
 # Show fully compiled configuration as debug log message
 # NOTE: --log.level must be 'debug'
 #
 # config.debug: false
 #
+# When enabled, process escaped characters such as \n and \" in strings in the
+# pipeline configuration files.
+#
+# config.support_escapes: false
+#
+# ------------ Module Settings ---------------
+# Define modules here.  Modules definitions must be defined as an array.
+# The simple way to see this is to prepend each `name` with a `-`, and keep
+# all associated variables under the `name` they are associated with, and
+# above the next, like this:
+#
+# modules:
+#   - name: MODULE_NAME
+#     var.PLUGINTYPE1.PLUGINNAME1.KEY1: VALUE
+#     var.PLUGINTYPE1.PLUGINNAME1.KEY2: VALUE
+#     var.PLUGINTYPE2.PLUGINNAME1.KEY1: VALUE
+#     var.PLUGINTYPE3.PLUGINNAME3.KEY1: VALUE
+#
+# Module variable names must be in the format of
+#
+# var.PLUGIN_TYPE.PLUGIN_NAME.KEY
+#
+# modules:
+#
+# ------------ Cloud Settings ---------------
+# Define Elastic Cloud settings here.
+# Format of cloud.id is a base64 value e.g. dXMtZWFzdC0xLmF3cy5mb3VuZC5pbyRub3RhcmVhbCRpZGVudGlmaWVy
+# and it may have an label prefix e.g. staging:dXMtZ...
+# This will overwrite 'var.elasticsearch.hosts' and 'var.kibana.host'
+# cloud.id: <identifier>
+#
+# Format of cloud.auth is: <user>:<pass>
+# This is optional
+# If supplied this will overwrite 'var.elasticsearch.username' and 'var.elasticsearch.password'
+# If supplied this will overwrite 'var.kibana.username' and 'var.kibana.password'
+# cloud.auth: elastic:<password>
+#
 # ------------ Queuing Settings --------------
 #
 # Internal queuing model, "memory" for legacy in-memory based queuing and
 # "persisted" for disk-based acked queueing. Defaults is memory
 #
-# queue.type: persisted
+# queue.type: memory
 #
 # If using queue.type: persisted, the directory path where the data files will be stored.
 # Default is path.data/queue
@@ -97,7 +151,7 @@
 # whichever criteria is reached first
 # Default is 1024mb or 1gb
 #
-# queue.max_bytes: 4gb
+# queue.max_bytes: 1024mb
 #
 # If using queue.type: persisted, the maximum number of acked events before forcing a checkpoint
 # Default is 1024, 0 for unlimited
@@ -107,24 +161,38 @@
 # If using queue.type: persisted, the maximum number of written events before forcing a checkpoint
 # Default is 1024, 0 for unlimited
 #
-# queue.checkpoint.writes: 100
+# queue.checkpoint.writes: 1024
 #
 # If using queue.type: persisted, the interval in milliseconds when a checkpoint is forced on the head page
 # Default is 1000, 0 for no periodic checkpoint.
 #
 # queue.checkpoint.interval: 1000
 #
+# ------------ Dead-Letter Queue Settings --------------
+# Flag to turn on dead-letter queue.
+#
+# dead_letter_queue.enable: false
+
+# If using dead_letter_queue.enable: true, the maximum size of each dead letter queue. Entries
+# will be dropped if they would increase the size of the dead letter queue beyond this setting.
+# Default is 1024mb
+# dead_letter_queue.max_bytes: 1024mb
+
+# If using dead_letter_queue.enable: true, the directory path where the data files will be stored.
+# Default is path.data/dead_letter_queue
+#
+# path.dead_letter_queue:
+#
 # ------------ Metrics Settings --------------
 #
 # Bind address for the metrics REST endpoint
 #
-#http.host: "0.0.0.0"
+# http.host: "127.0.0.1"
 #
 # Bind port for the metrics REST endpoint, this option also accept a range
 # (9600-9700) and logstash will pick up the first available ports.
 #
 # http.port: 9600-9700
-# http.port: 9604
 #
 # ------------ Debugging Settings --------------
 #
@@ -137,4 +205,9 @@
 #   * trace
 #
 # log.level: info
-path.logs: /u02/netcracker/otrk/logstash/rbm-pipeline/logs
+# path.logs: /logs/logstash
+#
+# ------------ Other Settings --------------
+#
+# Where to find custom plugins
+# path.plugins: []

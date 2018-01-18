@@ -1,0 +1,87 @@
+{
+  "_index": ".kibana",
+  "_type": "doc",
+  "_id": "dashboard:42ba8b90-fc7e-11e7-9f8c-45af72a7808a",
+  "_score": 1,
+  "_source": {
+    "type": "dashboard",
+    "updated_at": "2018-01-18T18:34:47.369Z",
+    "dashboard": {
+      "title": "New Dashboard",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": ""
+      "[{"
+      gridData
+      ":{"
+      w
+      ":6,"
+      h
+      ":3,"
+      x
+      ":0,"
+      y
+      ":0,"
+      i
+      ":"
+      1
+      "},"
+      version
+      ":"
+      6.1.1
+      ","
+      panelIndex
+      ":"
+      1
+      ","
+      type
+      ":"
+      visualization
+      ","
+      id
+      ":"
+      bc0141c0-fc7d-11e7-9f8c-45af72a7808a
+      "}]"
+      "",
+      "optionsJSON": ""
+      "{"
+      darkTheme
+      ":false,"
+      useMargins
+      ":true,"
+      hidePanelTitles
+      ":false}"
+      "",
+      "uiStateJSON": "{}",
+      "version": 1,
+      "timeRestore": true,
+      "timeTo": "now",
+      "timeFrom": "now-15m",
+      "refreshInterval": {
+        "display": "Off",
+        "pause": false,
+        "value": 0
+      },
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": ""
+        "{"
+        query
+        ":{"
+        query
+        ":"
+        ","
+        language
+        ":"
+        lucene
+        "},"
+        filter
+        ":[],"
+        highlightAll
+        ":true,"
+        version
+        ":true}"
+        ""
+      }
+    }
+  }
+}
