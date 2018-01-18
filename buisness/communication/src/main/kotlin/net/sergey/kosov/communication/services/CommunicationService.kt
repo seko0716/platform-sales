@@ -8,6 +8,7 @@ import org.bson.types.ObjectId
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class CommunicationService @Autowired constructor(var authService: AuthService,
@@ -35,7 +36,10 @@ class CommunicationService @Autowired constructor(var authService: AuthService,
 
     fun completeMessage(id: ObjectId) {
         val message: Message = repository.findOne(id)
-        repository.save(message.apply { this.status = Status.COMPLETED })
+        repository.save(message.apply {
+            this.status = Status.COMPLETED
+            this.completedDate = LocalDateTime.now()
+        })
     }
 }
 
