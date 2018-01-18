@@ -16,7 +16,7 @@ class UserController {
     @Autowired
     private UserService userService
 
-    @GetMapping(value = "/current")
+    @GetMapping(path = "/current")
     Principal getUser(Principal principal) {
         return principal
     }

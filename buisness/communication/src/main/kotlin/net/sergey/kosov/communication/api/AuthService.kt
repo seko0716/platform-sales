@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod
 
 @FeignClient(name = "auth-service")
 interface AuthService {
-    @RequestMapping(value = ["/token/{protocol}"], method = [RequestMethod.GET], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    @RequestMapping(path = ["/token/{protocol}"], method = [RequestMethod.GET], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun getToken(@PathVariable("protocol") protocol: String): String
 }

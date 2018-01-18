@@ -15,7 +15,7 @@ class CommunicationController @Autowired constructor(var service: CommunicationS
         service.createAndSend(message, protocol, to)
     }
 
-    @GetMapping(value = ["/completed/{messageId}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    @GetMapping(path = ["/completed/{messageId}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun completedMessage(@PathVariable("messageId") messageId: String) {
         service.completeMessage(ObjectId(messageId))
     }

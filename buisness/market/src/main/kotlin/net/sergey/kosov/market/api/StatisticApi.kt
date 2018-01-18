@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 
 @FeignClient(name = "statistic-service")
 interface StatisticApi {
-    @RequestMapping(value = ["/chart/{count}"], method = [RequestMethod.GET], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    @RequestMapping(path = ["/chart/{count}"], method = [RequestMethod.GET], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun getChart(username: String?, @PathVariable("count") chartSize: Int): List<String>
 
 }

@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod
 
 @FeignClient(name = "communication-service")
 interface CommunicationApi {
-    @RequestMapping(value = ["/completed/{messageId}"], method = [RequestMethod.GET], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    @RequestMapping(path = ["/completed/{messageId}"], method = [RequestMethod.GET], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     void completedMessage(@PathVariable("messageId") String messageId)
 }
