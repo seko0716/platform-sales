@@ -11,6 +11,4 @@ server:
   context-path: /statistic
   port: 8082
 
-logging:
-  config: classpath:logback-spring.xml
 

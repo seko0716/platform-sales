@@ -21,6 +21,3 @@ server:
   port: 8082
 
 hostname: rabbitmq_social
-
-logging:
-  config: classpath:logback-spring.xml

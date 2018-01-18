@@ -20,9 +20,5 @@ server:
   context-path: /market
   port: 8082
 
-logging:
-  config: classpath:logback-spring.xml
-
-
 chart:
   size: 100

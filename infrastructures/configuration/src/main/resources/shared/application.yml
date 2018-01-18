@@ -1,6 +1,7 @@
 logging:
   level:
     org.springframework.security: INFO
+  config: classpath:logback-spring.xml
 
 hystrix:
   command:
@@ -28,3 +29,5 @@ spring:
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMP: false
+
+
