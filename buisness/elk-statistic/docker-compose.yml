@@ -3,7 +3,7 @@ elk:
   ports:
     - "5601:5601" # kibana
     - "5000:5000" # порт logstash для логов
-    #    - "9200:9200" № elasticseasch
+    #    - "9200:9200" # elasticseasch
     #    - "5044:5044" # logstash
 
 
