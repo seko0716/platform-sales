@@ -25,11 +25,11 @@ class CommunicationService @Autowired constructor(var authService: AuthService,
             throw IllegalStateException("Протокол $protocol не поддерживается. Поддерживаемые протоколы: $supportedProtocols")
         }
         val message = Message(mess = mess, to = to, protocol = protocol)
-        val accessTokenByProtocol = getAccessTokenByProtocol(protocol)
-        if (accessTokenByProtocol.isBlank()) {
+        val accessToken = getAccessTokenByProtocol(protocol)
+        if (accessToken.isBlank()) {
             return message.apply { this.status = Status.ERROR }
         }
-        message.accessToken = accessTokenByProtocol
+        message.accessToken = accessToken
         val storedMessage = repository.save(message)
         send(storedMessage)
         return storedMessage.apply { this.status = Status.SANDING }

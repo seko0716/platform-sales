@@ -24,6 +24,7 @@ class UserController {
     @GetMapping("/token/{protocol}")
     @PreAuthorize("#oauth2.hasScope('server')")
     String getToken(@PathVariable("protocol") String protocol) {
+        //todo получить токен из базы по аккаунту юзера.
         return null
     }
 
