@@ -1,0 +1,49 @@
+#
+# ----------------------- Cookie options -----------------------
+#
+#  Session timeout sets the cookie expires time in milliseconds. Defaults to single browser session (ends when browser closes).
+#sessionTimeout:
+#isSecure: false
+#cookieName:
+#cookiePassword:
+#
+# ----------------------- External oAuth 2 options (open id connect) -----------------------
+#
+#authEndpoint: '%IDP_URL%'
+#clientId: '%IDP_CLIENT_ID%'
+#clientSecret: '%IDP_CLIENT_SECRET%'
+#redirectShortUri: '%KIBANA_URL%'
+#protocol: 'http://'
+#sessionTimeout: 7200000 #this value should be equal to access_token_validity_seconds + refresh_token_validity_seconds
+#localMode: true
+#openidConnectLoginPath: '/openid_connect_login'
+#
+# ----------------------- Elastic client options -----------------------
+#  This client used for operate .secure index
+#
+elasticsearch.username: "admin"
+elasticsearch.password: "admin"
+#
+#  This admin password
+#newAdminPass:
+# ----------------------- Secure plugin options -----------------------
+#debug: true
+#indexName: ".security"
+#auditIndexName: ".audit_logs"
+#
+# ----------------------- Log options ---------------------------------
+#
+#audit.rotationTime: true
+#audit.interval: "1d"
+#audit.path: "/u02/netcracker/otrk/kibana/logs/audit"
+#audit.size: "200M"
+#
+#info.rotationTime: true
+#info.interval: "1d"
+#info.path: "/u02/netcracker/otrk/kibana/logs/info"
+#info.size: "200M"
+#
+#debug.rotationTime: true
+#debug.interval: "1d"
+#debug.path: "/u02/netcracker/otrk/kibana/logs/debug"
+#debug.size: "200M"

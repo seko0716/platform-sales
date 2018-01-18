@@ -1,0 +1,17 @@
+{
+  "_index": ".kibana",
+  "_type": "config",
+  "_id": "5.1.2-nc4",
+  "_version": 17,
+  "found": true,
+  "_source": {
+    "buildNum": 14497,
+    "dateFormat:tz": "Europe/Brussels",
+    "dateFormat:dow": null,
+    "timepicker:timeDefaults": "{\n  \"from\": \"now/M\",\n  \"to\": \"now/M\",\n  \"mode\": \"quick\"\n}",
+    "discover:aggs:terms:size": 20,
+    "defaultIndex": "order",
+    "discover:sampleSize": 100,
+    "shortDots:enable": null
+  }
+}
