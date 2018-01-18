@@ -10,9 +10,9 @@ import java.time.LocalDateTime
 data class Message(@Id var id: ObjectId = ObjectId(),
                    var mess: String,
                    var to: String,
+                   var protocol: String,
                    var from: String = "",
                    var accessToken: String = "",
-                   var protocol: String,
                    var status: Status = Status.CREATED,
                    var creationDate: LocalDateTime = LocalDateTime.now(),
                    var completedDate: LocalDateTime? = null) {
@@ -20,4 +20,3 @@ data class Message(@Id var id: ObjectId = ObjectId(),
         return Gson().toJson(this)
     }
 }
-

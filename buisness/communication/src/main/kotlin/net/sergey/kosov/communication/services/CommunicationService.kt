@@ -8,6 +8,8 @@ import org.bson.types.ObjectId
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Service
@@ -17,15 +19,20 @@ class CommunicationService @Autowired constructor(var authService: AuthService,
 
     var supportedProtocols = arrayOf("telegram", "internal")
 
+    @Transactional(propagation = Propagation.REQUIRED)
     fun createAndSend(mess: String, protocol: String, to: String): Message {
         if (!supportedProtocols.contains(protocol)) {
             throw IllegalStateException("Протокол $protocol не поддерживается. Поддерживаемые протоколы: $supportedProtocols")
         }
         val message = Message(mess = mess, to = to, protocol = protocol)
-        message.accessToken = getAccessTokenByProtocol(protocol)
+        val accessTokenByProtocol = getAccessTokenByProtocol(protocol)
+        if (accessTokenByProtocol.isBlank()) {
+            return message.apply { this.status = Status.ERROR }
+        }
+        message.accessToken = accessTokenByProtocol
         val storedMessage = repository.save(message)
         send(storedMessage)
-        return storedMessage
+        return storedMessage.apply { this.status = Status.SANDING }
     }
 
     private fun send(message: Message) {
