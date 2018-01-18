@@ -1,0 +1,81 @@
+{
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "roles_doc_type": {
+      "properties": {
+        "roleName": {
+          "type": "text",
+          "index": "not_analyzed",
+          "store": true,
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "groups": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "grants": {
+          "type": "object"
+        },
+        "isBuiltin": {
+          "type": "boolean"
+        }
+      }
+    },
+    "users_doc_type": {
+      "properties": {
+        "fullName": {
+          "type": "text",
+          "index": "not_analyzed",
+          "store": true,
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "isBuiltin": {
+          "type": "boolean"
+        },
+        "password": {
+          "type": "text"
+        },
+        "roles": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "userName": {
+          "type": "text",
+          "index": "not_analyzed",
+          "store": true,
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    }
+  }
+}

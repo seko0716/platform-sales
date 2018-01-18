@@ -1,0 +1,59 @@
+{
+  "_index": ".security",
+  "_type": "users_doc_type",
+  "_id": "AV-k8q0nmmULC5UkAazE",
+  "_version": 5,
+  "found": true,
+  "_source": {
+    "isActive": true,
+    "isBuiltin": false,
+    "fullName": "Telenet User",
+    "roles": [
+      "user-telenet"
+    ],
+    "userName": "user",
+    "password": "$2a$10$TlgrMu6i7spYCNHZr8frFObwOELlc9kmSI9lzbxgG1Ihk4mWGWCdu",
+    "grants": {
+      "discover": {
+        "is_active": true,
+        "systemwide_searches": [],
+        "index_patterns": [],
+        "is_save_systemwide_searches": false
+      },
+      "timelion": {
+        "is_active": false,
+        "is_save_systemwide_sheets": false,
+        "systemwide_sheets": []
+      },
+      "management": {
+        "is_active": false
+      },
+      "visualize": {
+        "is_active": false,
+        "systemwide_visualizations": [
+          "Navigation"
+        ],
+        "is_save_systemwide_visualizations": false
+      },
+      "categorizer": {
+        "is_write_access": false,
+        "is_active": false
+      },
+      "dataCapture": {
+        "is_write_access": false,
+        "is_active": false
+      },
+      "devTools": {
+        "is_active": false
+      },
+      "dashboard": {
+        "is_active": true,
+        "is_save_systemwide_dashboards": false,
+        "systemwide_dashboards": [
+          "[Telenet]-Home-Dashboard"
+        ]
+      }
+    },
+    "id": "AV-k8q0nmmULC5UkAazE"
+  }
+}

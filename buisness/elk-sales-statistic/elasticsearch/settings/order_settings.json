@@ -1,0 +1,7 @@
+{
+  "body": {
+    "index.routing.allocation.include._name": "node-1,node-2,node-3"
+  },
+  "method": "PUT",
+  "uri": "order/_settings"
+}
