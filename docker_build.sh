@@ -8,6 +8,7 @@ docker build -t seko/platform-sales-gateway ./infrastructures/gateway/.
 docker build -t seko/platform-sales-auth-service ./infrastructures/auth-service/.
 docker build -t seko/platform-sales-mongodb ./infrastructures/mongodb/.
 docker build -t seko/platform-sales-monitoring ./infrastructures/monitoring/.
+docker build -t seko/platform-elk-app-statistic ./infrastructures/elk-app-statistic/.
 
 docker build -t seko/platform-sales-communication ./buisness/communication/.
 docker build -t seko/platform-sales-market ./buisness/market/.

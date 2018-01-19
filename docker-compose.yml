@@ -1,6 +1,12 @@
 version: '2.1'
 services:
 #для статистики
+  elk-app-statistic:
+    image: seko/elk
+    ports:
+      - 5601:5601 # kibana
+#      - 5000:5000 # порт logstash для логов
+
   rabbitmq:
     image: rabbitmq:3-management
     restart: always

@@ -23,7 +23,7 @@ dependencies {
     compile 'org.springframework.cloud:spring-cloud-starter-turbine-stream'
     compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
     compile 'org.springframework.cloud:spring-cloud-starter-hystrix-dashboard'
-
+    compile 'net.logstash.logback:logstash-logback-encoder:4.11'
     compile('ch.qos.logback:logback-core')
     compile('ch.qos.logback:logback-classic')
 
