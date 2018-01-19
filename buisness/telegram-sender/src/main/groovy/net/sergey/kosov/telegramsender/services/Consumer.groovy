@@ -14,14 +14,14 @@ import org.springframework.web.client.RestTemplate
 @Service
 class Consumer {
     private CommunicationApi communicationApi
+    @Value('${api}')
     private String api
+    @Value('${method}')
     private String method
 
     @Autowired
-    Consumer(CommunicationApi communicationApi, @Value("#{api}") String api, @Value("#{method}") String method) {
+    Consumer(CommunicationApi communicationApi) {
         this.communicationApi = communicationApi
-        this.api = api
-        this.method = method
     }
 
     @RabbitListener(queues = "telegram")
