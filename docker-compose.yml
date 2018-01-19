@@ -30,6 +30,7 @@ services:
   telegramsender:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      TELEGRAMSENDER_SERVICE_PASSWORD: $TELEGRAMSENDER_SERVICE_PASSWORD
     image: seko/platform-sales-telegram-sender
     restart: always
     depends_on:
@@ -88,6 +89,7 @@ services:
       COMMUNICATION_SERVICE_PASSWORD: $COMMUNICATION_SERVICE_PASSWORD
       MARKET_SERVICE_PASSWORD: $MARKET_SERVICE_PASSWORD
       STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
+      TELEGRAMSENDER_SERVICE_PASSWORD: $TELEGRAMSENDER_SERVICE_PASSWORD
     image: seko/platform-sales-auth-service
     restart: always
     depends_on:
