@@ -1,0 +1,7 @@
+eureka:
+  client:
+    enabled: false
+
+spring:
+  application:
+    name: statistic-service
