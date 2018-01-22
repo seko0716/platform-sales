@@ -1,0 +1,54 @@
+package net.sergey.kosov.market.services
+
+import net.sergey.kosov.market.domains.Goods
+import net.sergey.kosov.market.domains.Order
+import net.sergey.kosov.market.domains.Status
+import net.sergey.kosov.market.domains.User
+import net.sergey.kosov.market.repository.OrderRepository
+import org.bson.types.ObjectId
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
+
+@Service
+class MarketOrderService @Autowired constructor(var orderRepository: OrderRepository) : OrderService {
+
+
+    override fun create(goods: Goods, count: Int, customer: User): Order {
+        return orderRepository.insert(Order(goods = goods, count = count, customer = customer))
+    }
+
+    override fun findOrder(orderId: ObjectId): Order {
+        return orderRepository.findOne(orderId)
+    }
+
+    override fun processOrder(order: Order): Order {
+        return orderRepository.save(order.changeStatus(Status.PROCESSING))
+    }
+
+    override fun processOrder(orderId: ObjectId): Order {
+        return processOrder(findOrder(orderId))
+    }
+
+    override fun completeOrder(order: Order): Order {
+        if (order.status != Status.PROCESSING) {
+            throw IllegalArgumentException("Комплитить можно только ордера в статусе ${Status.PROCESSING}")
+        }
+        return orderRepository.save(order.changeStatus(Status.COMPLETED))
+    }
+
+    override fun completeOrder(orderId: ObjectId): Order {
+        return completeOrder(findOrder(orderId))
+    }
+
+    override fun cancelOrder(order: Order): Order {
+        return orderRepository.save(order.changeStatus(Status.CANCELED))
+    }
+
+    override fun cancelOrder(orderId: ObjectId): Order {
+        return cancelOrder(findOrder(orderId))
+    }
+
+    override fun findOrders(customer: User, status: Status?): List<Order> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}

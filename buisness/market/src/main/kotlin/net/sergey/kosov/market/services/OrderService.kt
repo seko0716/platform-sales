@@ -13,8 +13,8 @@ interface OrderService {
     fun processOrder(order: Order): Order
     fun processOrder(orderId: ObjectId): Order
     fun completeOrder(order: Order): Order
-    fun completeOrder(order: ObjectId): Order
+    fun completeOrder(orderId: ObjectId): Order
     fun cancelOrder(order: Order): Order
-    fun cancelOrder(order: ObjectId): Order
+    fun cancelOrder(orderId: ObjectId): Order
     fun findOrders(customer: User, status: Status? = null): List<Order>
 }
