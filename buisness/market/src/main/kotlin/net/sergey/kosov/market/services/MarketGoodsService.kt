@@ -13,9 +13,9 @@ import java.math.BigDecimal
 import java.security.Principal
 
 @Service
-class MarketGoodService(private val goodsRepository: GoodsRepository,
-                        private val statisticApi: StatisticApi,
-                        @Value("\${chart.size}") private var chartSize: Int) : GoodService {
+class MarketGoodsService(private val goodsRepository: GoodsRepository,
+                         private val statisticApi: StatisticApi,
+                         @Value("\${chart.size}") private var chartSize: Int) : GoodsService {
 
     override fun createGoods(title: String, description: String): Goods {
         val goods = Goods(title = title, description = description, accountId = ObjectId(), price = BigDecimal.ZERO,

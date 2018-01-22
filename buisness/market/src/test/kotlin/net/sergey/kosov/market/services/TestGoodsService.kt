@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner
 @ContextHierarchy(ContextConfiguration(classes = [GoodsServiceConfig::class, ConfigurationFeign::class]))
 class TestGoodsService {
     @Autowired
-    private lateinit var goodsService: GoodService
+    private lateinit var goodsService: GoodsService
     @MockBean
     private lateinit var statisticService: StatisticApi
     private var goodsChartIds: List<String>? = null

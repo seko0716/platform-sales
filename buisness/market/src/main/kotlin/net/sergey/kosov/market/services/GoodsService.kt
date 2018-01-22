@@ -4,7 +4,7 @@ import net.sergey.kosov.market.domains.Goods
 import org.bson.types.ObjectId
 import java.security.Principal
 
-interface GoodService {
+interface GoodsService {
     fun findGoodsById(id: ObjectId): Goods
     fun getGoods4Chart(principal: Principal): List<Goods>
     fun disabledGoods(goodsId: ObjectId): Goods
