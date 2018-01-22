@@ -6,6 +6,7 @@ import net.sergey.kosov.communication.domains.Status
 import net.sergey.kosov.communication.repository.MessageRepository
 import org.bson.types.ObjectId
 import org.slf4j.LoggerFactory
+import org.springframework.amqp.AmqpException
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -17,10 +18,9 @@ import java.time.LocalDateTime
 class CommunicationService @Autowired constructor(var authService: AuthService,
                                                   var repository: MessageRepository,
                                                   var template: RabbitTemplate) {
-
     private val log = LoggerFactory.getLogger(javaClass)
 
-    var supportedProtocols = arrayOf("telegram", "internal")
+    private var supportedProtocols = arrayOf("telegram", "internal")
 
     @Transactional(propagation = Propagation.REQUIRED)
     fun createAndSend(mess: String, protocol: String, to: String): Message {
@@ -36,13 +36,16 @@ class CommunicationService @Autowired constructor(var authService: AuthService,
         }
         message.accessToken = accessToken
         val storedMessage = repository.save(message)
-        send(storedMessage)
+        try {
+            send(storedMessage)
+        } catch (e: AmqpException) {
+            log.warn("проблемы с AMQ")
+            return storedMessage.apply { this.status = Status.ERROR }
+        }
         return storedMessage.apply { this.status = Status.SANDING }
     }
 
-    private fun send(message: Message) {
-        template.convertAndSend(message.protocol, message.toJson())
-    }
+    private fun send(message: Message) = template.convertAndSend(message.protocol, message.toJson())
 
     private fun getAccessTokenByProtocol(protocol: String): String = authService.getToken(protocol)
 
