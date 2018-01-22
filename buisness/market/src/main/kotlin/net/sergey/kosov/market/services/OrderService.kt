@@ -12,4 +12,5 @@ interface OrderService {
     fun processOrder(order: Order)
     fun processOrder(orderId: ObjectId)
     fun completeOrder(order: Order)
+    fun cancelOrder(order: Order)
 }

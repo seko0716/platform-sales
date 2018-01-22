@@ -46,5 +46,12 @@ class TestOrderService {
         orderService.completeOrder(order = order)
     }
 
+    fun cancelOrder() {//после оплаты
+        var order: Order = orderService.findOrder(orderId = orderId)
+        orderService.cancelOrder(order = order)
+    }
+
+
+
 
 }

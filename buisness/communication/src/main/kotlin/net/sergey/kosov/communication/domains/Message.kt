@@ -14,6 +14,8 @@ data class Message(@Id var id: ObjectId = ObjectId(),
                    var from: String = "",
                    var accessToken: String = "",
                    var status: Status = Status.CREATED,
+                   var orderId: ObjectId? = null,
+                   var goodsId: ObjectId? = null,
                    var creationDate: LocalDateTime = LocalDateTime.now(),
                    var completedDate: LocalDateTime? = null) {
     fun toJson(): String {
