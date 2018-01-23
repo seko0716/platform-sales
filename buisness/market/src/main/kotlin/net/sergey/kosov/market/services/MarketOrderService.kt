@@ -22,6 +22,9 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
     }
 
     override fun processOrder(order: Order): Order {
+        if (order.status != Status.CREATED) {
+            throw IllegalArgumentException("Процессить можно только ордера в статусе ${Status.CREATED}")
+        }
         return orderRepository.save(order.changeStatus(Status.PROCESSING))
     }
 
@@ -41,6 +44,9 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
     }
 
     override fun cancelOrder(order: Order): Order {
+        if (order.status != Status.PROCESSING && order.status != Status.CREATED) {
+            throw IllegalArgumentException("Отменять можно только ордера в статусе ${Status.PROCESSING} или ${Status.CREATED}")
+        }
         return orderRepository.save(order.changeStatus(Status.CANCELED))
     }
 
