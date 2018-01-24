@@ -7,11 +7,12 @@ import net.sergey.kosov.market.domains.User
 import net.sergey.kosov.market.repository.OrderRepository
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
 
 @Service
 class MarketOrderService @Autowired constructor(var orderRepository: OrderRepository) : OrderService {
-
 
     override fun create(goods: Goods, count: Int, customer: User): Order {
         return orderRepository.insert(Order(goods = goods, count = count, customer = customer))
@@ -55,6 +56,13 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
     }
 
     override fun findOrders(customer: User, status: Status?): List<Order> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val query = Query()
+        return if (status == null) {
+            query.addCriteria(Criteria.where("customer").`is`(customer))
+            orderRepository.find(query)
+        } else {
+            query.addCriteria(Criteria.where("customer").`is`(customer).and("status").`is`(status))
+            orderRepository.find(query)
+        }
     }
 }

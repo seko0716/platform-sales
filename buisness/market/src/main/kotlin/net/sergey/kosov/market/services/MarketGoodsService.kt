@@ -18,10 +18,12 @@ class MarketGoodsService(private val goodsRepository: GoodsRepository,
                          @Value("\${chart.size}") private var chartSize: Int) : GoodsService {
 
     override fun createGoods(title: String, description: String): Goods {
-        val goods = Goods(title = title, description = description, accountId = ObjectId(), price = BigDecimal.ZERO,
+        val goods = Goods(title = title, description = description, accountId = getCurrentAccount(), price = BigDecimal.ZERO,
                 category = Category(title = "testCategory"))
         return goodsRepository.save(goods) ?: throw IllegalStateException("не смог сохранить")
     }
+
+    private fun getCurrentAccount() = ObjectId()
 
     override fun findGoodsById(id: ObjectId): Goods {
         return goodsRepository.findOne(id) ?: throw ChangeSetPersister.NotFoundException()
