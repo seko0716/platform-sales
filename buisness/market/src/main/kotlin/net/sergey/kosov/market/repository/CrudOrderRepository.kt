@@ -6,4 +6,4 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface _OrderRepository : MongoRepository<Order, ObjectId>
+interface CrudOrderRepository : MongoRepository<Order, ObjectId>

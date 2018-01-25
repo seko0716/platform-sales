@@ -10,9 +10,12 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Query
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
+
 @Repository
-class OrderRepository @Autowired constructor(var orderRepository: _OrderRepository, var mongoTemplate: MongoTemplate) {
+@Component
+class OrderRepository @Autowired constructor(var crudOrderRepository: CrudOrderRepository, var mongoTemplate: MongoTemplate) {
 
     fun find(query: Query): MutableList<Order> {
         return mongoTemplate.find(query, Order::class.java)
@@ -20,86 +23,86 @@ class OrderRepository @Autowired constructor(var orderRepository: _OrderReposito
 
 
     fun <S : Order?> insert(entity: S): S {
-        return orderRepository.insert(entity)
+        return crudOrderRepository.insert(entity)
     }
 
     fun <S : Order?> insert(entities: MutableIterable<S>?): MutableList<S> {
-        return orderRepository.insert(entities)
+        return crudOrderRepository.insert(entities)
     }
 
     fun <S : Order?> save(entites: MutableIterable<S>?): MutableList<S> {
-        return orderRepository.save(entites)
+        return crudOrderRepository.save(entites)
     }
 
     fun <S : Order?> save(entity: S): S {
-        return orderRepository.save(entity)
+        return crudOrderRepository.save(entity)
     }
 
     fun findOne(id: ObjectId?): Order {
-        return orderRepository.findOne(id)
+        return crudOrderRepository.findOne(id)
     }
 
     fun <S : Order?> findOne(example: Example<S>?): S {
-        return orderRepository.findOne(example)
+        return crudOrderRepository.findOne(example)
     }
 
     fun findAll(): MutableList<Order> {
-        return orderRepository.findAll()
+        return crudOrderRepository.findAll()
     }
 
     fun findAll(sort: Sort?): MutableList<Order> {
-        return orderRepository.findAll(sort)
+        return crudOrderRepository.findAll(sort)
     }
 
     fun <S : Order?> findAll(example: Example<S>?): MutableList<S> {
-        return orderRepository.findAll(example)
+        return crudOrderRepository.findAll(example)
     }
 
     fun <S : Order?> findAll(example: Example<S>?, sort: Sort?): MutableList<S> {
-        return orderRepository.findAll(example)
+        return crudOrderRepository.findAll(example)
     }
 
     fun findAll(pageable: Pageable?): Page<Order> {
-        return orderRepository.findAll(pageable)
+        return crudOrderRepository.findAll(pageable)
     }
 
     fun findAll(ids: MutableIterable<ObjectId>?): MutableIterable<Order> {
-        return orderRepository.findAll(ids)
+        return crudOrderRepository.findAll(ids)
     }
 
     fun <S : Order?> findAll(example: Example<S>?, pageable: Pageable?): Page<S> {
-        return orderRepository.findAll(example, pageable)
+        return crudOrderRepository.findAll(example, pageable)
     }
 
     fun count(): Long {
-        return orderRepository.count()
+        return crudOrderRepository.count()
     }
 
     fun <S : Order?> count(example: Example<S>?): Long {
-        return orderRepository.count(example)
+        return crudOrderRepository.count(example)
     }
 
     fun exists(id: ObjectId?): Boolean {
-        return orderRepository.exists(id)
+        return crudOrderRepository.exists(id)
     }
 
     fun <S : Order?> exists(example: Example<S>?): Boolean {
-        return orderRepository.exists(example)
+        return crudOrderRepository.exists(example)
     }
 
     fun deleteAll() {
-        return orderRepository.deleteAll()
+        return crudOrderRepository.deleteAll()
     }
 
     fun delete(id: ObjectId?) {
-        return orderRepository.delete(id)
+        return crudOrderRepository.delete(id)
     }
 
     fun delete(entity: Order?) {
-        return orderRepository.delete(entity)
+        return crudOrderRepository.delete(entity)
     }
 
     fun delete(entities: MutableIterable<Order>?) {
-        return orderRepository.delete(entities)
+        return crudOrderRepository.delete(entities)
     }
 }

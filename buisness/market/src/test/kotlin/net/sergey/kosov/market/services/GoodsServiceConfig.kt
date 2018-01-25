@@ -17,7 +17,7 @@ import java.util.*
 @DataMongoTest
 @EntityScan(value = ["net.sergey.kosov.market.domains"]/*, basePackageClasses = {Jsr310JpaConverters.class}*/)
 @EnableMongoRepositories(basePackages = ["net.sergey.kosov.market.repository"])
-@ComponentScan(basePackages = ["net.sergey.kosov.market.services"])
+@ComponentScan(basePackages = ["net.sergey.kosov.market.services","net.sergey.kosov.market.repository"])
 @ContextConfiguration(
         initializers = [ConfigFileApplicationContextInitializer::class])
 @TestPropertySource(properties = ["chart.size=100"])
