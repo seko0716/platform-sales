@@ -1,17 +1,15 @@
-elk-sales-elastic:
-  image: seko/elkx
-  environment:
-    ELASTICSEARCH_USER: elastic
-    ELASTICSEARCH_PASSWORD: 343434
-    KIBANA_USER: kibana
-    KIBANA_PASSWORD: 343434
-    LOGSTASH_USER: logstash_system
-    LOGSTASH_PASSWORD: 343434
-  ports:
-    - "5601:5601" # kibana
-#    - "5000:5000" # порт logstash для логов. открыть для записи логов тестов
-    #    - "9200:9200" # elasticseasch
-    #    - "5044:5044" # logstash
-
-
-
+version: '2.1'
+services:
+#для статистики
+  elk-app-statistic:
+    image: seko/elkx
+    environment:
+      ELASTICSEARCH_USER: elastic
+      ELASTICSEARCH_PASSWORD: 343434
+      KIBANA_USER: kibana
+      KIBANA_PASSWORD: 343434
+      LOGSTASH_USER: logstash_system
+      LOGSTASH_PASSWORD: 343434
+    ports:
+      - 5601:5601 # kibana
+      - 5001:5001 # порт logstash для логов
