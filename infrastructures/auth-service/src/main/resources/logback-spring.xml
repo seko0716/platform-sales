@@ -54,7 +54,7 @@
 
     <!---->
     <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>elk-app-statistic:5000</destination>
+        <destination>elk-app-statistic:5001</destination>
 
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>

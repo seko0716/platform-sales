@@ -1,3 +1,3 @@
-FROM sebp/elk
+FROM sebp/elkx
 
-ADD /logstash/app_log.conf /etc/logstash/conf.d/app_log.conf
+ADD /logstash/config/ /etc/logstash/conf.d/
