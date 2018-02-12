@@ -1,8 +1,8 @@
 version: '2.1'
 services:
 #для статистики
-  elk-app-statistic:
-    image: seko/elkx
+  elk-statistic:
+    image: seko/platform-elkx-sales-statistic
     environment:
       ELASTICSEARCH_USER: elastic
       ELASTICSEARCH_PASSWORD: 343434
@@ -12,4 +12,3 @@ services:
       LOGSTASH_PASSWORD: 343434
     ports:
       - 5601:5601 # kibana
-      - 5001:5001 # порт logstash для логов
