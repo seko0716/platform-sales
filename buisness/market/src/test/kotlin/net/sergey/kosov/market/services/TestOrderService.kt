@@ -5,7 +5,6 @@ import net.sergey.kosov.market.configuration.ConfigurationFeign
 import net.sergey.kosov.market.domains.Order
 import net.sergey.kosov.market.domains.Status
 import net.sergey.kosov.market.domains.User
-import net.sergey.kosov.market.repository.order.OrderRepository
 import org.bson.types.ObjectId
 import org.junit.Assert
 import org.junit.Before
@@ -13,8 +12,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.data.mongodb.core.query.Criteria
-import org.springframework.data.mongodb.core.query.Query
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.ContextHierarchy
 import org.springframework.test.context.junit4.SpringRunner
@@ -38,14 +35,8 @@ class TestOrderService {
         orderId = order.id
     }
 
-    @Autowired
-    lateinit var orderRepository: OrderRepository
-
     @Test
     fun createNewOrder() {
-        var query = Query()
-        query.addCriteria(Criteria.where("customer").`is`(User("", "")))
-        val findByTitle = orderRepository.findByTitle(query, Order::class.java)
         val goods = goodsService.createGoods(title = "name", description = "description")
         var currentUser = User("2", "3")
         var order: Order = orderService.create(goods = goods, count = 2, customer = currentUser)

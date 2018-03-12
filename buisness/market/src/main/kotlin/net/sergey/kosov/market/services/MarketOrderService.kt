@@ -59,10 +59,10 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         val query = Query()
         return if (status == null) {
             query.addCriteria(Criteria.where("customer").`is`(customer))
-            orderRepository.findByTitle(query, Order::class.java)
+            orderRepository.findByTitle(query)
         } else {
             query.addCriteria(Criteria.where("customer").`is`(customer).and("status").`is`(status))
-            orderRepository.findByTitle(query, Order::class.java)
+            orderRepository.findByTitle(query)
         }
     }
 }
