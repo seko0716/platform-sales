@@ -1,4 +1,4 @@
-package net.sergey.kosov.market.repository
+package net.sergey.kosov.market.repository.order
 
 import net.sergey.kosov.market.domains.Order
 import org.bson.types.ObjectId
@@ -6,4 +6,4 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CrudOrderRepository : MongoRepository<Order, ObjectId>
+interface OrderRepository : MongoRepository<Order, ObjectId>, RepositoryQuery<Order, ObjectId>
