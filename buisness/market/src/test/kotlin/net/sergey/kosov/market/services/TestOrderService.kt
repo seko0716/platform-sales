@@ -40,7 +40,7 @@ class TestOrderService {
         val goods = goodsService.createGoods(title = "name", description = "description")
         var currentUser = User("2", "3")
         var order: Order = orderService.create(goods = goods, count = 2, customer = currentUser)
-        Assert.assertEquals(order, orderService.findOrder(orderId))
+        Assert.assertEquals(order, orderService.findOrder(order.id))
         Assert.assertEquals(Status.CREATED, order.status)
     }
 
@@ -54,7 +54,8 @@ class TestOrderService {
     @Test
     fun completeOrder() {//после оплаты
         var order: Order = orderService.findOrder(orderId = orderId)
-        val completedOrder = orderService.completeOrder(order = order)
+        val processedOrder = orderService.processOrder(order = order)
+        val completedOrder = orderService.completeOrder(order = processedOrder)
         Assert.assertEquals(Status.COMPLETED, completedOrder.status)
     }
 
@@ -67,13 +68,14 @@ class TestOrderService {
 
     @Test
     fun getOrders() {
+        var currentUser = User("22", "3")
         val ordersExp = (0..10).mapTo(ArrayList()) {
             val goods = goodsService.createGoods(title = "$it", description = "description!!$it")
-            orderService.create(goods = goods, count = 2, customer = User("1", "2"))
+            orderService.create(goods = goods, count = 2, customer = currentUser)
         }
 
-        var currentUser = User("2", "3")
         var orders: List<Order> = orderService.findOrders(customer = currentUser, status = Status.CREATED)
+        Assert.assertEquals(ordersExp.size, orders.size)
         Assert.assertEquals(ordersExp, orders)
     }
 }
