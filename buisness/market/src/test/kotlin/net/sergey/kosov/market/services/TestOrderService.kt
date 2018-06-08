@@ -22,7 +22,7 @@ class TestOrderService {
     @Autowired
     lateinit var orderService: OrderService
     @Autowired
-    lateinit var goodsService: GoodsService
+    lateinit var productService: ProductService
     @MockBean
     private lateinit var statisticService: StatisticApi
 
@@ -30,16 +30,16 @@ class TestOrderService {
 
     @Before
     fun before() {
-        val goods = goodsService.createGoods(title = "name!!", description = "description!!")
-        var order: Order = orderService.create(goods = goods, count = 2, customer = User("1", "2"))
+        val goods = productService.createProduct(title = "name!!", description = "description!!")
+        var order: Order = orderService.create(product = goods, count = 2, customer = User("1", "2"))
         orderId = order.id
     }
 
     @Test
     fun createNewOrder() {
-        val goods = goodsService.createGoods(title = "name", description = "description")
+        val goods = productService.createProduct(title = "name", description = "description")
         val currentUser = User("2", "3")
-        val order: Order = orderService.create(goods = goods, count = 2, customer = currentUser)
+        val order: Order = orderService.create(product = goods, count = 2, customer = currentUser)
         Assert.assertEquals(order, orderService.findOrder(order.id))
         Assert.assertEquals(Status.CREATED, order.status)
     }
@@ -70,8 +70,8 @@ class TestOrderService {
     fun getOrders() {
         var currentUser = User("22", "3")
         val ordersExp = (0..10).mapTo(ArrayList()) {
-            val goods = goodsService.createGoods(title = "$it", description = "description!!$it")
-            orderService.create(goods = goods, count = 2, customer = currentUser)
+            val goods = productService.createProduct(title = "$it", description = "description!!$it")
+            orderService.create(product = goods, count = 2, customer = currentUser)
         }
 
         var orders: List<Order> = orderService.findOrders(customer = currentUser, status = Status.CREATED)

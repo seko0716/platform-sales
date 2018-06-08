@@ -8,9 +8,9 @@ import java.time.LocalDateTime
 
 @Document(collection = "orders")
 data class Order(@Id var id: ObjectId = ObjectId(),
-                 var goods: Goods,
+                 var product: Product,
                  @Indexed(name = "orders_title")
-                 var title: String = "Order ${goods.title}",
+                 var title: String = "Order ${product.title}",
                  var description: String = "",
                  var count: Int = 1,
                  var customer: User,

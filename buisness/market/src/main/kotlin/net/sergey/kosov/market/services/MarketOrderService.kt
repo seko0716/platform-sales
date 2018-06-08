@@ -1,7 +1,7 @@
 package net.sergey.kosov.market.services
 
-import net.sergey.kosov.market.domains.Goods
 import net.sergey.kosov.market.domains.Order
+import net.sergey.kosov.market.domains.Product
 import net.sergey.kosov.market.domains.Status
 import net.sergey.kosov.market.domains.User
 import net.sergey.kosov.market.repository.order.OrderRepository
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service
 @Service
 class MarketOrderService @Autowired constructor(var orderRepository: OrderRepository) : OrderService {
 
-    override fun create(goods: Goods, count: Int, customer: User): Order {
-        return orderRepository.insert(Order(goods = goods, count = count, customer = customer))
+    override fun create(product: Product, count: Int, customer: User): Order {
+        return orderRepository.insert(Order(product = product, count = count, customer = customer))
     }
 
     override fun findOrder(orderId: ObjectId): Order {
