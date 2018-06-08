@@ -31,3 +31,8 @@ server:
 
 chart:
   size: 100
+
+security:
+  user:
+    password: 11
+    name: user

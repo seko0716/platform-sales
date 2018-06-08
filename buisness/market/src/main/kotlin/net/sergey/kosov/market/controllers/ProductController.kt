@@ -4,6 +4,7 @@ import net.sergey.kosov.market.domains.Filter
 import net.sergey.kosov.market.domains.Product
 import net.sergey.kosov.market.services.ProductService
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RestController
 import java.security.Principal
@@ -11,7 +12,7 @@ import java.security.Principal
 @RestController
 class ProductController(val productService: ProductService) {
     @GetMapping("/product/{id}")
-    fun findProductById(id: String): Product {
+    fun findProductById(@PathVariable("id") id: String): Product {
         return productService.findProductById(id)
     }
 
@@ -20,13 +21,13 @@ class ProductController(val productService: ProductService) {
         return productService.getProducts4Chart(principal)
     }
 
-    @GetMapping("/product/disabled")
-    fun disabledProduct(id: String): Product { //todo   валидация того что пользователь принадлежит аккаунту продукта
+    @GetMapping("/product/{id}/disabled")
+    fun disabledProduct(@PathVariable("id") id: String): Product { //todo   валидация того что пользователь принадлежит аккаунту продукта
         return productService.disabledProduct(id)
     }
 
-    @GetMapping("/product/enabled")
-    fun enabledProduct(id: String): Product { //todo   валидация того что пользователь принадлежит аккаунту продукта
+    @GetMapping("/product/{id}/enabled")
+    fun enabledProduct(@PathVariable("id") id: String): Product { //todo   валидация того что пользователь принадлежит аккаунту продукта
         return productService.enabledProduct(id)
     }
 
