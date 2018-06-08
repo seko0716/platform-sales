@@ -4,7 +4,7 @@ import net.sergey.kosov.market.domains.Goods
 import net.sergey.kosov.market.domains.Order
 import net.sergey.kosov.market.domains.Status
 import net.sergey.kosov.market.domains.User
-import net.sergey.kosov.market.repository.OrderRepository
+import net.sergey.kosov.market.repository.order.OrderRepository
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.query.Criteria
@@ -59,10 +59,10 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         val query = Query()
         return if (status == null) {
             query.addCriteria(Criteria.where("customer").`is`(customer))
-            orderRepository.find(query)
+            orderRepository.findByQuery(query)
         } else {
             query.addCriteria(Criteria.where("customer").`is`(customer).and("status").`is`(status))
-            orderRepository.find(query)
+            orderRepository.findByQuery(query)
         }
     }
 }

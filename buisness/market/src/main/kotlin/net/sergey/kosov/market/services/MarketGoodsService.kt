@@ -3,7 +3,7 @@ package net.sergey.kosov.market.services
 import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.domains.Category
 import net.sergey.kosov.market.domains.Goods
-import net.sergey.kosov.market.repository.GoodsRepository
+import net.sergey.kosov.market.repository.goods.GoodsRepository
 import net.sergey.kosov.market.utils.toObjectId
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Value

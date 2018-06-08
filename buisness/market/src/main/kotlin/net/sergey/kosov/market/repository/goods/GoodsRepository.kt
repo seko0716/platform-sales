@@ -1,4 +1,4 @@
-package net.sergey.kosov.market.repository
+package net.sergey.kosov.market.repository.goods
 
 import net.sergey.kosov.market.domains.Goods
 import org.bson.types.ObjectId
