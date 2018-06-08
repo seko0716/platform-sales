@@ -7,3 +7,27 @@ spring:
       fail-fast: true
       password: ${CONFIG_SERVICE_PASSWORD}
       username: user
+  profiles:
+    active: test
+---
+spring:
+  application:
+    name: market-service-test
+  profiles: test
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: 11
+      username: user
+      enabled: false
+    service-registry:
+      auto-registration:
+        enabled: false
+
+server:
+  context-path: /market
+  port: 8082
+
+chart:
+  size: 100
