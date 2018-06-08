@@ -1,12 +1,15 @@
 package net.sergey.kosov.market.services
 
 import net.sergey.kosov.market.api.StatisticApi
+import net.sergey.kosov.market.domains.Filter
 import net.sergey.kosov.market.domains.Product
 import net.sergey.kosov.market.repository.product.ProductRepository
 
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.crossstore.ChangeSetPersister
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.security.Principal
@@ -39,4 +42,12 @@ class MarketProductService(private val productRepository: ProductRepository,
     override fun disabledProduct(product: Product): Product = productRepository.save(product.apply { product.enabled = false })
 
     override fun enabledProduct(product: Product): Product = productRepository.save(product.apply { product.enabled = true })
+
+    override fun findProducts(filter: Filter): List<Product> {
+        val query = Query()
+        query.addCriteria(Criteria.where("price").gte(filter.priceLeft))
+        query.addCriteria(Criteria.where("price").lte(filter.priceRight))
+        query.addCriteria(Criteria.where("title").regex(filter.title))
+        return productRepository.findByQuery(query)
+    }
 }
