@@ -39,9 +39,9 @@ class MarketProductService(private val productRepository: ProductRepository,
         return productRepository.findAll(productsIdsChart).toList()
     }
 
-    override fun disabledProduct(product: Product): Product = productRepository.save(product.apply { product.enabled = false })
+    override fun disabledProduct(id: String): Product = productRepository.save(findProductById(id).apply { enabled = false })
 
-    override fun enabledProduct(product: Product): Product = productRepository.save(product.apply { product.enabled = true })
+    override fun enabledProduct(id: String): Product = productRepository.save(findProductById(id).apply { enabled = true })
 
     override fun findProducts(filter: Filter): List<Product> {
         val query = Query()
