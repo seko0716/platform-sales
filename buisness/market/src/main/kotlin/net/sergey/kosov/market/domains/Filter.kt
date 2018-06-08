@@ -1,5 +1,8 @@
 package net.sergey.kosov.market.domains
 
-class Filter(val priceRight: Any, val priceLeft: Any, val title: String) {
+import net.sergey.kosov.market.configuration.NoArgs
+
+@NoArgs
+data class Filter(val priceRight: Int, val priceLeft: Int, val title: String) {
 
 }

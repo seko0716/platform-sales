@@ -44,9 +44,10 @@ class MarketProductService(private val productRepository: ProductRepository,
     override fun enabledProduct(id: String): Product = productRepository.save(findProductById(id).apply { enabled = true })
 
     override fun findProducts(filter: Filter): List<Product> {
+        val betweenCriteria = Criteria.where("price").gte(filter.priceLeft)
+                .andOperator(Criteria.where("price").lte(filter.priceRight))
         val query = Query()
-                .addCriteria(Criteria.where("price").gte(filter.priceLeft))
-                .addCriteria(Criteria.where("price").lte(filter.priceRight))
+                .addCriteria(betweenCriteria)
                 .addCriteria(Criteria.where("title").regex(filter.title))
         return productRepository.findByQuery(query)
     }

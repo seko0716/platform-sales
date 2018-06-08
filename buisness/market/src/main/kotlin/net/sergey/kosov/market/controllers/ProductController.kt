@@ -3,10 +3,7 @@ package net.sergey.kosov.market.controllers
 import net.sergey.kosov.market.domains.Filter
 import net.sergey.kosov.market.domains.Product
 import net.sergey.kosov.market.services.ProductService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
 @RestController
@@ -36,8 +33,8 @@ class ProductController(val productService: ProductService) {
         return productService.createProduct(title, description, categoryId)
     }
 
-    @GetMapping("/products")
-    fun findProducts(filter: Filter): List<Product> {
+    @PostMapping("/products")
+    fun findProducts(@RequestBody filter: Filter): List<Product> {
         return productService.findProducts(filter)
     }
 }
