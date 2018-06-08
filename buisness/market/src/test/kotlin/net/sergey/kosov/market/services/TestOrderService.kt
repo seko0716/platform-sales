@@ -38,15 +38,15 @@ class TestOrderService {
     @Test
     fun createNewOrder() {
         val goods = goodsService.createGoods(title = "name", description = "description")
-        var currentUser = User("2", "3")
-        var order: Order = orderService.create(goods = goods, count = 2, customer = currentUser)
+        val currentUser = User("2", "3")
+        val order: Order = orderService.create(goods = goods, count = 2, customer = currentUser)
         Assert.assertEquals(order, orderService.findOrder(order.id))
         Assert.assertEquals(Status.CREATED, order.status)
     }
 
     @Test
     fun processOrder() {//после оплаты
-        var order: Order = orderService.findOrder(orderId = orderId)
+        val order: Order = orderService.findOrder(orderId = orderId)
         val processedOrder = orderService.processOrder(order = order)
         Assert.assertEquals(Status.PROCESSING, processedOrder.status)
     }
