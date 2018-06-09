@@ -45,7 +45,7 @@ class TestProductService {
     @Test
     fun disabledGoods() {
         val goodsCreated = productService.createProduct(title = "name2", description = "description2")
-        val disabledGoods = productService.disabledProduct(goodsCreated)
+        val disabledGoods = productService.disabledProduct(goodsCreated.id.toString())
         Assert.assertEquals(goodsCreated.id, disabledGoods.id)
         Assert.assertEquals(false, disabledGoods.enabled)
     }
@@ -53,7 +53,7 @@ class TestProductService {
     @Test
     fun enabledGoods() {
         val goodsCreated = productService.createProduct(title = "name3", description = "description3")
-        val enabledGoods = productService.enabledProduct(goodsCreated)
+        val enabledGoods = productService.enabledProduct(goodsCreated.id.toString())
         Assert.assertEquals(goodsCreated.id, enabledGoods.id)
         Assert.assertEquals(true, enabledGoods.enabled)
     }
