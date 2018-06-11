@@ -1,5 +1,6 @@
 package net.sergey.kosov.market.controllers
 
+import net.sergey.kosov.market.domains.Characteristic
 import net.sergey.kosov.market.domains.Filter
 import net.sergey.kosov.market.domains.Product
 import net.sergey.kosov.market.domains.ProductViewCreation
@@ -19,12 +20,12 @@ class ProductController(val productService: ProductService) {
         return productService.getProducts4Chart(principal)
     }
 
-    @GetMapping("/product/{id}/disabled")
+    @PostMapping("/product/{id}/disabled")
     fun disabledProduct(@PathVariable("id") id: String): Product { //todo   валидация того что пользователь принадлежит аккаунту продукта
         return productService.disabledProduct(id)
     }
 
-    @GetMapping("/product/{id}/enabled")
+    @PostMapping("/product/{id}/enabled")
     fun enabledProduct(@PathVariable("id") id: String): Product { //todo   валидация того что пользователь принадлежит аккаунту продукта
         return productService.enabledProduct(id)
     }
@@ -37,5 +38,10 @@ class ProductController(val productService: ProductService) {
     @PostMapping("/products")
     fun findProducts(@RequestBody filter: Filter): List<Product> {
         return productService.findProducts(filter)
+    }
+
+    @PostMapping("/product/{id}/characteristic")
+    fun setCharacteristic(@RequestBody characteristics: List<Characteristic>, @PathVariable("id") id: String): Product {
+        return productService.setCharacteristic(characteristics, id)
     }
 }

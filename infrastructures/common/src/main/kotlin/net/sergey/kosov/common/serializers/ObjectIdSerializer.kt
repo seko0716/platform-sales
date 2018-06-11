@@ -1,4 +1,4 @@
-package net.sergey.kosov.common
+package net.sergey.kosov.common.serializers
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.JsonSerializer

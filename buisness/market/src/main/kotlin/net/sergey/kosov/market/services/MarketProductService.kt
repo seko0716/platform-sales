@@ -1,13 +1,14 @@
 package net.sergey.kosov.market.services
 
+import net.sergey.kosov.common.exceptions.NotFoundException
 import net.sergey.kosov.market.api.StatisticApi
+import net.sergey.kosov.market.domains.Characteristic
 import net.sergey.kosov.market.domains.Filter
 import net.sergey.kosov.market.domains.Product
 import net.sergey.kosov.market.domains.ProductViewCreation
 import net.sergey.kosov.market.repository.product.ProductRepository
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
@@ -27,13 +28,19 @@ class MarketProductService(private val productRepository: ProductRepository,
                 accountId = accountId,
                 price = productViewCreation.price,
                 category = category)
-        return productRepository.save(products) ?: throw IllegalStateException("не смог сохранить")
+        return productRepository.save(products)
+    }
+
+    override fun setCharacteristic(characteristics: List<Characteristic>, id: String): Product {
+        val product = findProductById(id)
+        product.characteristic = characteristics
+        return productRepository.save(product)
     }
 
     private fun getCurrentAccount() = ObjectId()
 
     override fun findProductById(id: String): Product {
-        return productRepository.findOne(id) ?: throw ChangeSetPersister.NotFoundException()
+        return productRepository.findOne(id) ?: throw NotFoundException("can not found product by id $id")
     }
 
     override fun getProducts4Chart(principal: Principal): List<Product> {

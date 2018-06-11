@@ -1,7 +1,7 @@
 package net.sergey.kosov.market.domains
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import net.sergey.kosov.common.ObjectIdSerializer
+import net.sergey.kosov.common.serializers.ObjectIdSerializer
 import net.sergey.kosov.market.configuration.NoArgs
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id

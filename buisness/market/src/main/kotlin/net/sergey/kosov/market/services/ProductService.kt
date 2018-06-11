@@ -1,5 +1,6 @@
 package net.sergey.kosov.market.services
 
+import net.sergey.kosov.market.domains.Characteristic
 import net.sergey.kosov.market.domains.Filter
 import net.sergey.kosov.market.domains.Product
 import net.sergey.kosov.market.domains.ProductViewCreation
@@ -12,4 +13,5 @@ interface ProductService {
     fun enabledProduct(id: String): Product
     fun createProduct(productViewCreation: ProductViewCreation): Product
     fun findProducts(filter: Filter): List<Product>
+    fun setCharacteristic(characteristics: List<Characteristic>, id: String): Product
 }
