@@ -8,11 +8,8 @@ import net.sergey.kosov.market.domains.User
 interface OrderService {
     fun create(product: Product, count: Int = 1, customer: User): Order
     fun findOrder(orderId: String): Order
-    fun processOrder(order: Order): Order
     fun processOrder(orderId: String): Order
-    fun completeOrder(order: Order): Order
     fun completeOrder(orderId: String): Order
-    fun cancelOrder(order: Order): Order
     fun cancelOrder(orderId: String): Order
     fun findOrders(customer: User, status: Status? = null): List<Order>
 }
