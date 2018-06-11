@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.util.Assert
 
+import javax.annotation.PostConstruct
+
 @Service
 @Slf4j
 class UserServiceImpl implements UserService {
@@ -23,5 +25,13 @@ class UserServiceImpl implements UserService {
         user.setPassword(hash)
         repository.save(user)
         log.info("new user has been created: {}", user.getUsername())
+    }
+
+    @PostConstruct
+    void init() {
+        def user = new User(username: "admin", password: "11")
+        String hash = encoder.encode(user.getPassword())
+        user.setPassword(hash)
+        repository.save(user)
     }
 }
