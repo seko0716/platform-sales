@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import java.math.BigDecimal
 
 @RunWith(SpringRunner::class)
-@ContextHierarchy(ContextConfiguration(classes = [GoodsServiceConfig::class, ConfigurationFeign::class]))
+@ContextHierarchy(ContextConfiguration(classes = [ServiceConfig::class, ConfigurationFeign::class]))
 class TestProductService {
     @Autowired
     private lateinit var productService: ProductService

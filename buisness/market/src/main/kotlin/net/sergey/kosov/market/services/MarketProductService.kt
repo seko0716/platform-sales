@@ -3,8 +3,8 @@ package net.sergey.kosov.market.services
 import net.sergey.kosov.common.exceptions.NotFoundException
 import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.domains.Characteristic
-import net.sergey.kosov.market.domains.Filter
 import net.sergey.kosov.market.domains.Product
+import net.sergey.kosov.market.domains.ProductFilter
 import net.sergey.kosov.market.domains.ProductViewCreation
 import net.sergey.kosov.market.repository.product.ProductRepository
 import org.bson.types.ObjectId
@@ -52,7 +52,7 @@ class MarketProductService(private val productRepository: ProductRepository,
 
     override fun enabledProduct(id: String): Product = productRepository.save(findProductById(id).apply { enabled = true })
 
-    override fun findProducts(filter: Filter): List<Product> {
+    override fun findProducts(filter: ProductFilter): List<Product> {
         val betweenCriteria = Criteria.where("price").gte(filter.priceLeft)
                 .andOperator(Criteria.where("price").lte(filter.priceRight))
         val query = Query()

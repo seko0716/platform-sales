@@ -1,15 +1,13 @@
 package net.sergey.kosov.market.services
 
 import net.sergey.kosov.market.domains.Order
-import net.sergey.kosov.market.domains.Product
-import net.sergey.kosov.market.domains.Status
-import net.sergey.kosov.market.domains.User
+import net.sergey.kosov.market.domains.OrderFilter
 
 interface OrderService {
-    fun create(product: Product, count: Int = 1, customer: User): Order
+    fun create(productId: String, count: Int = 1, customerName: String): Order
     fun findOrder(orderId: String): Order
     fun processOrder(orderId: String): Order
     fun completeOrder(orderId: String): Order
     fun cancelOrder(orderId: String): Order
-    fun findOrders(customer: User, status: Status? = null): List<Order>
+    fun findOrders(filter: OrderFilter): List<Order>
 }

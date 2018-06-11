@@ -1,8 +1,8 @@
 package net.sergey.kosov.market.controllers
 
 import net.sergey.kosov.market.domains.Characteristic
-import net.sergey.kosov.market.domains.Filter
 import net.sergey.kosov.market.domains.Product
+import net.sergey.kosov.market.domains.ProductFilter
 import net.sergey.kosov.market.domains.ProductViewCreation
 import net.sergey.kosov.market.services.ProductService
 import org.springframework.web.bind.annotation.*
@@ -36,7 +36,7 @@ class ProductController(val productService: ProductService) {
     }
 
     @PostMapping("/products")
-    fun findProducts(@RequestBody filter: Filter): List<Product> {
+    fun findProducts(@RequestBody filter: ProductFilter): List<Product> {
         return productService.findProducts(filter)
     }
 

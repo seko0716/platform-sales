@@ -1,49 +1,36 @@
 package net.sergey.kosov.market.controllers
 
 import net.sergey.kosov.market.domains.Order
-import net.sergey.kosov.market.domains.Product
-import net.sergey.kosov.market.domains.Status
-import net.sergey.kosov.market.domains.User
+import net.sergey.kosov.market.domains.OrderFilter
 import net.sergey.kosov.market.services.OrderService
 import org.springframework.web.bind.annotation.RestController
+import java.security.Principal
 
 @RestController
 class OrderController(val orderService: OrderService) {
-    
-    fun create(product: Product, count: Int, customer: User): Order {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    fun create(productId: String, count: Int, principal: Principal): Order {
+        return orderService.create(productId = productId, count = count, customerName = principal.name)
     }
 
     fun findOrder(orderId: String): Order {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun processOrder(order: Order): Order {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return orderService.findOrder(orderId)
     }
 
     fun processOrder(orderId: String): Order {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun completeOrder(order: Order): Order {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return orderService.processOrder(orderId)
     }
 
     fun completeOrder(orderId: String): Order {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun cancelOrder(order: Order): Order {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return orderService.completeOrder(orderId)
     }
 
     fun cancelOrder(orderId: String): Order {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return orderService.cancelOrder(orderId)
     }
 
-    fun findOrders(customer: User, status: Status?): List<Order> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun findOrders(filter: OrderFilter): List<Order> {
+        return orderService.findOrders(filter)
     }
 
 }

@@ -1,9 +1,13 @@
 package net.sergey.kosov.market.services
 
 import org.springframework.boot.SpringBootConfiguration
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer
+import org.springframework.cloud.netflix.feign.FeignAutoConfiguration
+import org.springframework.cloud.netflix.feign.ribbon.FeignRibbonClientAutoConfiguration
+import org.springframework.cloud.netflix.ribbon.RibbonAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer
@@ -21,7 +25,8 @@ import java.util.*
 @ContextConfiguration(
         initializers = [ConfigFileApplicationContextInitializer::class])
 @TestPropertySource(properties = ["chart.size=100"])
-class GoodsServiceConfig {
+@ImportAutoConfiguration(RibbonAutoConfiguration::class, FeignRibbonClientAutoConfiguration::class, FeignAutoConfiguration::class)
+class ServiceConfig {
     @Bean
     fun properties(): PropertySourcesPlaceholderConfigurer {
         val properties = Properties()

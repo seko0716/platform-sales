@@ -1,10 +1,10 @@
 package net.sergey.kosov.market.services
 
+import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.domains.Order
-import net.sergey.kosov.market.domains.Product
+import net.sergey.kosov.market.domains.OrderFilter
 import net.sergey.kosov.market.domains.Status
 import net.sergey.kosov.market.domains.Status.*
-import net.sergey.kosov.market.domains.User
 import net.sergey.kosov.market.repository.order.OrderRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.query.Criteria
@@ -13,12 +13,16 @@ import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
-class MarketOrderService @Autowired constructor(var orderRepository: OrderRepository) : OrderService {
+class MarketOrderService @Autowired constructor(var orderRepository: OrderRepository,
+                                                val productService: ProductService,
+                                                val accountApi: AccountApi) : OrderService {
     private val cancelableStatuses = listOf(PROCESSING, CREATED)
     private val completeStatuses = listOf(PROCESSING)
     private val processStatuses = listOf(CREATED)
 
-    override fun create(product: Product, count: Int, customer: User): Order {
+    override fun create(productId: String, count: Int, customerName: String): Order {
+        val customer = accountApi.getUser(username = customerName)
+        val product = productService.findProductById(productId)
         return orderRepository.insert(Order(product = product, count = count, customer = customer))
     }
 
@@ -41,10 +45,11 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         return orderRepository.save(changeStatus(order, CANCELED))
     }
 
-    override fun findOrders(customer: User, status: Status?): List<Order> {
+    override fun findOrders(filter: OrderFilter): List<Order> {
+        val customer = accountApi.getUser(filter.customerName)
         val query = Query(Criteria.where("customer").`is`(customer))
-        if (status != null) {
-            query.addCriteria(Criteria.where("status").`is`(status))
+        if (filter.status != null) {
+            query.addCriteria(Criteria.where("status").`is`(filter.status))
         }
         return orderRepository.findByQuery(query)
     }
