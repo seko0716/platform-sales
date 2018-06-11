@@ -33,6 +33,10 @@ chart:
   size: 100
 
 security:
-  user:
-    password: 11
-    name: user
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:5000/uaa/users/current
+
+logging:
+  level:
+    org.springframework.security: DEBUG
