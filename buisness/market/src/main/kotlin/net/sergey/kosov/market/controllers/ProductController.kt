@@ -11,7 +11,7 @@ import java.security.Principal
 @RestController
 class ProductController(val productService: ProductService) {
     @GetMapping("/product/{id}")
-    fun findProductById(@PathVariable("id") id: String): Product {
+    fun findProductById(@PathVariable("id") id: String, principal: Principal): Product {
         return productService.findProductById(id)
     }
 
