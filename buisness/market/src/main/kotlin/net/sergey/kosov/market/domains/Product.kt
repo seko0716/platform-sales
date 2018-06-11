@@ -23,9 +23,12 @@ data class Product(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id:
                    var price: BigDecimal,
                    var category: Category,
                    var characteristic: List<Characteristic> = category.characteristics,
-                   var tags: List<String> = ArrayList(),
+                   var tags: List<String> = calculateTags(title, category),
                    @Indexed(name = "product_enabled")
                    var enabled: Boolean = false)
+
+fun calculateTags(title: String, category: Category) =
+        title.split(" +").union(category.characteristics.map { it.name }).toList() + category.title
 
 @NoArgs
 data class ProductViewCreation(var title: String, var description: String, var price: BigDecimal, var categoryId: String)
