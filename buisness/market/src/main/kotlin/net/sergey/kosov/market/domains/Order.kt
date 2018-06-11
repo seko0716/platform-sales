@@ -20,12 +20,15 @@ data class Order(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: O
                  @Indexed(name = "orders_status")
                  var status: Status = Status.CREATED,
                  var statusHistory: MutableList<Pair<Status, LocalDateTime>> = mutableListOf(status to createdTime),
-                 var submittedTime: LocalDateTime? = null,
+                 var completedTime: LocalDateTime? = null,
                  @JsonSerialize(using = ObjectIdSerializer::class) var messageThreadId: ObjectId? = null) {
 
     fun changeStatus(status: Status): Order {
         if (status == Status.CREATED) throw IllegalStateException("Нельзя сетить статус $status, он заполняется только при создании ордера")
         if (this.statusHistory.any { it.first == Status.COMPLETED }) throw IllegalStateException("Нельзя сетить статус после ${Status.COMPLETED}-- ордер звершен")
+        if (status == Status.COMPLETED) {
+            this.completedTime = LocalDateTime.now()
+        }
         return this.apply {
             this.status = status
             this.statusHistory.add(Pair(status, LocalDateTime.now()))
