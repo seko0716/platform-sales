@@ -12,4 +12,6 @@ include 'buisness:market'
 findProject(':buisness:market')?.name = 'market'
 include 'buisness:statistic-service'
 findProject(':buisness:statistic-service')?.name = 'statistic-service'
+include 'infrastructures:common'
+findProject(':infrastructures:common')?.name = 'common'
 

@@ -1,5 +1,7 @@
 package net.sergey.kosov.market.domains
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import net.sergey.kosov.common.ObjectIdSerializer
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
@@ -7,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
 @Document(collection = "orders")
-data class Order(@Id var id: ObjectId = ObjectId(),
+data class Order(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: ObjectId = ObjectId(),
                  var product: Product,
                  @Indexed(name = "orders_title")
                  var title: String = "Order ${product.title}",
@@ -19,7 +21,7 @@ data class Order(@Id var id: ObjectId = ObjectId(),
                  var status: Status = Status.CREATED,
                  var statusHistory: MutableList<Pair<Status, LocalDateTime>> = mutableListOf(status to createdTime),
                  var submittedTime: LocalDateTime? = null,
-                 var messageThreadId: ObjectId? = null) {
+                 @JsonSerialize(using = ObjectIdSerializer::class) var messageThreadId: ObjectId? = null) {
 
     fun changeStatus(status: Status): Order {
         if (status == Status.CREATED) throw IllegalStateException("Нельзя сетить статус $status, он заполняется только при создании ордера")

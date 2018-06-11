@@ -3,15 +3,14 @@ package net.sergey.kosov.market.services
 import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.domains.Filter
 import net.sergey.kosov.market.domains.Product
+import net.sergey.kosov.market.domains.ProductViewCreation
 import net.sergey.kosov.market.repository.product.ProductRepository
-
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
-import java.math.BigDecimal
 import java.security.Principal
 
 @Service
@@ -20,10 +19,13 @@ class MarketProductService(private val productRepository: ProductRepository,
                            private val categoryService: CategoryService,
                            @Value("\${chart.size}") private var chartSize: Int) : ProductService {
 
-    override fun createProduct(title: String, description: String, categoryId: String): Product {
+    override fun createProduct(productViewCreation: ProductViewCreation): Product {
         val accountId = getCurrentAccount()
-        val category = categoryService.findCategoryById(categoryId)
-        val products = Product(title = title, description = description, accountId = accountId, price = BigDecimal.ZERO,
+        val category = categoryService.findCategoryById(productViewCreation.categoryId)
+        val products = Product(title = productViewCreation.title,
+                description = productViewCreation.description,
+                accountId = accountId,
+                price = productViewCreation.price,
                 category = category)
         return productRepository.save(products) ?: throw IllegalStateException("не смог сохранить")
     }

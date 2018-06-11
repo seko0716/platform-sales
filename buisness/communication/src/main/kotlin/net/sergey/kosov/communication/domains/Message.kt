@@ -1,5 +1,6 @@
 package net.sergey.kosov.communication.domains
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.google.gson.Gson
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
@@ -7,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
 @Document
-data class Message(@Id var id: ObjectId = ObjectId(),
+data class Message(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: ObjectId = ObjectId(),
                    var mess: String,
                    var to: String,
                    var protocol: String,

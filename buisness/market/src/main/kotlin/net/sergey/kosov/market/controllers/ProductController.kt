@@ -2,6 +2,7 @@ package net.sergey.kosov.market.controllers
 
 import net.sergey.kosov.market.domains.Filter
 import net.sergey.kosov.market.domains.Product
+import net.sergey.kosov.market.domains.ProductViewCreation
 import net.sergey.kosov.market.services.ProductService
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
@@ -29,8 +30,8 @@ class ProductController(val productService: ProductService) {
     }
 
     @PutMapping("/product")
-    fun createProduct(title: String, description: String, categoryId: String): Product {
-        return productService.createProduct(title, description, categoryId)
+    fun createProduct(@RequestBody product: ProductViewCreation): Product {
+        return productService.createProduct(product)
     }
 
     @PostMapping("/products")
