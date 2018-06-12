@@ -2,7 +2,10 @@ package net.sergey.kosov.market.services
 
 import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.configuration.ConfigurationFeign
-import net.sergey.kosov.market.domains.*
+import net.sergey.kosov.market.domains.entity.Order
+import net.sergey.kosov.market.domains.entity.Status
+import net.sergey.kosov.market.domains.entity.User
+import net.sergey.kosov.market.domains.view.wrappers.OrderFilter
 import org.bson.types.ObjectId
 import org.junit.Assert
 import org.junit.Before

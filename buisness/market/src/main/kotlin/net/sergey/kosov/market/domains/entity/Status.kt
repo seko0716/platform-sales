@@ -1,4 +1,4 @@
-package net.sergey.kosov.market.domains
+package net.sergey.kosov.market.domains.entity
 
 enum class Status {
     CREATED,

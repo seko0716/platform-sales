@@ -2,10 +2,10 @@ package net.sergey.kosov.market.services
 
 import net.sergey.kosov.common.exceptions.NotFoundException
 import net.sergey.kosov.market.api.StatisticApi
-import net.sergey.kosov.market.domains.Characteristic
-import net.sergey.kosov.market.domains.Product
-import net.sergey.kosov.market.domains.ProductFilter
-import net.sergey.kosov.market.domains.ProductViewCreation
+import net.sergey.kosov.market.domains.entity.Characteristic
+import net.sergey.kosov.market.domains.entity.Product
+import net.sergey.kosov.market.domains.view.wrappers.ProductFilter
+import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import net.sergey.kosov.market.repository.product.ProductRepository
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Value

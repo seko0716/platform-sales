@@ -1,9 +1,9 @@
 package net.sergey.kosov.market.services
 
-import net.sergey.kosov.market.domains.Characteristic
-import net.sergey.kosov.market.domains.Product
-import net.sergey.kosov.market.domains.ProductFilter
-import net.sergey.kosov.market.domains.ProductViewCreation
+import net.sergey.kosov.market.domains.entity.Characteristic
+import net.sergey.kosov.market.domains.entity.Product
+import net.sergey.kosov.market.domains.view.wrappers.ProductFilter
+import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import java.security.Principal
 
 interface ProductService {

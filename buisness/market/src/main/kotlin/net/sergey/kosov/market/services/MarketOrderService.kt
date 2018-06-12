@@ -1,10 +1,11 @@
 package net.sergey.kosov.market.services
 
 import net.sergey.kosov.market.api.AccountApi
-import net.sergey.kosov.market.domains.Order
-import net.sergey.kosov.market.domains.OrderFilter
-import net.sergey.kosov.market.domains.Status
-import net.sergey.kosov.market.domains.Status.*
+import net.sergey.kosov.market.domains.entity.Order
+import net.sergey.kosov.market.domains.entity.Status
+import net.sergey.kosov.market.domains.entity.Status.*
+import net.sergey.kosov.market.domains.view.wrappers.OrderFilter
+import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 import net.sergey.kosov.market.repository.order.OrderRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.query.Criteria
@@ -20,10 +21,10 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
     private val completeStatuses = listOf(PROCESSING)
     private val processStatuses = listOf(CREATED)
 
-    override fun create(productId: String, count: Int, customerName: String): Order {
+    override fun create(orderViewCreation: OrderViewCreation, customerName: String): Order {
         val customer = accountApi.getUser(username = customerName)
-        val product = productService.findProductById(productId)
-        return orderRepository.insert(Order(product = product, count = count, customer = customer))
+        val product = productService.findProductById(orderViewCreation.productId)
+        return orderRepository.insert(Order(product = product, count = orderViewCreation.count, customer = customer))
     }
 
     override fun findOrder(orderId: String): Order {

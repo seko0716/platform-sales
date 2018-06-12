@@ -1,4 +1,4 @@
-package net.sergey.kosov.market.domains
+package net.sergey.kosov.market.domains.view.wrappers
 
 import net.sergey.kosov.common.annotations.NoArgs
 

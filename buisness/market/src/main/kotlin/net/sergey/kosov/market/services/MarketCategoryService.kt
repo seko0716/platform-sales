@@ -1,6 +1,6 @@
 package net.sergey.kosov.market.services
 
-import net.sergey.kosov.market.domains.Category
+import net.sergey.kosov.market.domains.entity.Category
 import org.springframework.stereotype.Service
 
 @Service

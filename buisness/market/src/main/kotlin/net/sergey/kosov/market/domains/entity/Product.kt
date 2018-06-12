@@ -1,4 +1,4 @@
-package net.sergey.kosov.market.domains
+package net.sergey.kosov.market.domains.entity
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import net.sergey.kosov.common.annotations.NoArgs
@@ -30,5 +30,3 @@ data class Product(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id:
 fun calculateTags(title: String, category: Category) =
         title.split(" +").union(category.characteristics.map { it.name }).toList() + category.title
 
-@NoArgs
-data class ProductViewCreation(var title: String, var description: String, var price: BigDecimal, var categoryId: String)

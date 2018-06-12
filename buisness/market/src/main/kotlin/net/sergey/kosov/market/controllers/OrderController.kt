@@ -1,35 +1,42 @@
 package net.sergey.kosov.market.controllers
 
-import net.sergey.kosov.market.domains.Order
-import net.sergey.kosov.market.domains.OrderFilter
+import net.sergey.kosov.market.domains.entity.Order
+import net.sergey.kosov.market.domains.view.wrappers.OrderFilter
+import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 import net.sergey.kosov.market.services.OrderService
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
 @RestController
 class OrderController(val orderService: OrderService) {
 
-    fun create(productId: String, count: Int, principal: Principal): Order {
-        return orderService.create(productId = productId, count = count, customerName = principal.name)
+    @PutMapping("/order")
+    fun create(@RequestBody orderViewCreation: OrderViewCreation, principal: Principal): Order {
+        return orderService.create(orderViewCreation = orderViewCreation, customerName = principal.name)
     }
 
-    fun findOrder(orderId: String): Order {
+    @GetMapping("/order/{orderId}")
+    fun findOrder(@PathVariable("orderId") orderId: String): Order {
         return orderService.findOrder(orderId)
     }
 
-    fun processOrder(orderId: String): Order {
+    @PostMapping("/order/process/{orderId}")
+    fun processOrder(@PathVariable("orderId") orderId: String): Order {
         return orderService.processOrder(orderId)
     }
 
-    fun completeOrder(orderId: String): Order {
+    @PostMapping("/order/complete/{orderId}")
+    fun completeOrder(@PathVariable("orderId") orderId: String): Order {
         return orderService.completeOrder(orderId)
     }
 
-    fun cancelOrder(orderId: String): Order {
+    @PostMapping("/order/cancel/{orderId}")
+    fun cancelOrder(@PathVariable("orderId") orderId: String): Order {
         return orderService.cancelOrder(orderId)
     }
 
-    fun findOrders(filter: OrderFilter): List<Order> {
+    @GetMapping("/order")
+    fun findOrders(@RequestBody filter: OrderFilter): List<Order> {
         return orderService.findOrders(filter)
     }
 

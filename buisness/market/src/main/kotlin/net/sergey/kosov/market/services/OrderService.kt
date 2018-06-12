@@ -1,10 +1,11 @@
 package net.sergey.kosov.market.services
 
-import net.sergey.kosov.market.domains.Order
-import net.sergey.kosov.market.domains.OrderFilter
+import net.sergey.kosov.market.domains.entity.Order
+import net.sergey.kosov.market.domains.view.wrappers.OrderFilter
+import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 
 interface OrderService {
-    fun create(productId: String, count: Int = 1, customerName: String): Order
+    fun create(orderViewCreation: OrderViewCreation, customerName: String): Order
     fun findOrder(orderId: String): Order
     fun processOrder(orderId: String): Order
     fun completeOrder(orderId: String): Order
