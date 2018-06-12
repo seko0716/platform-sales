@@ -2,9 +2,7 @@ package net.sergey.kosov.market.services
 
 import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.configuration.ConfigurationFeign
-import net.sergey.kosov.market.domains.entity.Order
-import net.sergey.kosov.market.domains.entity.Status
-import net.sergey.kosov.market.domains.entity.User
+import net.sergey.kosov.market.domains.entity.*
 import net.sergey.kosov.market.domains.view.wrappers.OrderFilter
 import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
@@ -30,6 +28,8 @@ class TestOrderService {
     lateinit var productService: ProductService
     @MockBean
     private lateinit var accountApi: AccountApi
+    @MockBean
+    private lateinit var categoryService: CategoryService
 
     var orderId = ObjectId().toString()
 
@@ -39,7 +39,17 @@ class TestOrderService {
         Mockito.doReturn(User("2", "3")).`when`(accountApi).getUser("2")
         Mockito.doReturn(User("1", "1")).`when`(accountApi).getUser("1")
 
-        val goods = productService.createProduct(ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO))
+        Mockito.doReturn(Account("1", "1")).`when`(accountApi).getAccount("1")
+        Mockito.doReturn(Account("1", "1")).`when`(accountApi).getAccount("2")
+        Mockito.doReturn(Account("1", "1")).`when`(accountApi).getAccount("22")
+
+        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", "1")
+        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", "2")
+        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", "22")
+
+
+        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO)
+        val goods = productService.createProduct(productViewCreation, "1")
         val order: Order = orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = "1")
         orderId = order.id.toString()
 
@@ -47,8 +57,9 @@ class TestOrderService {
 
     @Test
     fun createNewOrder() {
-        val goods = productService.createProduct(ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO))
+        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO)
         val currentUser = User("2", "3")
+        val goods = productService.createProduct(productViewCreation, currentUser.name)
         val order: Order = orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = currentUser.name)
         Assert.assertEquals(order, orderService.findOrder(order.id.toString()))
         Assert.assertEquals(Status.CREATED, order.status)
@@ -80,7 +91,8 @@ class TestOrderService {
     fun getOrders() {
         val currentUser = User("22", "3")
         val ordersExp = (0..10).mapTo(ArrayList()) {
-            val goods = productService.createProduct(ProductViewCreation(title = "name!!$it", description = "description!!$it", categoryId = "", price = BigDecimal.ZERO))
+            val productViewCreation = ProductViewCreation(title = "name!!$it", description = "description!!$it", categoryId = "", price = BigDecimal.ZERO)
+            val goods = productService.createProduct(productViewCreation, currentUser.name)
             orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = currentUser.name)
         }
 

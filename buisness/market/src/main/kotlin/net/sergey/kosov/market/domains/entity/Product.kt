@@ -17,9 +17,8 @@ data class Product(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id:
                    var title: String,
                    @Size(min = 10, max = 500)
                    var description: String,
-                   @Indexed(name = "product_accountId")
-                   @JsonSerialize(using = ObjectIdSerializer::class)
-                   var accountId: ObjectId,
+                   @Indexed(name = "product_account")
+                   var account: Account,
                    @Indexed(name = "product_price")
                    var price: BigDecimal,
                    var category: Category,

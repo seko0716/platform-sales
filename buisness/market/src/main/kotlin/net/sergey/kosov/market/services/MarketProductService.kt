@@ -1,6 +1,7 @@
 package net.sergey.kosov.market.services
 
 import net.sergey.kosov.common.exceptions.NotFoundException
+import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.domains.entity.Category
 import net.sergey.kosov.market.domains.entity.Characteristic
@@ -8,27 +9,26 @@ import net.sergey.kosov.market.domains.entity.Product
 import net.sergey.kosov.market.domains.view.wrappers.ProductFilter
 import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import net.sergey.kosov.market.repository.product.ProductRepository
-import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
-import java.security.Principal
 
 @Service
 class MarketProductService(private val productRepository: ProductRepository,
                            private val statisticApi: StatisticApi,
+                           private val accountApi: AccountApi,
                            private val categoryService: CategoryService,
                            @Value("\${chart.size}") private var chartSize: Int) : ProductService {
 
-    override fun createProduct(productViewCreation: ProductViewCreation): Product {
-        val accountId = getCurrentAccount()
-        val category = categoryService.findCategoryById(productViewCreation.categoryId)
+    override fun createProduct(productViewCreation: ProductViewCreation, name: String): Product {
+        val accountId = getCurrentAccount(name)
+        val category = categoryService.findCategoryById(productViewCreation.categoryId, name)
         val tags = calculateTags(productViewCreation, category)
 
         val products = Product(title = productViewCreation.title,
                 description = productViewCreation.description,
-                accountId = accountId,
+                account = accountId,
                 price = productViewCreation.price,
                 category = category,
                 tags = tags)
@@ -44,14 +44,14 @@ class MarketProductService(private val productRepository: ProductRepository,
         return productRepository.save(product)
     }
 
-    private fun getCurrentAccount() = ObjectId()
+    private fun getCurrentAccount(name: String) = accountApi.getAccount(name)
 
     override fun findProductById(id: String): Product {
         return productRepository.findOne(id) ?: throw NotFoundException("can not found product by id $id")
     }
 
-    override fun getProducts4Chart(principal: Principal): List<Product> {
-        val productsIdsChart = statisticApi.getChart(username = principal.name, chartSize = chartSize)
+    override fun getProducts4Chart(name: String): List<Product> {
+        val productsIdsChart = statisticApi.getChart(username = name, chartSize = chartSize)
         return productRepository.findAll(productsIdsChart).toList()
     }
 

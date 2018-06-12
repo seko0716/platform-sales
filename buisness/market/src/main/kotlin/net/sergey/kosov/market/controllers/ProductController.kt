@@ -17,7 +17,7 @@ class ProductController(val productService: ProductService) {
 
     @GetMapping("/products/chart")
     fun getProducts4Chart(principal: Principal): List<Product> {
-        return productService.getProducts4Chart(principal)
+        return productService.getProducts4Chart(principal.name)
     }
 
     @PostMapping("/product/{id}/disabled")
@@ -31,8 +31,8 @@ class ProductController(val productService: ProductService) {
     }
 
     @PutMapping("/product")
-    fun createProduct(@RequestBody product: ProductViewCreation): Product {
-        return productService.createProduct(product)
+    fun createProduct(@RequestBody product: ProductViewCreation, principal: Principal): Product {
+        return productService.createProduct(product, principal.name)
     }
 
     @PostMapping("/products")
