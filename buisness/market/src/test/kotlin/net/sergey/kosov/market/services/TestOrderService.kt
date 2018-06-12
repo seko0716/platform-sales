@@ -23,15 +23,17 @@ import java.math.BigDecimal
 @ContextHierarchy(ContextConfiguration(classes = [ServiceConfig::class, ConfigurationFeign::class]))
 class TestOrderService {
     @Autowired
+    private
     lateinit var orderService: OrderService
     @Autowired
+    private
     lateinit var productService: ProductService
     @MockBean
     private lateinit var accountApi: AccountApi
     @MockBean
     private lateinit var categoryService: CategoryService
 
-    var orderId = ObjectId().toString()
+    private var orderId = ObjectId().toString()
 
     @Before
     fun before() {
