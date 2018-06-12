@@ -2,6 +2,7 @@ package net.sergey.kosov.market.services
 
 import net.sergey.kosov.common.exceptions.NotFoundException
 import net.sergey.kosov.market.api.StatisticApi
+import net.sergey.kosov.market.domains.entity.Category
 import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.entity.Product
 import net.sergey.kosov.market.domains.view.wrappers.ProductFilter
@@ -23,8 +24,8 @@ class MarketProductService(private val productRepository: ProductRepository,
     override fun createProduct(productViewCreation: ProductViewCreation): Product {
         val accountId = getCurrentAccount()
         val category = categoryService.findCategoryById(productViewCreation.categoryId)
-        val tags = productViewCreation.title.split(" +").union(category.characteristics.map { it.name }).toList() + category.title
-        
+        val tags = calculateTags(productViewCreation, category)
+
         val products = Product(title = productViewCreation.title,
                 description = productViewCreation.description,
                 accountId = accountId,
@@ -33,6 +34,9 @@ class MarketProductService(private val productRepository: ProductRepository,
                 tags = tags)
         return productRepository.save(products)
     }
+
+    private fun calculateTags(productViewCreation: ProductViewCreation, category: Category) =
+            productViewCreation.title.split(" +").union(category.characteristics.map { it.name }).toList() + category.title
 
     override fun setCharacteristic(characteristics: List<Characteristic>, id: String): Product {
         val product = findProductById(id)
