@@ -6,4 +6,4 @@ import org.springframework.data.convert.Jsr310Converters
 
 @Configuration
 @EntityScan(value = ["net.sergey.kosov.market.domains"], basePackageClasses = [Jsr310Converters::class])
-class MarketConfiguration {}
+class MarketConfiguration
