@@ -1,6 +1,6 @@
 package net.sergey.kosov.market.repository.product
 
-import net.sergey.kosov.market.domains.Product
+import net.sergey.kosov.market.domains.entity.Product
 import net.sergey.kosov.market.repository.RepositoryQuery
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
