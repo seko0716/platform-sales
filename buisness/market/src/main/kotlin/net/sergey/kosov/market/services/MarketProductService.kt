@@ -40,8 +40,17 @@ class MarketProductService(private val productRepository: ProductRepository,
 
     override fun setCharacteristic(characteristics: List<Characteristic>, id: String): Product {
         val product = findProductById(id)
+        val characteristicNames = getCharacteristicNamesInHierarchy(product.category)
+        if (!characteristicNames.containsAll(characteristics.map { it.name })) {
+            throw IllegalArgumentException("Содержится недопустимая харектеристика товара для этой категории. допустимые характеристики: $characteristicNames")
+        }
+
         product.characteristic = characteristics
         return productRepository.save(product)
+    }
+
+    private fun getCharacteristicNamesInHierarchy(category: Category): List<String> {
+        return category.flatMap { it.characteristics.map { it.name } }
     }
 
     private fun getCurrentAccount(name: String) = accountApi.getAccount(name)

@@ -19,4 +19,24 @@ data class Category(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id
                     var parent: Category? = null,
                     @JsonSerialize(using = ObjectIdSerializer::class)
                     var account: Account? = null,
-                    var characteristics: List<Characteristic> = ArrayList())
+                    var characteristics: List<Characteristic> = ArrayList()) : Iterable<Category> {
+
+    override fun iterator(): Iterator<Category> {
+        return CategoryIterator(this)
+
+    }
+
+    class CategoryIterator(var category: Category?) : Iterator<Category> {
+        override fun hasNext(): Boolean {
+            return category != null
+        }
+
+        override fun next(): Category {
+            if (!hasNext()) throw NoSuchElementException()
+            val returned = category!! // checked in previous line. hasNext()
+            category = category!!.parent
+            return returned
+        }
+
+    }
+}
