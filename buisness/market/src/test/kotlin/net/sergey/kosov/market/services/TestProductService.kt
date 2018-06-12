@@ -3,8 +3,8 @@ package net.sergey.kosov.market.services
 import com.sun.security.auth.UserPrincipal
 import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.configuration.ConfigurationFeign
-import net.sergey.kosov.market.domains.Product
-import net.sergey.kosov.market.domains.ProductViewCreation
+import net.sergey.kosov.market.domains.entity.Product
+import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

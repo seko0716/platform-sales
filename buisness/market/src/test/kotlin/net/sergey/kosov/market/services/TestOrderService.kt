@@ -6,6 +6,8 @@ import net.sergey.kosov.market.domains.entity.Order
 import net.sergey.kosov.market.domains.entity.Status
 import net.sergey.kosov.market.domains.entity.User
 import net.sergey.kosov.market.domains.view.wrappers.OrderFilter
+import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
+import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import org.bson.types.ObjectId
 import org.junit.Assert
 import org.junit.Before
@@ -38,7 +40,7 @@ class TestOrderService {
         Mockito.doReturn(User("1", "1")).`when`(accountApi).getUser("1")
 
         val goods = productService.createProduct(ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO))
-        val order: Order = orderService.create(productId = goods.id.toString(), count = 2, customerName = "1")
+        val order: Order = orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = "1")
         orderId = order.id.toString()
 
     }
@@ -47,7 +49,7 @@ class TestOrderService {
     fun createNewOrder() {
         val goods = productService.createProduct(ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO))
         val currentUser = User("2", "3")
-        val order: Order = orderService.create(productId = goods.id.toString(), count = 2, customerName = currentUser.name)
+        val order: Order = orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = currentUser.name)
         Assert.assertEquals(order, orderService.findOrder(order.id.toString()))
         Assert.assertEquals(Status.CREATED, order.status)
     }
@@ -79,7 +81,7 @@ class TestOrderService {
         val currentUser = User("22", "3")
         val ordersExp = (0..10).mapTo(ArrayList()) {
             val goods = productService.createProduct(ProductViewCreation(title = "name!!$it", description = "description!!$it", categoryId = "", price = BigDecimal.ZERO))
-            orderService.create(productId = goods.id.toString(), count = 2, customerName = currentUser.name)
+            orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = currentUser.name)
         }
 
         val orders: List<Order> = orderService.findOrders(OrderFilter(customerName = currentUser.name, status = Status.CREATED))
