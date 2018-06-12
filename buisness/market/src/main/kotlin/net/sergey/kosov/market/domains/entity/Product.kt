@@ -18,15 +18,13 @@ data class Product(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id:
                    @Size(min = 10, max = 500)
                    var description: String,
                    @Indexed(name = "product_accountId")
+                   @JsonSerialize(using = ObjectIdSerializer::class)
                    var accountId: ObjectId,
                    @Indexed(name = "product_price")
                    var price: BigDecimal,
                    var category: Category,
                    var characteristic: List<Characteristic> = category.characteristics,
-                   var tags: List<String> = calculateTags(title, category),
+                   var tags: List<String> = listOf(),
                    @Indexed(name = "product_enabled")
                    var enabled: Boolean = false)
-
-fun calculateTags(title: String, category: Category) =
-        title.split(" +").union(category.characteristics.map { it.name }).toList() + category.title
 

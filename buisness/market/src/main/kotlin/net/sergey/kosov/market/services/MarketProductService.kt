@@ -23,11 +23,14 @@ class MarketProductService(private val productRepository: ProductRepository,
     override fun createProduct(productViewCreation: ProductViewCreation): Product {
         val accountId = getCurrentAccount()
         val category = categoryService.findCategoryById(productViewCreation.categoryId)
+        val tags = productViewCreation.title.split(" +").union(category.characteristics.map { it.name }).toList() + category.title
+        
         val products = Product(title = productViewCreation.title,
                 description = productViewCreation.description,
                 accountId = accountId,
                 price = productViewCreation.price,
-                category = category)
+                category = category,
+                tags = tags)
         return productRepository.save(products)
     }
 
