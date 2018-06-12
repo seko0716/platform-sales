@@ -34,7 +34,7 @@ data class Category(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id
         override fun next(): Category {
             if (!hasNext()) throw NoSuchElementException()
             val returned = category!! // checked in previous line. hasNext()
-            category = category!!.parent
+            category = returned.parent
             return returned
         }
 
