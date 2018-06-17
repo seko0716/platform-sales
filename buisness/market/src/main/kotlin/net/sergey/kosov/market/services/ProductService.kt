@@ -13,4 +13,5 @@ interface ProductService {
     fun createProduct(productViewCreation: ProductViewCreation, name: String): Product
     fun findProducts(filter: ProductFilter): List<Product>
     fun setCharacteristic(characteristics: List<Characteristic>, id: String): Product
+    fun findProducts(): List<Product>
 }

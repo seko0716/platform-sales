@@ -15,9 +15,7 @@ data class Category(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id
                     var title: String,
                     var description: String = "",
                     @Indexed(name = "category_parentId")
-                    @JsonSerialize(using = ObjectIdSerializer::class)
                     var parent: Category? = null,
-                    @JsonSerialize(using = ObjectIdSerializer::class)
                     var account: Account? = null,
                     var characteristics: List<Characteristic> = ArrayList()) : Iterable<Category> {
 

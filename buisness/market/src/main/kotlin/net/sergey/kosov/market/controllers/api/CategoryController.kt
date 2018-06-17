@@ -1,4 +1,4 @@
-package net.sergey.kosov.market.controllers
+package net.sergey.kosov.market.controllers.api
 
 import net.sergey.kosov.market.domains.entity.Category
 import net.sergey.kosov.market.domains.entity.Characteristic

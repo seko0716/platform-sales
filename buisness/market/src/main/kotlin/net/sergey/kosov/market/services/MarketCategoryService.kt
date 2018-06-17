@@ -42,11 +42,11 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
     override fun findCategoryById(categoryId: String, name: String): Category {
         val account: Account = accountApi.getAccount(name)
         val query = Query(Criteria.where("id").`is`(categoryId))
-                .addCriteria(Criteria.where("account").`is`(account).orOperator(Criteria.where("account").`is`(null)))
+                .addCriteria(Criteria().orOperator(Criteria.where("account").`is`(account), Criteria.where("account").`is`(null)))
         val categories = categoryRepository.findByQuery(query)
 
         if (categories.size == 1) {
-            return categories[1]
+            return categories.first()
         } else {
             throw NotFoundException("can not fount category by id = $categoryId")
         }

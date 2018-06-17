@@ -59,7 +59,11 @@ dependencies {
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+//    for development
     compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'net.sourceforge.nekohtml:nekohtml'
+
 
 }
 

@@ -1,0 +1,93 @@
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/js/mustache.min.js"></script>
+    <script type="text/javascript">
+        var topics = [
+            {
+                "id": "5b2619e15832d4378eb31605",
+                "title": "name!!1",
+                "description": "description!!",
+                "account": {
+                    "marketName": "test",
+                    "description": ""
+                },
+                "price": 0,
+                "category": {
+                    "id": "5b2619e15832d4378eb31604",
+                    "title": "category",
+                    "description": "",
+                    "parent": null,
+                    "account": {
+                        "marketName": "test",
+                        "description": ""
+                    },
+                    "characteristics": []
+                },
+                "characteristic": [],
+                "tags": [
+                    "name!!1",
+                    "category"
+                ],
+                "enabled": false
+            },
+            {
+                "id": "5b2619e15832d4378eb31606",
+                "title": "name!!2",
+                "description": "description!!",
+                "account": {
+                    "marketName": "test",
+                    "description": ""
+                },
+                "price": 0,
+                "category": {
+                    "id": "5b2619e15832d4378eb31604",
+                    "title": "category",
+                    "description": "",
+                    "parent": null,
+                    "account": {
+                        "marketName": "test",
+                        "description": ""
+                    },
+                    "characteristics": []
+                },
+                "characteristic": [],
+                "tags": [
+                    "name!!2",
+                    "category"
+                ],
+                "enabled": false
+            }];
+
+
+        var template = "{{#.}} <div class=\"col-sm-4 col-lg-4 col-md-4\">" +
+            "<div class=\"thumbnail\">" +
+            "<img alt=\"\" src=\"http://placehold.it/320x150\">" +
+            "<h4 class=\"pull-right\">{{price}}</h4>" +
+            "<h4><a href=\"/market/view/product/{{id}}\">{{title}}</a></h4>" +
+            "<p>{{description}}</p>" +
+            "</div>" +
+            "<div class=\"ratings\">" +
+            "<p class=\"pull-right\">15 reviews</p>" +
+            "<p>" +
+            "<span class=\"glyphicon glyphicon-star\"></span>" +
+            "<span class=\"glyphicon glyphicon-star\"></span>" +
+            "<span class=\"glyphicon glyphicon-star\"></span>" +
+            "<span class=\"glyphicon glyphicon-star\"></span>" +
+            "<span class=\"glyphicon glyphicon-star\"></span>" +
+            "</p>" +
+            "</div>" +
+            "</div>" +
+            "{{/.}} </div>";
+        $(document).ready(function () {
+            $("#topics").html(Mustache.to_html(template, topics));
+        });
+
+    </script>
+    <title></title>
+</head>
+<body>
+<div id="topics"></div>
+</body>
+</html>
+
+

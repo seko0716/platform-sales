@@ -24,6 +24,9 @@ spring:
     service-registry:
       auto-registration:
         enabled: false
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
 
 server:
   context-path: /market

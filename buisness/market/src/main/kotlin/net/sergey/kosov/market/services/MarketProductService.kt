@@ -76,4 +76,9 @@ class MarketProductService(private val productRepository: ProductRepository,
                 .addCriteria(Criteria.where("title").regex(filter.title))
         return productRepository.findByQuery(query)
     }
+
+    override fun findProducts(): List<Product> {
+        val query = Query().limit(100)
+        return productRepository.findByQuery(query)
+    }
 }

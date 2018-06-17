@@ -1,13 +1,15 @@
-package net.sergey.kosov.market.controllers
+package net.sergey.kosov.market.controllers.api
 
 import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.entity.Product
 import net.sergey.kosov.market.domains.view.wrappers.ProductFilter
 import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import net.sergey.kosov.market.services.ProductService
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
+@PreAuthorize("permitAll()")
 @RestController
 class ProductController(val productService: ProductService) {
     @GetMapping("/product/{id}")
@@ -18,6 +20,11 @@ class ProductController(val productService: ProductService) {
     @GetMapping("/products/chart")
     fun getProducts4Chart(principal: Principal): List<Product> {
         return productService.getProducts4Chart(principal.name)
+    }
+
+    @GetMapping("/products")
+    fun getProducts4Chart(): List<Product> {
+        return productService.findProducts()
     }
 
     @PostMapping("/product/{id}/disabled")
