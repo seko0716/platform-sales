@@ -20,10 +20,11 @@ class MarketApplication(var productService: ProductService,
     fun init() {
         val create = categoryService.create(CategoryViewCreation(title = "category"), "test")
 
-        (1..200).mapTo(ArrayList()) {
-            productService.createProduct(
+        (1..200).forEach {
+            val id = productService.createProduct(
                     ProductViewCreation(title = "name!!$it", description = "description!!", categoryId = create.id.toString(), price = BigDecimal.ZERO),
                     "test").id.toString()
+            productService.enabledProduct(id)
         }
 
     }

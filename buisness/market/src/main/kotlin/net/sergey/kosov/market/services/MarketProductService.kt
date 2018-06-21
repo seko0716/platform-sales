@@ -23,7 +23,7 @@ class MarketProductService(private val productRepository: ProductRepository,
 
     override fun getProducts4Market(name: String): List<Product> {
         val account = getAccount(name)
-        return productRepository.findByQuery(Query.query(Criteria.where("account").`is`(account)))
+        return productRepository.findByQuery(getProductQuery().addCriteria(Criteria.where("account").`is`(account)))
     }
 
     override fun createProduct(productViewCreation: ProductViewCreation, name: String): Product {
@@ -76,14 +76,16 @@ class MarketProductService(private val productRepository: ProductRepository,
     override fun findProducts(filter: ProductFilter): List<Product> {
         val betweenCriteria = Criteria.where("price").gte(filter.priceLeft)
                 .andOperator(Criteria.where("price").lte(filter.priceRight))
-        val query = Query()
+        val query = getProductQuery()
                 .addCriteria(betweenCriteria)
                 .addCriteria(Criteria.where("title").regex(filter.title))
         return productRepository.findByQuery(query)
     }
 
     override fun findProducts(): List<Product> {
-        val query = Query().limit(100)
+        val query = getProductQuery().limit(100)
         return productRepository.findByQuery(query)
     }
+
+    private fun getProductQuery() = Query(Criteria.where("enabled").`is`(true))
 }

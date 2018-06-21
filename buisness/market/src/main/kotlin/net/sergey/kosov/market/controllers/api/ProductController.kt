@@ -32,6 +32,11 @@ class ProductController(val productService: ProductService) {
         return productService.getProducts4Market(principal.name)
     }
 
+    @GetMapping("/products/market/{market_name}")
+    fun getProducts4Market(@PathVariable("market_name") marketName: String): List<Product> {
+        return productService.getProducts4Market(marketName)
+    }
+
     @PostMapping("/product/{id}/disabled")
     fun disabledProduct(@PathVariable("id") id: String): Product { //todo   валидация того что пользователь принадлежит аккаунту продукта
         return productService.disabledProduct(id)
