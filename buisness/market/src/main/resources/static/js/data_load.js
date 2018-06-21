@@ -25,3 +25,20 @@ $.get("/market/products", function (products) {
         $("#products").html(Mustache.to_html(template, products));
     });
 });
+
+$.get("/market/products/chart", function (products) {
+    var template =
+        "{{#.}}<a href=\"/market/view/product/{{id}}\"><div class=\"col-md-6\">" +
+        "  <div class=\"thumbnail\">" +
+        "    <img src=\"http://placehold.it/320x150\" alt=\"\">" +
+        "    <div class=\"caption\">" +
+        "      <h4>{{title}}" +
+        "      </h4>" +
+        "    </div>" +
+        "  </div>" +
+        "</div></a>{{/.}}";
+
+    $(document).ready(function () {
+        $("#history").html(Mustache.to_html(template, products));
+    });
+});

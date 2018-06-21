@@ -33,7 +33,7 @@ server:
   port: 8082
 
 chart:
-  size: 100
+  size: 10
 
 security:
   user:
