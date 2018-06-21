@@ -1,5 +1,6 @@
-package net.sergey.kosov.market.api
+package net.sergey.kosov.market.api.stabs
 
+import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.domains.entity.Account
 import net.sergey.kosov.market.domains.entity.User
 import org.springframework.context.annotation.Profile
