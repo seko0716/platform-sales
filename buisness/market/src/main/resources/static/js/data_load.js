@@ -38,6 +38,9 @@ $.get("/market/products/chart", function (products) {
         "  </div>" +
         "</div></a>{{/.}}";
 
+    if (products.length === 0) {
+        document.getElementById('history_label').hidden = true
+    }
     $(document).ready(function () {
         $("#history").html(Mustache.to_html(template, products));
     });
