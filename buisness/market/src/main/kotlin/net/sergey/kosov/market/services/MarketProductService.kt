@@ -21,14 +21,19 @@ class MarketProductService(private val productRepository: ProductRepository,
                            private val categoryService: CategoryService,
                            @Value("\${chart.size}") private var chartSize: Int) : ProductService {
 
+    override fun getProducts4Market(name: String): List<Product> {
+        val account = getAccount(name)
+        return productRepository.findByQuery(Query.query(Criteria.where("account").`is`(account)))
+    }
+
     override fun createProduct(productViewCreation: ProductViewCreation, name: String): Product {
-        val accountId = getCurrentAccount(name)
+        val account = getAccount(name)
         val category = categoryService.findCategoryById(productViewCreation.categoryId, name)
         val tags = calculateTags(productViewCreation, category)
 
         val products = Product(title = productViewCreation.title,
                 description = productViewCreation.description,
-                account = accountId,
+                account = account,
                 price = productViewCreation.price,
                 category = category,
                 tags = tags)
@@ -53,7 +58,7 @@ class MarketProductService(private val productRepository: ProductRepository,
         return category.flatMap { it.characteristics.map { it.name } }
     }
 
-    private fun getCurrentAccount(name: String) = accountApi.getAccount(name)
+    private fun getAccount(name: String) = accountApi.getAccount(name)
 
     override fun findProductById(id: String): Product {
         return productRepository.findOne(id) ?: throw NotFoundException("can not found product by id $id")

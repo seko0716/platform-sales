@@ -23,8 +23,13 @@ class ProductController(val productService: ProductService) {
     }
 
     @GetMapping("/products")
-    fun getProducts4Chart(): List<Product> {
+    fun getProducts(): List<Product> {
         return productService.findProducts()
+    }
+
+    @GetMapping("/products/market")
+    fun getProducts4Market(principal: Principal): List<Product> {
+        return productService.getProducts4Market(principal.name)
     }
 
     @PostMapping("/product/{id}/disabled")
