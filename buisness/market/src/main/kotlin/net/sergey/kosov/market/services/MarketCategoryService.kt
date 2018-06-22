@@ -17,7 +17,7 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
 
     override fun create(categoryViewCreation: CategoryViewCreation, ownerName: String): Category {
         val account: Account = accountApi.getAccount(ownerName)
-        val parentCategory = findParentCategory(categoryViewCreation.parentId)
+        val parentCategory = findParentCategory(categoryViewCreation.parentId, ownerName)
         val category = Category(title = categoryViewCreation.title,
                 description = categoryViewCreation.description,
                 account = account,
@@ -25,9 +25,9 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
         return categoryRepository.insert(category)
     }
 
-    private fun findParentCategory(parentId: String?): Category? {
+    private fun findParentCategory(parentId: String?, name: String): Category? {
         return if (parentId != null) {
-            categoryRepository.findOne(parentId)
+            findCategoryById(parentId, name)
         } else {
             null
         }
