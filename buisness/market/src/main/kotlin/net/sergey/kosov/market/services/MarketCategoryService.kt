@@ -4,6 +4,8 @@ import net.sergey.kosov.common.exceptions.NotFoundException
 import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.domains.entity.Account
 import net.sergey.kosov.market.domains.entity.Category
+import net.sergey.kosov.market.domains.entity.Category._Category.ACCOUNT
+import net.sergey.kosov.market.domains.entity.Category._Category.ID
 import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.view.wrappers.CategoryViewCreation
 import net.sergey.kosov.market.repository.category.CategoryRepository
@@ -41,7 +43,7 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
 
     override fun findCategoryById(categoryId: String, name: String): Category {
         val account: Account = accountApi.getAccount(name)
-        val query = Query(Criteria.where("id").`is`(categoryId))
+        val query = Query(Criteria.where(ID).`is`(categoryId))
                 .addCriteria(getAvailableCategories(account))
         val categories = categoryRepository.findByQuery(query)
 
@@ -59,5 +61,5 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
     }
 
     private fun getAvailableCategories(account: Account) =
-            Criteria().orOperator(Criteria.where("account").`is`(account), Criteria.where("account").`is`(null))
+            Criteria().orOperator(Criteria.where(ACCOUNT).`is`(account), Criteria.where(ACCOUNT).`is`(null))
 }

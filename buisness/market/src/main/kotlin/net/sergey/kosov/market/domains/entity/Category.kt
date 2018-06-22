@@ -37,4 +37,13 @@ data class Category(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id
         }
 
     }
+
+    object _Category {
+        const val TITLE = "title"
+        const val ID = "id"
+        const val DESCRIPTION = "description"
+        const val PARENT = "parent"
+        const val ACCOUNT = "account"
+        const val CHARACTERISTICS = "characteristics"
+    }
 }
