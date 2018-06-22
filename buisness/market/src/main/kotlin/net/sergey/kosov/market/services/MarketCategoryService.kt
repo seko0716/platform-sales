@@ -42,7 +42,7 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
     override fun findCategoryById(categoryId: String, name: String): Category {
         val account: Account = accountApi.getAccount(name)
         val query = Query(Criteria.where("id").`is`(categoryId))
-                .addCriteria(Criteria().orOperator(Criteria.where("account").`is`(account), Criteria.where("account").`is`(null)))
+                .addCriteria(getAvailableCategories(account))
         val categories = categoryRepository.findByQuery(query)
 
         if (categories.size == 1) {
@@ -54,7 +54,10 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
 
     override fun getCategories(name: String): List<Category> {
         val account: Account = accountApi.getAccount(name)
-        val query = Query(Criteria.where("account").`is`(account).orOperator(Criteria.where("account").`is`(null)))
+        val query = Query(getAvailableCategories(account))
         return categoryRepository.findByQuery(query)
     }
+
+    private fun getAvailableCategories(account: Account) =
+            Criteria().orOperator(Criteria.where("account").`is`(account), Criteria.where("account").`is`(null))
 }
