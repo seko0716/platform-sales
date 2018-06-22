@@ -14,12 +14,14 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.ContextHierarchy
 import org.springframework.test.context.junit4.SpringRunner
 import java.math.BigDecimal
 
 @RunWith(SpringRunner::class)
+@ActiveProfiles("test")
 @ContextHierarchy(ContextConfiguration(classes = [ServiceConfig::class, ConfigurationFeign::class]))
 class TestProductService {
     @Autowired
