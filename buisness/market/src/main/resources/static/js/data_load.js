@@ -87,7 +87,7 @@ function createCategory() {
         data: JSON.stringify({title: "title", description: "description", parentId: "parentId"})
     }, function (category) {
         console.log(category)
-    }).fail(function () {
+    }).fail(function (error) {
         alert("error");
     });
 }
