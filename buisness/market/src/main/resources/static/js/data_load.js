@@ -57,6 +57,18 @@ function loadChart() {
     });
 }
 
+function searchProducts() {
+    var title = document.getElementById("search").value;
+    var pay = document.getElementById("pay").value.split(",");
+    var data = {priceLeft: pay[0], priceRight: pay[1], title: title};
+
+    post("/market/products", data, function (data) {
+        console.log(data);
+    }, function (error) {
+        alert("error");
+    });
+}
+
 function loadAvailableCategories() {
     $.get("/market/categories", function (categories) {
         console.log(categories)
@@ -73,4 +85,29 @@ function loadProductsByShop(shopName) {
     $.get("/market/products/market/" + shopName, function (products) {
         _fillProductList(products)
     })
+}
+
+function post(url, data, success, fail) {
+    request("post", url, data, success, fail)
+}
+
+function request(method, url, data, success, fail) {
+    function failDefault(error) {
+        console.log(error)
+    }
+
+    $.ajax({
+        method: method,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        url: url,
+        dataType: "json",
+        data: JSON.stringify(data)
+    }).fail(function (error) {
+        fail(error)
+    }).done(function (data) {
+        success(data)
+    });
 }
