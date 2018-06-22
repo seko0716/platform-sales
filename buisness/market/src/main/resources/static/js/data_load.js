@@ -51,3 +51,15 @@ function loadChart() {
         });
     });
 }
+
+function loadAvailableCategories() {
+    $.get("/market/categories", function (categories) {
+        console.log(categories)
+    })
+}
+
+function loadCategoryById(id) {
+    $.get("/market/category/" + id, function (category) {
+
+    })
+}
