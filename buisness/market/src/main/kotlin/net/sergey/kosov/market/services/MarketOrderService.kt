@@ -2,6 +2,7 @@ package net.sergey.kosov.market.services
 
 import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.domains.entity.Order
+import net.sergey.kosov.market.domains.entity.Order._Order
 import net.sergey.kosov.market.domains.entity.Status
 import net.sergey.kosov.market.domains.entity.Status.*
 import net.sergey.kosov.market.domains.view.wrappers.OrderFilter
@@ -48,9 +49,9 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
 
     override fun findOrders(filter: OrderFilter): List<Order> {
         val customer = accountApi.getUser(filter.customerName)
-        val query = Query(Criteria.where("customer").`is`(customer))
+        val query = Query(Criteria.where(_Order.CUSTOMER).`is`(customer))
         if (filter.status != null) {
-            query.addCriteria(Criteria.where("status").`is`(filter.status))
+            query.addCriteria(Criteria.where(_Order.STATUS).`is`(filter.status))
         }
         return orderRepository.findByQuery(query)
     }

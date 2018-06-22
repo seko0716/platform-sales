@@ -6,6 +6,7 @@ import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.domains.entity.Category
 import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.entity.Product
+import net.sergey.kosov.market.domains.entity.Product._Product
 import net.sergey.kosov.market.domains.view.wrappers.ProductFilter
 import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import net.sergey.kosov.market.repository.product.ProductRepository
@@ -23,7 +24,7 @@ class MarketProductService(private val productRepository: ProductRepository,
 
     override fun getProducts4Market(name: String): List<Product> {
         val account = getAccount(name)
-        return productRepository.findByQuery(getProductQuery().addCriteria(Criteria.where("account").`is`(account)))
+        return productRepository.findByQuery(getProductQuery().addCriteria(Criteria.where(_Product.ACCOUNT).`is`(account)))
     }
 
     override fun createProduct(productViewCreation: ProductViewCreation, name: String): Product {
@@ -74,11 +75,11 @@ class MarketProductService(private val productRepository: ProductRepository,
     override fun enabledProduct(id: String): Product = productRepository.save(findProductById(id).apply { enabled = true })
 
     override fun findProducts(filter: ProductFilter): List<Product> {
-        val betweenCriteria = Criteria.where("price").gte(filter.priceLeft)
-                .andOperator(Criteria.where("price").lte(filter.priceRight))
+        val betweenCriteria = Criteria().andOperator(Criteria.where(_Product.PRICE).gte(filter.priceLeft),
+                Criteria.where(_Product.PRICE).lte(filter.priceRight))
         val query = getProductQuery()
                 .addCriteria(betweenCriteria)
-                .addCriteria(Criteria.where("title").regex(filter.title))
+                .addCriteria(Criteria.where(_Product.TITLE).regex(filter.title))
         return productRepository.findByQuery(query)
     }
 
@@ -87,5 +88,5 @@ class MarketProductService(private val productRepository: ProductRepository,
         return productRepository.findByQuery(query)
     }
 
-    private fun getProductQuery() = Query(Criteria.where("enabled").`is`(true))
+    private fun getProductQuery() = Query(Criteria.where(_Product.ENABLED).`is`(true))
 }

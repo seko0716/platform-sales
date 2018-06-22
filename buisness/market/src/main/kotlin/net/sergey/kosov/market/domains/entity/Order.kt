@@ -23,4 +23,18 @@ data class Order(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: O
                  var status: Status = Status.CREATED,
                  var statusHistory: MutableList<Pair<Status, LocalDateTime>> = mutableListOf(status to createdTime),
                  var completedTime: LocalDateTime? = null,
-                 @JsonSerialize(using = ObjectIdSerializer::class) var messageThreadId: ObjectId? = null)
+                 @JsonSerialize(using = ObjectIdSerializer::class) var messageThreadId: ObjectId? = null) {
+    object _Order {
+        const val ID = "id"
+        const val product = "product"
+        const val TITLE = "title"
+        const val DESCRIPTION = "description"
+        const val COUNT = "count"
+        const val CUSTOMER = "customer"
+        const val CREATED_TIME = "createdTime"
+        const val STATUS = "status"
+        const val STATUS_HISTORY = "statusHistory"
+        const val COMPLETED_TIME = "completedTime"
+        const val MESSAGE_THREAD_ID = "messageThreadId"
+    }
+}
