@@ -1,16 +1,7 @@
 function createCategory() {
-    $.ajax({
-        method: "PUT",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        url: "/market/category",
-        dataType: "json",
-        data: JSON.stringify({title: "title", description: "description", parentId: "parentId"})
-    }, function (category) {
+    post("/market/category", {title: "title", description: "description", parentId: "parentId"}, function (category) {
         console.log(category)
-    }).fail(function (error) {
+    }, function (error) {
         alert("error");
     });
 }
