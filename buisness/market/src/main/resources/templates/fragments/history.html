@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+
+<body>
+
+<!-- /.container -->
+<div th:fragment="history">
+    <script type="text/javascript" src="/market/js/mustache.min.js"></script>
+    <script src="/market/js/jquery.js"></script>
+    <script src="/market/js/data_load.js"></script>
+    <p class="lead" id="history_label">Раньше смотрели</p>
+    <div class="row" id="history">
+        <!--<div class="col-md-6">
+            <div class="thumbnail">
+                <img src="http://placehold.it/320x150" alt="">
+                <div class="caption">
+                    <h4><a href="#">First Product</a>
+                    </h4>
+                </div>
+            </div>
+        </div>-->
+    </div>
+    <script>
+        loadChart();
+    </script>
+</div>
+
+
+</body>
+
+</html>

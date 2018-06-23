@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
 
 <head>
 
@@ -69,54 +69,7 @@
     <div class="row">
 
         <div class="col-md-3">
-            <p class="lead" id="history_label">Раньше смотрели</p>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div th:replace="fragments/history :: history"></div>
         </div>
 
         <div class="col-md-9">
@@ -175,28 +128,6 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="/market/js/bootstrap.min.js"></script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
-<script>
-
-
-    var slider = new Slider("#pay", {
-        min: 0,
-        max: 100,
-        value: [50, 80],
-        range: true,
-        tooltip: 'always'
-    });
-
-    var sliderStarts = new Slider("#satrs", {
-        min: 1,
-        max: 5,
-        value: [1, 5],
-        range: true,
-        tooltip: 'always'
-    });
-</script>
 
 <script>
     function insertOption() {

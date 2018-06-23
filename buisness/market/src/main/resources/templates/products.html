@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
 
 <head>
 
@@ -68,32 +68,8 @@
     <div class="row">
 
         <div class="col-md-3">
-            <p class="lead">Фильтры</p>
-            <div class="list-group">
-                <div>
-                    <label for="pay">Цена</label>
-                    <br>
-                    <input id="pay" type="text"/>
-                </div>
-                <div>
-                    <label for="satrs">Рейтинг</label>
-                    <br>
-                    <input id="satrs" type="text"/>
-                </div>
-            </div>
-
-            <p class="lead" id="history_label">Раньше смотрели</p>
-            <div class="row" id="history">
-                <!--<div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>-->
-            </div>
+            <div th:replace="fragments/filter :: filter"></div>
+            <div th:replace="fragments/history :: history"></div>
         </div>
 
         <div class="col-md-9">
@@ -106,33 +82,7 @@
                 </div><!-- /input-group -->
             </div>
 
-            <div class="row" id="products">
-
-                <!--<div class="col-sm-4 col-lg-4 col-md-4">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4 class="pull-right">$24.99</h4>
-                            <h4><a style="white-space: normal" href="#">First Product</a>
-                            </h4>
-                            <p>See more snippets like this online store item at <a target="_blank"
-                                                                                   href="http://www.bootsnipp.com">Bootsnipp
-                                - http://bootsnipp.com</a>.</p>
-                        </div>
-                        <div class="ratings">
-                            <p class="pull-right">15 reviews</p>
-                            <p>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>-->
-
-            </div>
+            <div th:replace="fragments/product_list :: products"></div>
 
         </div>
 
@@ -164,33 +114,11 @@
 <script src="/market/js/bootstrap.min.js"></script>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
-
 <!-- dataload -->
 <script type="text/javascript" src="/market/js/mustache.min.js"></script>
 <script src="/market/js/utils.js"></script>
 <script src="/market/js/data_load.js"></script>
-<script>
-    loadProducts();
-    loadChart();
 
-
-    var slider = new Slider("#pay", {
-        min: 0,
-        max: 100,
-        value: [50, 80],
-        range: true,
-        tooltip: 'always'
-    });
-
-    var sliderStarts = new Slider("#satrs", {
-        min: 1,
-        max: 5,
-        value: [1, 5],
-        range: true,
-        tooltip: 'always'
-    });
-</script>
 
 </body>
 

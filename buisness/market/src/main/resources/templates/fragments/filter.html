@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+
+
+<body>
+
+<!-- /.container -->
+<div th:fragment="filter">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
+    <p class="lead">Фильтры</p>
+    <div class="list-group">
+        <div>
+            <label for="pay">Цена</label>
+            <br>
+            <input id="pay" type="text"/>
+        </div>
+        <div>
+            <label for="satrs">Рейтинг</label>
+            <br>
+            <input id="satrs" type="text"/>
+        </div>
+    </div>
+    <script>
+
+        var slider = new Slider("#pay", {
+            min: 0,
+            max: 100,
+            value: [50, 80],
+            range: true,
+            tooltip: 'always'
+        });
+
+        var sliderStarts = new Slider("#satrs", {
+            min: 1,
+            max: 5,
+            value: [1, 5],
+            range: true,
+            tooltip: 'always'
+        });
+    </script>
+</div>
+
+</body>
+
+</html>
