@@ -69,6 +69,42 @@ function searchProducts() {
     });
 }
 
+function getElement(id) {
+    return document.getElementById(id);
+}
+
+function loadProduct() {
+    var productId = getId();
+
+    $.get("/market/product/" + productId, function (product) {
+        console.log(product);
+
+        getElement("product-title").innerText = product.title;
+        getElement("product-desc").innerText = product.description;
+        getElement("product-price").innerText = product.price;
+        getElement("product-shop").innerText = product.account.marketName;
+
+
+        getElement("product-info").innerHTML = product.productInfo;
+        var template = "<table class=\"table table-striped\">" +
+            "    <thead>" +
+            "    <tr>" +
+            "        <th scope=\"col\">Title</th>" +
+            "        <th scope=\"col\">Value</th>" +
+            "    </tr>" +
+            "    </thead>" +
+            "    <tbody>" +
+            "    {{#.}}<tr>" +
+            "        <td>{{name}}</td>" +
+            "        <td>{{value}}</td>" +
+            "    </tr> {{/.}}" +
+            "    </tbody>" +
+            "</table>";
+
+        _fillData(template, product.characteristic, "#characteristics");
+    })
+}
+
 function loadAvailableCategories() {
     $.get("/market/categories", function (categories) {
         console.log(categories)

@@ -52,7 +52,7 @@ class TestOrderService {
         Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", "22")
 
 
-        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO)
+        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.")
         val goods = productService.createProduct(productViewCreation, "1")
         val order: Order = orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = "1")
         orderId = order.id.toString()
@@ -61,7 +61,7 @@ class TestOrderService {
 
     @Test
     fun createNewOrder() {
-        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO)
+        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.")
         val currentUser = User("2", "3")
         val goods = productService.createProduct(productViewCreation, currentUser.name)
         val order: Order = orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = currentUser.name)
@@ -95,7 +95,7 @@ class TestOrderService {
     fun getOrders() {
         val currentUser = User("22", "3")
         val ordersExp = (0..10).mapTo(ArrayList()) {
-            val productViewCreation = ProductViewCreation(title = "name!!$it", description = "description!!$it", categoryId = "", price = BigDecimal.ZERO)
+            val productViewCreation = ProductViewCreation(title = "name!!$it", description = "description!!$it", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.")
             val goods = productService.createProduct(productViewCreation, currentUser.name)
             orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = currentUser.name)
         }

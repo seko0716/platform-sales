@@ -30,3 +30,7 @@ function request(method, url, data, success, fail) {
         success(data)
     });
 }
+
+function getId() {
+    return window.location.href.split("/").slice(-1)[0]
+}

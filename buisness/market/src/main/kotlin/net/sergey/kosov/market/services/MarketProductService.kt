@@ -35,6 +35,7 @@ class MarketProductService(private val productRepository: ProductRepository,
         val products = Product(title = productViewCreation.title,
                 description = productViewCreation.description,
                 account = account,
+                productInfo = productViewCreation.productInfo,
                 price = productViewCreation.price,
                 category = category,
                 tags = tags)

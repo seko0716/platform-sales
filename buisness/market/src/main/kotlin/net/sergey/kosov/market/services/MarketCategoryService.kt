@@ -23,6 +23,7 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
         val category = Category(title = categoryViewCreation.title,
                 description = categoryViewCreation.description,
                 account = account,
+                characteristics = categoryViewCreation.characteristics,
                 parent = parentCategory)
         return categoryRepository.insert(category)
     }

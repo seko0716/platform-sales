@@ -11,7 +11,7 @@ class ViewController {
         return "products"
     }
 
-    @GetMapping("/view/product")
+    @GetMapping("/view/product/*")
     fun product(): String {
         return "product"
     }
@@ -26,7 +26,7 @@ class ViewController {
         return "create_product"
     }
 
-    @GetMapping("/view/shop")
+    @GetMapping("/view/shop/*")
     fun shop(): String {
         return "shop"
     }

@@ -24,6 +24,7 @@ data class Product(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id:
                    var category: Category,
                    var characteristic: List<Characteristic> = category.characteristics,
                    var tags: List<String> = listOf(),
+                   var productInfo: String = "",
                    @Indexed(name = "product_enabled")
                    var enabled: Boolean = false) {
     object _Product {
@@ -37,6 +38,7 @@ data class Product(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id:
         const val CHARACTERISTIC = "characteristic"
         const val TAGS = "tags"
         const val ENABLED = "enabled"
+        const val PRODUCT_INFO = "productInfo"
     }
 }
 

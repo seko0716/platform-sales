@@ -42,7 +42,7 @@ class TestProductService {
 
         goodsChartIds = (1..10).mapTo(ArrayList()) {
             productService.createProduct(
-                    ProductViewCreation(title = "name!!$it", description = "description!!", categoryId = "", price = BigDecimal.ZERO),
+                    ProductViewCreation(title = "name!!$it", description = "description!!", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button."),
                     "1").id.toString()
         }
         Mockito.doReturn(goodsChartIds).`when`(statisticService).getChart("name", 100)
@@ -50,7 +50,7 @@ class TestProductService {
 
     @Test
     fun findGoodsById() {
-        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO)
+        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.")
         val goodsCreated = productService.createProduct(productViewCreation, "1")
         val product: Product = productService.findProductById(id = goodsCreated.id.toString())
         Assert.assertEquals(goodsCreated.id, product.id)
@@ -64,7 +64,7 @@ class TestProductService {
 
     @Test
     fun disabledGoods() {
-        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO)
+        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.")
         val goodsCreated = productService.createProduct(productViewCreation, "1")
         val disabledGoods = productService.disabledProduct(goodsCreated.id.toString())
         Assert.assertEquals(goodsCreated.id, disabledGoods.id)
@@ -73,7 +73,7 @@ class TestProductService {
 
     @Test
     fun enabledGoods() {
-        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", categoryId = "", price = BigDecimal.ZERO)
+        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.")
         val goodsCreated = productService.createProduct(productViewCreation, "1")
         val enabledGoods = productService.enabledProduct(goodsCreated.id.toString())
         Assert.assertEquals(goodsCreated.id, enabledGoods.id)
