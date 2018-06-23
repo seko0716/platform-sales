@@ -63,9 +63,9 @@ function searchProducts() {
     var data = {priceLeft: pay[0], priceRight: pay[1], title: title};
 
     post("/market/products", data, function (data) {
-        console.log(data);
+        _fillProductList(data)
     }, function (error) {
-        alert("error");
+        console.log(error)
     });
 }
 
