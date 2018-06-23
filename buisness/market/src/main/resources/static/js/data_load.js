@@ -11,7 +11,7 @@ function _fillProductList(products) {
         "<img alt=\"\" src=\"http://placehold.it/320x150\">" +
         "<div class=\"caption\">" +
         "<h4 class=\"pull-right\">{{price}}</h4>" +
-        "<h4><a href=\"/market/view/product/{{id}}\">{{title}}</a></h4>" +
+        "<h4><a style=\"white-space: normal\" href=\"/market/view/product/{{id}}\">{{title}}</a></h4>" +
         "<p>{{description}}</p>" +
         "</div>" +
         "<div class=\"ratings\">" +
@@ -43,10 +43,9 @@ function loadChart() {
             "{{#.}}<a href=\"/market/view/product/{{id}}\"><div class=\"col-md-6\">" +
             "  <div class=\"thumbnail\">" +
             "    <img src=\"http://placehold.it/320x150\" alt=\"\">" +
-            "    <div class=\"caption\">" +
-            "      <h4>{{title}}" +
-            "      </h4>" +
-            "    </div>" +
+            // "    <div class=\"caption\">" +
+            // "      <h4>{{title}}</h4>" +
+            // "    </div>" +
             "  </div>" +
             "</div></a>{{/.}}";
 
