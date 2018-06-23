@@ -142,13 +142,15 @@ function fillCharacteristic() {
     _fillData(template, characteristics, "#characteristics")
 }
 
-function loadCategoryById(id) {
+function loadCategoryById() {
+    var id = getId()
     $.get("/market/category/" + id, function (category) {
 
     })
 }
 
-function loadProductsByShop(shopName) {
+function loadProductsByShop() {
+    var shopName = getId();
     $.get("/market/products/market/" + shopName, function (products) {
         _fillProductList(products)
     })
