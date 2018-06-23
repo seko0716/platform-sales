@@ -38,6 +38,7 @@ class MarketProductService(private val productRepository: ProductRepository,
                 productInfo = productViewCreation.productInfo,
                 price = productViewCreation.price,
                 category = category,
+                characteristic = productViewCreation.characteristics,
                 tags = tags)
         return productRepository.save(products)
     }

@@ -121,9 +121,25 @@ function loadAvailableCategories() {
     $.get("/market/categories", function (categories) {
         categoriesStorage = categories;
 
-        var template = "{{#.}}<option value=\"{{id}}\">{{title}}</option>{{/.}}";
-        _fillData(template, categories, "#parent_category");
+        var template = "<option selected disabled>select category</option>" +
+            "{{#.}}<option value=\"{{id}}\">{{title}}</option>{{/.}}";
+        _fillData(template, categories, "#categories");
+        console.log(categoriesStorage)
     })
+}
+
+function fillCharacteristic() {
+    var categoryId = getElement("categories").value;
+    var category = categoriesStorage.filter(function (it) {
+        return it.id === categoryId;
+    });
+    var characteristics = getCharacteristics(category[0]);
+
+    var template = "{{#.}}<label class=\"col-sm-2 col-form-label\">{{name}}</label>\n" +
+        "<div class=\"col-sm-10\">\n" +
+        "    <input type=\"text\" id='{{name}}' class=\"form-control characteristic\">\n" +
+        "</div>{{/.}}";
+    _fillData(template, characteristics, "#characteristics")
 }
 
 function loadCategoryById(id) {
