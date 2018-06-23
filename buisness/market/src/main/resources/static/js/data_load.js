@@ -104,9 +104,25 @@ function loadProduct() {
     })
 }
 
+
+function getCharacteristics(category, characteristics = []) {
+    if (category.parent) {
+        getCharacteristics(category.parent, characteristics)
+    }
+    category.characteristics.forEach(function (value) {
+        characteristics.push(value);
+    });
+    return characteristics;
+}
+
+var categoriesStorage;
+
 function loadAvailableCategories() {
     $.get("/market/categories", function (categories) {
-        console.log(categories)
+        categoriesStorage = categories;
+
+        var template = "{{#.}}<option value=\"{{id}}\">{{title}}</option>{{/.}}";
+        _fillData(template, categories, "#parent_category");
     })
 }
 

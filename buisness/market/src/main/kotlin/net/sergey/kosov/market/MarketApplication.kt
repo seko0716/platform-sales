@@ -29,6 +29,8 @@ class MarketApplication(var productService: ProductService,
                         Characteristic(name = "ports")
                 ))
         val create = categoryService.create(categoryViewCreation, "test")
+        categoryViewCreation.parentId = create.id.toString()
+        val create2 = categoryService.create(categoryViewCreation, "test")
 
         (1..200).forEach {
             val id = productService.createProduct(
