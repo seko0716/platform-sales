@@ -10,7 +10,7 @@ function _fillProductList(products) {
         "<div class=\"thumbnail\">" +
         "<img alt=\"\" src=\"http://placehold.it/320x150\">" +
         "<div class=\"caption\">" +
-        "<h4 class=\"pull-right\">{{price}}</h4>" +
+        "<h4 class=\"pull-right\">$ {{price}}</h4>" +
         "<h4><a style=\"white-space: normal\" href=\"/market/view/product/{{id}}\">{{title}}</a></h4>" +
         "<p>{{description}}</p>" +
         "</div>" +
@@ -80,7 +80,7 @@ function loadProduct() {
 
         getElement("product-title").innerText = product.title;
         getElement("product-desc").innerText = product.description;
-        getElement("product-price").innerText = product.price;
+        getElement("product-price").innerText = '$ ' + product.price;
         getElement("product-shop").innerText = product.account.marketName;
 
 
