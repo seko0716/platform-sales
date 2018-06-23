@@ -1,6 +1,5 @@
 package net.sergey.kosov.market.controllers.api
 
-import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.entity.Product
 import net.sergey.kosov.market.domains.view.wrappers.ProductFilter
 import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
@@ -57,8 +56,8 @@ class ProductController(val productService: ProductService) {
         return productService.findProducts(filter)
     }
 
-    @PostMapping("/product/{id}/characteristic")
-    fun setCharacteristic(@RequestBody characteristics: List<Characteristic>, @PathVariable("id") id: String): Product {
-        return productService.setCharacteristic(characteristics, id)
-    }
+//    @PostMapping("/product/{id}/characteristic")
+//    fun setCharacteristic(@RequestBody characteristics: List<Characteristic>, @PathVariable("id") id: String): Product {
+//        return productService.setCharacteristic(characteristics, id)
+//    }
 }
