@@ -6,10 +6,10 @@ import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 
 interface OrderService {
     fun create(orderViewCreation: OrderViewCreation, customerName: String): Order
-    fun findOrder(orderId: String): Order
-    fun processOrder(orderId: String): Order
-    fun completeOrder(orderId: String): Order
-    fun cancelOrder(orderId: String): Order
+    fun findOrder(orderId: String, name: String): Order
+    fun processOrder(orderId: String, name: String): Order
+    fun completeOrder(orderId: String, name: String): Order
+    fun cancelOrder(orderId: String, name: String): Order
     fun findOrders(filter: OrderFilter): List<Order>
     fun getOrders(customerName: String): List<Order>
 }

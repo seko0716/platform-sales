@@ -72,22 +72,22 @@ class TestOrderService {
     @Test
     fun processOrder() {//после оплаты
         val order: Order = orderService.findOrder(orderId = orderId)
-        val processedOrder = orderService.processOrder(orderId = order.id.toString())
+        val processedOrder = orderService.processOrder(orderId = order.id.toString(), name = principal.name)
         Assert.assertEquals(Status.PROCESSING, processedOrder.status)
     }
 
     @Test
     fun completeOrder() {//после оплаты
         val order: Order = orderService.findOrder(orderId = orderId)
-        val processedOrder = orderService.processOrder(orderId = order.id.toString())
-        val completedOrder = orderService.completeOrder(orderId = processedOrder.id.toString())
+        val processedOrder = orderService.processOrder(orderId = order.id.toString(), name = principal.name)
+        val completedOrder = orderService.completeOrder(orderId = processedOrder.id.toString(), name = principal.name)
         Assert.assertEquals(Status.COMPLETED, completedOrder.status)
     }
 
     @Test
     fun cancelOrder() {//после оплаты
         val order: Order = orderService.findOrder(orderId = orderId)
-        val canceledOrder: Order = orderService.cancelOrder(orderId = order.id.toString())
+        val canceledOrder: Order = orderService.cancelOrder(orderId = order.id.toString(), name = principal.name)
         Assert.assertEquals(Status.CANCELED, canceledOrder.status)
     }
 

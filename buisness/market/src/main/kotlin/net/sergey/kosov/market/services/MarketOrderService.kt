@@ -1,8 +1,10 @@
 package net.sergey.kosov.market.services
 
+import net.sergey.kosov.common.exceptions.NotFoundException
 import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.domains.entity.Order
 import net.sergey.kosov.market.domains.entity.Order._Order
+import net.sergey.kosov.market.domains.entity.Product
 import net.sergey.kosov.market.domains.entity.Status
 import net.sergey.kosov.market.domains.entity.Status.*
 import net.sergey.kosov.market.domains.view.wrappers.OrderFilter
@@ -30,31 +32,41 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
 
     override fun getOrders(customerName: String): List<Order> {
         val customer = accountApi.getUser(customerName)
-        return orderRepository.findByQuery(Query.query(Criteria.where(_Order.CUSTOMER).`is`(customer)))
+        return orderRepository.findByQuery(getQueryOrder().addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
     }
 
-    override fun findOrder(orderId: String): Order {
-        return orderRepository.findOne(orderId)
+    override fun findOrder(orderId: String, name: String): Order {
+        val customer = accountApi.getUser(name)
+        val account = accountApi.getAccount(name)
+        val findByQuery = orderRepository.findByQuery(getQueryOrder()
+                .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
+                .addCriteria(Criteria().orOperator(
+                        Criteria.where(_Order.CUSTOMER).`is`(customer),
+                        Criteria.where("${_Order.product}.${Product._Product.ACCOUNT}").`is`(account))))
+        if (findByQuery.size != 1) {
+            throw NotFoundException("Can Not Found Order By id = $orderId")
+        }
+        return findByQuery.first()
     }
 
-    override fun processOrder(orderId: String): Order {
-        val order = findOrder(orderId)
+    override fun processOrder(orderId: String, name: String): Order {
+        val order = findOrder(orderId, name)
         return orderRepository.save(changeStatus(order, PROCESSING))
     }
 
-    override fun completeOrder(orderId: String): Order {
-        val order = findOrder(orderId)
+    override fun completeOrder(orderId: String, name: String): Order {
+        val order = findOrder(orderId, name)
         return orderRepository.save(changeStatus(order, COMPLETED))
     }
 
-    override fun cancelOrder(orderId: String): Order {
-        val order = findOrder(orderId)
+    override fun cancelOrder(orderId: String, name: String): Order {
+        val order = findOrder(orderId, name)
         return orderRepository.save(changeStatus(order, CANCELED))
     }
 
     override fun findOrders(filter: OrderFilter): List<Order> {
         val customer = accountApi.getUser(filter.customerName)
-        val query = Query(Criteria.where(_Order.CUSTOMER).`is`(customer))
+        val query = getQueryOrder().addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer))
         if (filter.status != null) {
             query.addCriteria(Criteria.where(_Order.STATUS).`is`(filter.status))
         }
@@ -90,5 +102,9 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
             this.status = status
             this.statusHistory.add(Pair(status, LocalDateTime.now()))
         }
+    }
+
+    private fun getQueryOrder(): Query {
+        return Query.query(Criteria.where(_Order.STATUS).ne(Status.IN_A_CART))
     }
 }

@@ -13,11 +13,8 @@ class AccountApiImpl : AccountApi {
         return User(name = username, family = "family")
     }
 
-    var account: Account? = null
+
     override fun getAccount(name: String): Account {
-        if (account == null) {
-            account = Account(marketName = name, description = "")
-        }
-        return account!!
+        return Account(marketName = name, description = "")
     }
 }
