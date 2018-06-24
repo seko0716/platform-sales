@@ -7,7 +7,6 @@ import net.sergey.kosov.market.domains.entity.Order._Order
 import net.sergey.kosov.market.domains.entity.Product
 import net.sergey.kosov.market.domains.entity.Status
 import net.sergey.kosov.market.domains.entity.Status.*
-import net.sergey.kosov.market.domains.view.wrappers.OrderFilter
 import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 import net.sergey.kosov.market.repository.order.OrderRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -62,15 +61,6 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
     override fun cancelOrder(orderId: String, name: String): Order {
         val order = findOrder(orderId, name)
         return orderRepository.save(changeStatus(order, CANCELED))
-    }
-
-    override fun findOrders(filter: OrderFilter): List<Order> {
-        val customer = accountApi.getUser(filter.customerName)
-        val query = getQueryOrder().addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer))
-        if (filter.status != null) {
-            query.addCriteria(Criteria.where(_Order.STATUS).`is`(filter.status))
-        }
-        return orderRepository.findByQuery(query)
     }
 
     private fun changeStatus(order: Order, status: Status): Order {

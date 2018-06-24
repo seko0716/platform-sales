@@ -3,7 +3,6 @@ package net.sergey.kosov.market.services
 import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.configuration.ConfigurationFeign
 import net.sergey.kosov.market.domains.entity.*
-import net.sergey.kosov.market.domains.view.wrappers.OrderFilter
 import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import org.bson.types.ObjectId
@@ -65,43 +64,29 @@ class TestOrderService {
         val currentUser = User("2", "3")
         val goods = productService.createProduct(productViewCreation, currentUser.name)
         val order: Order = orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = currentUser.name)
-        Assert.assertEquals(order, orderService.findOrder(order.id.toString()))
+        Assert.assertEquals(order, orderService.findOrder(order.id.toString(), name = "1"))
         Assert.assertEquals(Status.CREATED, order.status)
     }
 
     @Test
     fun processOrder() {//после оплаты
-        val order: Order = orderService.findOrder(orderId = orderId)
-        val processedOrder = orderService.processOrder(orderId = order.id.toString(), name = principal.name)
+        val order: Order = orderService.findOrder(orderId = orderId, name = "1")
+        val processedOrder = orderService.processOrder(orderId = order.id.toString(), name = "1")
         Assert.assertEquals(Status.PROCESSING, processedOrder.status)
     }
 
     @Test
     fun completeOrder() {//после оплаты
-        val order: Order = orderService.findOrder(orderId = orderId)
-        val processedOrder = orderService.processOrder(orderId = order.id.toString(), name = principal.name)
-        val completedOrder = orderService.completeOrder(orderId = processedOrder.id.toString(), name = principal.name)
+        val order: Order = orderService.findOrder(orderId = orderId, name = "1")
+        val processedOrder = orderService.processOrder(orderId = order.id.toString(), name = "1")
+        val completedOrder = orderService.completeOrder(orderId = processedOrder.id.toString(), name = "1")
         Assert.assertEquals(Status.COMPLETED, completedOrder.status)
     }
 
     @Test
     fun cancelOrder() {//после оплаты
-        val order: Order = orderService.findOrder(orderId = orderId)
-        val canceledOrder: Order = orderService.cancelOrder(orderId = order.id.toString(), name = principal.name)
+        val order: Order = orderService.findOrder(orderId = orderId, name = "1")
+        val canceledOrder: Order = orderService.cancelOrder(orderId = order.id.toString(), name = "1")
         Assert.assertEquals(Status.CANCELED, canceledOrder.status)
-    }
-
-    @Test
-    fun getOrders() {
-        val currentUser = User("22", "3")
-        val ordersExp = (0..10).mapTo(ArrayList()) {
-            val productViewCreation = ProductViewCreation(title = "name!!$it", description = "description!!$it", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.")
-            val goods = productService.createProduct(productViewCreation, currentUser.name)
-            orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = currentUser.name)
-        }
-
-        val orders: List<Order> = orderService.findOrders(OrderFilter(customerName = currentUser.name, status = Status.CREATED))
-        Assert.assertEquals(ordersExp.size, orders.size)
-        Assert.assertEquals(ordersExp, orders)
     }
 }
