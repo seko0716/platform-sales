@@ -11,4 +11,5 @@ interface OrderService {
     fun completeOrder(orderId: String): Order
     fun cancelOrder(orderId: String): Order
     fun findOrders(filter: OrderFilter): List<Order>
+    fun getOrders(customerName: String): List<Order>
 }

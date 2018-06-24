@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 @Component
 class AccountApiImpl : AccountApi {
     override fun getUser(username: String): User {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return User(name = username, family = "family")
     }
 
     var account: Account? = null

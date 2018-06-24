@@ -135,9 +135,9 @@ function fillCharacteristic() {
     });
     var characteristics = getCharacteristics(category[0]);
 
-    var template = "{{#.}}<label class=\"col-sm-2 col-form-label\">{{name}}</label>\n" +
-        "<div class=\"col-sm-10\">\n" +
-        "    <input type=\"text\" id='{{name}}' class=\"form-control characteristic\">\n" +
+    var template = "{{#.}}<label class=\"col-sm-2 col-form-label\">{{name}}</label>" +
+        "<div class=\"col-sm-10\">" +
+        "    <input type=\"text\" id='{{name}}' class=\"form-control characteristic\">" +
         "</div>{{/.}}";
     _fillData(template, characteristics, "#characteristics")
 }
@@ -155,3 +155,94 @@ function loadProductsByShop() {
         _fillProductList(products)
     })
 }
+
+function loadOrders() {
+    $.get("/market/orders", function (orders) {
+        orders.forEach(function (value) {
+            if (value.status === "CREATED") {
+                value.created = true;
+            } else if (value.status === "PROCESSING") {
+                value.processing = true
+            } else if (value.status === "COMPLETED") {
+                value.completed = true
+            } else if (value.status === "CANCELED") {
+                value.canceled = true
+            }
+        });
+        console.log(orders);
+
+        var template = "<table class=\"table table-sm\">" +
+            "<thead>" +
+            "<tr>" +
+            "    <th>CREATED</th>" +
+            "    <th>PROCESSING</th>" +
+            "    <th>COMPLETED</th>" +
+            "    <th>CANCELED</th>" +
+            "    <th>|||</th>" +
+            "</tr>" +
+            "</thead>" +
+            "<tbody>" +
+            "{{#.}}<tr>" +
+            "    <td class=\"warning\"><a href='/market/view/order/{{id}}'>{{#created}}{{title}}{{/created}}</a></td>" +
+            "    <td class=\"info\"><a href='/market/view/order/{{id}}'>{{#processing}}{{title}}{{/processing}}</a></td>" +
+            "    <td class=\"success\"><a href='/market/view/order/{{id}}'>{{#completed}}{{title}}{{/completed}}</a></td>" +
+            "    <td class=\"active\"><a href='/market/view/order/{{id}}'>{{#canceled}}{{title}}{{/canceled}}</a></td>" +
+            "    <td>" +
+            "        <button onclick='cancelOrder(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
+            "            <span class=\"glyphicon glyphicon-trash\"></span>" +
+            "        </button>" +
+            "        {{#completed}}<button onclick='deleteOrder(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
+            "            <span class=\"glyphicon glyphicon-ban-circle\"></span>" +
+            "        </button>{{/completed}}" +
+            "        {{#canceled}}<button onclick='deleteOrder(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
+            "            <span class=\"glyphicon glyphicon-ban-circle\"></span>" +
+            "        </button>{{/canceled}}" +
+            "    </td>" +
+            "</tr>{{/.}}" +
+            "</tbody>" +
+            "</table>";
+        _fillData(template, orders, "#orders")
+    })
+}
+
+function cancelOrder(id) {
+    console.log("cancel " + id);
+    loadOrders();
+}
+
+function deleteOrder(id) {
+    console.log("delete " + id);
+    loadOrders();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

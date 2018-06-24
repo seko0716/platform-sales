@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
 
 <head>
 
@@ -69,163 +69,13 @@
 
         <div class="col-md-3">
 
-            <p class="lead">Раньше смотрели</p>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div th:replace="fragments/history :: history"></div>
         </div>
 
         <div class="col-md-9">
 
-            <div class="row">
-                <table class="table table-sm">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>CREATED</th>
-                        <th>PROCESSING</th>
-                        <th>COMPLETED</th>
-                        <th>CANCELED</th>
-                        <th>|||</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td class="warning">Order 1</td>
-                        <td class="info"></td>
-                        <td class="success"></td>
-                        <td class="active"></td>
-                        <td>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td class="warning"></td>
-                        <td class="info"></td>
-                        <td class="success"></td>
-                        <td class="active">Order 2</td>
-                        <td>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td class="warning"></td>
-                        <td class="info">Order 8</td>
-                        <td class="success"></td>
-                        <td class="active"></td>
-                        <td>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td class="warning"></td>
-                        <td class="info"></td>
-                        <td class="success"></td>
-                        <td class="active">Order 3</td>
-                        <td>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td class="warning"></td>
-                        <td class="info"></td>
-                        <td class="success">Order 32</td>
-                        <td class="active"></td>
-                        <td>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td class="warning"></td>
-                        <td class="info"></td>
-                        <td class="success">Order 34</td>
-                        <td class="active"></td>
-                        <td>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="row" id="orders">
+
             </div>
 
         </div>
@@ -252,9 +102,16 @@
 
 <!-- jQuery -->
 <script src="/market/js/jquery.js"></script>
+<script type="text/javascript" src="/market/js/mustache.min.js"></script>
+<script src="/market/js/data_load.js"></script>
+<script src="/market/js/utils.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="/market/js/bootstrap.min.js"></script>
+
+<script>
+    loadOrders()
+</script>
 
 </body>
 

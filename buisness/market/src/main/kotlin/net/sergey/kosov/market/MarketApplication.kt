@@ -2,8 +2,10 @@ package net.sergey.kosov.market
 
 import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.view.wrappers.CategoryViewCreation
+import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import net.sergey.kosov.market.services.CategoryService
+import net.sergey.kosov.market.services.OrderService
 import net.sergey.kosov.market.services.ProductService
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -16,7 +18,8 @@ import javax.annotation.PostConstruct
 //@EnableResourceServer //todo revert for oAuth. comment for base64
 @SpringBootApplication
 class MarketApplication(var productService: ProductService,
-                        var categoryService: CategoryService) {
+                        var categoryService: CategoryService,
+                        var orderService: OrderService) {
     @PostConstruct
     fun init() {
         val categoryViewCreation = CategoryViewCreation(title = "category",
@@ -41,6 +44,24 @@ class MarketApplication(var productService: ProductService,
                             price = BigDecimal.valueOf(1234.00 + it)),
                     "test").id.toString()
             productService.enabledProduct(id)
+            if (it % 10 == 0) {
+                orderService.create(OrderViewCreation(id), "user")
+            }
+            if (it % 5 == 0) {
+                val order = orderService.create(OrderViewCreation(id), "user")
+                orderService.processOrder(orderId = order.id.toString())
+            }
+            if (it % 7 == 0) {
+                val order = orderService.create(OrderViewCreation(id), "user")
+                orderService.processOrder(orderId = order.id.toString())
+                orderService.completeOrder(orderId = order.id.toString())
+            }
+            if (it % 9 == 0) {
+                val order = orderService.create(OrderViewCreation(id), "user")
+                orderService.processOrder(orderId = order.id.toString())
+//                orderService.completeOrder(orderId = order.id.toString())
+                orderService.cancelOrder(orderId = order.id.toString())
+            }
         }
 
     }

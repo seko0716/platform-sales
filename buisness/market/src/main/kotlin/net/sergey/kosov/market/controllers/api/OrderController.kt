@@ -15,6 +15,11 @@ class OrderController(val orderService: OrderService) {
         return orderService.create(orderViewCreation = orderViewCreation, customerName = principal.name)
     }
 
+    @GetMapping("/orders")
+    fun getOrders(principal: Principal): List<Order> {
+        return orderService.getOrders(customerName = principal.name)
+    }
+
     @GetMapping("/order/{orderId}")
     fun findOrder(@PathVariable("orderId") orderId: String): Order {
         return orderService.findOrder(orderId)

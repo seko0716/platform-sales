@@ -36,7 +36,7 @@ class ViewController {
         return "cart"
     }
 
-    @GetMapping("/view/order")
+    @GetMapping("/view/order/*")
     fun order(): String {
         return "order"
     }

@@ -28,6 +28,11 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         return orderRepository.insert(Order(product = product, count = orderViewCreation.count, customer = customer))
     }
 
+    override fun getOrders(customerName: String): List<Order> {
+        val customer = accountApi.getUser(customerName)
+        return orderRepository.findByQuery(Query.query(Criteria.where(_Order.CUSTOMER).`is`(customer)))
+    }
+
     override fun findOrder(orderId: String): Order {
         return orderRepository.findOne(orderId)
     }
