@@ -23,10 +23,36 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
     private val completeStatuses = listOf(PROCESSING)
     private val processStatuses = listOf(CREATED)
 
+    override fun createOrderCart(productId: String, name: String): Order {
+        val order = createOrder(name, productId, 1)
+        return orderRepository.insert(order)
+    }
+
+    override fun updateOrderCart(orderId: String, count: Int, name: String): Order {
+        val customer = accountApi.getUser(name)
+        val account = accountApi.getAccount(name)
+        val findByQuery = orderRepository.findByQuery(Query(Criteria.where(_Order.STATUS).`is`(Status.IN_A_CART))
+                .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
+                .addCriteria(Criteria().orOperator(
+                        Criteria.where(_Order.CUSTOMER).`is`(customer),
+                        Criteria.where("${_Order.product}.${Product._Product.ACCOUNT}").`is`(account))))
+        if (findByQuery.size != 1) {
+            throw NotFoundException("Can Not Found Order By id = $orderId")
+        }
+        val order = findByQuery.first()
+        order.count = count
+        return orderRepository.save(order)
+    }
+
     override fun create(orderViewCreation: OrderViewCreation, customerName: String): Order {
+        val order = createOrder(customerName, orderViewCreation.productId, orderViewCreation.count)
+        return orderRepository.insert(order)
+    }
+
+    private fun createOrder(customerName: String, productId: String, count: Int): Order {
         val customer = accountApi.getUser(username = customerName)
-        val product = productService.findProductById(orderViewCreation.productId)
-        return orderRepository.insert(Order(product = product, count = orderViewCreation.count, customer = customer))
+        val product = productService.findProductById(productId)
+        return Order(product = product, count = count, customer = customer)
     }
 
     override fun getOrders(customerName: String): List<Order> {

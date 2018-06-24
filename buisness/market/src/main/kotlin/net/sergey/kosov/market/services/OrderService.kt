@@ -10,4 +10,6 @@ interface OrderService {
     fun completeOrder(orderId: String, name: String): Order
     fun cancelOrder(orderId: String, name: String): Order
     fun getOrders(customerName: String): List<Order>
+    fun createOrderCart(productId: String, name: String): Order
+    fun updateOrderCart(orderId: String, count: Int, name: String): Order
 }
