@@ -15,7 +15,6 @@ data class Order(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: O
                  var product: Product,
                  @Indexed(name = "orders_title")
                  var title: String = "Order ${product.title}",
-                 var description: String = "",
                  var count: Int = 1,
                  var customer: User,
                  var createdTime: LocalDateTime = LocalDateTime.now(),
@@ -28,7 +27,6 @@ data class Order(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: O
         const val ID = "id"
         const val product = "product"
         const val TITLE = "title"
-        const val DESCRIPTION = "description"
         const val COUNT = "count"
         const val CUSTOMER = "customer"
         const val CREATED_TIME = "createdTime"

@@ -142,12 +142,6 @@ function fillCharacteristic() {
     _fillData(template, characteristics, "#characteristics")
 }
 
-function loadCategoryById() {
-    var id = getId()
-    $.get("/market/category/" + id, function (category) {
-
-    })
-}
 
 function loadProductsByShop() {
     var shopName = getId();
@@ -188,14 +182,17 @@ function loadOrders() {
             "    <td class=\"success\"><a href='/market/view/order/{{id}}'>{{#completed}}{{title}}{{/completed}}</a></td>" +
             "    <td class=\"active\"><a href='/market/view/order/{{id}}'>{{#canceled}}{{title}}{{/canceled}}</a></td>" +
             "    <td>" +
-            "        <button onclick='cancelOrder(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
+            "        {{#created}}<button onclick='cancelOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
+            "            <span class=\"glyphicon glyphicon-ban-circle\"></span>" +
+            "        </button>{{/created}}" +
+            "        {{#processing}}<button onclick='cancelOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
+            "            <span class=\"glyphicon glyphicon-ban-circle\"></span>" +
+            "        </button>{{/processing}}" +
+            "        {{#completed}}<button onclick='deleteOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
             "            <span class=\"glyphicon glyphicon-trash\"></span>" +
-            "        </button>" +
-            "        {{#completed}}<button onclick='deleteOrder(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
-            "            <span class=\"glyphicon glyphicon-ban-circle\"></span>" +
             "        </button>{{/completed}}" +
-            "        {{#canceled}}<button onclick='deleteOrder(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
-            "            <span class=\"glyphicon glyphicon-ban-circle\"></span>" +
+            "        {{#canceled}}<button onclick='deleteOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
+            "            <span class=\"glyphicon glyphicon-trash\"></span>" +
             "        </button>{{/canceled}}" +
             "    </td>" +
             "</tr>{{/.}}" +
@@ -205,24 +202,84 @@ function loadOrders() {
     })
 }
 
-function cancelOrder(id) {
+
+function loadOrder() {
+    var orderId = getId();
+    $.get("/market/order/" + orderId, function (order) {
+        console.log(order);
+        getElement("product-title").innerText = order.title;
+        getElement("product-desc").innerText = order.product.description;
+        getElement("product-price").innerText = '$ ' + order.product.price;
+        getElement("product-count").innerText = 'count: ' + order['count'];
+        getElement("product-shop").innerText = order.product.account.marketName;
+
+        if (order.statusHistory.find(function (value) {
+                return "CANCELED" === value.first
+            })) {
+            getElement("progress").innerHTML = "<center>Canceled</center>";
+        } else {
+            if (order.statusHistory.find(function (value) {
+                    return "CREATED" === value.first
+                })) {
+                getElement("created").hidden = false;
+            }
+            if (order.statusHistory.find(function (value) {
+                    return "COMPLETED" === value.first
+                })) {
+                getElement("completed").hidden = false;
+            }
+            if (order.statusHistory.find(function (value) {
+                    return "PROCESSING" === value.first
+                })) {
+                getElement("processing").hidden = false;
+
+            }
+        }
+        if (order.status === "CREATED") {
+            $("#cancel").show();
+        } else if (order.status === "PROCESSING") {
+            $("#complete").show();
+            $("#cancel").show();
+        } else if (order.status === "COMPLETED") {
+            $("#delete").show();
+        } else if (order.status === "CANCELED") {
+            $("#delete").show();
+        }
+    })
+}
+
+function cancelOrderById(id) {
     console.log("cancel " + id);
     loadOrders();
 }
 
-function deleteOrder(id) {
+function deleteOrderById(id) {
     console.log("delete " + id);
-    loadOrders();
+    loadOrder();
+}
+
+function cancelOrder() {
+    var id = getId();
+    loadOrder();
+}
+
+function deleteOrder() {
+    var id = getId();
+    window.location.replace("/market/view/orders");
+}
+
+function completeOrder() {
+    var id = getId();
+    loadOrder();
 }
 
 
+function loadCategoryById() {
+    var id = getId();
+    $.get("/market/category/" + id, function (category) {
 
-
-
-
-
-
-
+    })
+}
 
 
 
