@@ -75,30 +75,7 @@ footer {
     margin-top: 50px;
 }
 
-table {
-    width: 100%;
-    line-height: 1.5em;
-}
 
-tr > :first-child {
-    width: 0;
-    white-space: nowrap;
-    vertical-align: top;
-}
-
-tr > :last-child {
-    width: 100%;
-    position: relative;
-    vertical-align: top;
-}
-
-tr > :last-child > div {
-    position: absolute;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
 
 p {
     margin: 0 0 1em;

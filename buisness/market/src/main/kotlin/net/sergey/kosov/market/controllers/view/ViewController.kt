@@ -31,4 +31,18 @@ class ViewController {
         return "shop"
     }
 
+    @GetMapping("/view/cart")
+    fun cart(): String {
+        return "cart"
+    }
+
+    @GetMapping("/view/order")
+    fun order(): String {
+        return "order"
+    }
+
+    @GetMapping("/view/orders")
+    fun orders(): String {
+        return "orders"
+    }
 }
