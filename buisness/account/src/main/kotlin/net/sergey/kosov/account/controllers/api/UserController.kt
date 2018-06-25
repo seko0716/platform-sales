@@ -1,0 +1,16 @@
+package net.sergey.kosov.account.controllers.api
+
+import net.sergey.kosov.account.domains.User
+import net.sergey.kosov.account.services.UserService
+import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+class UserController(var userService: UserService) {
+    @GetMapping(path = ["/user/{name}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    fun getUser(@PathVariable("name") username: String): User {
+        return userService.getUser(username)
+    }
+}

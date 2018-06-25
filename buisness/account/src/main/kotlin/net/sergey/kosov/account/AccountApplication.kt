@@ -1,4 +1,4 @@
-package net.sergey.kosov.market
+package net.sergey.kosov.account
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
