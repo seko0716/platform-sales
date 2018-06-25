@@ -24,6 +24,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.mongodb/bson
     compile 'org.mongodb:bson:3.4.3'
 
+    compileOnly 'org.springframework.data:spring-data-mongodb:1.10.9.RELEASE'
+
 }
 
 compileKotlin {

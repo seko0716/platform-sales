@@ -1,4 +1,4 @@
-package net.sergey.kosov.market.repository
+package net.sergey.kosov.common.repositories
 
 import org.springframework.data.mongodb.core.query.Query
 
