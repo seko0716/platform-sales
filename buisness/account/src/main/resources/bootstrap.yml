@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: account-service
+  cloud:
+    config:
+      uri: http://config:8888
+      fail-fast: true
+      password: ${CONFIG_SERVICE_PASSWORD}
+      username: user
+  profiles:
+    active: test
+---
+spring:
+  application:
+    name: account-service-test
+  profiles: test
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: 11
+      username: user
+      enabled: false
+    service-registry:
+      auto-registration:
+        enabled: false
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+
+server:
+  context-path: /account
+  port: 8085
+
+
+security:
+  user:
+    password: 11
+    name: user
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:5000/uaa/users/current
+
+logging:
+  level:
+    org.springframework.security: DEBUG
