@@ -24,9 +24,14 @@ class OrderController(val orderService: OrderService) {
         return orderService.findOrder(orderId, principal.name)
     }
 
-    @PostMapping("/order/process/{orderId}")
-    fun processOrder(@PathVariable("orderId") orderId: String, principal: Principal): Order {
-        return orderService.processOrder(orderId, principal.name)
+    @PostMapping("/order/processing/{orderId}")
+    fun processingOrder(@PathVariable("orderId") orderId: String, principal: Principal): Order {
+        return orderService.processingOrder(orderId, principal.name)
+    }
+
+    @PostMapping("/order/processed/{orderId}")
+    fun processedOrder(@PathVariable("orderId") orderId: String, principal: Principal): Order {
+        return orderService.processedOrder(orderId, principal.name)
     }
 
     @PostMapping("/order/complete/{orderId}")

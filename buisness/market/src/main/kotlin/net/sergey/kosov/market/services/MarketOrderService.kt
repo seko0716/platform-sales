@@ -19,9 +19,10 @@ import java.time.LocalDateTime
 class MarketOrderService @Autowired constructor(var orderRepository: OrderRepository,
                                                 val productService: ProductService,
                                                 val accountApi: AccountApi) : OrderService {
-    private val cancelableStatuses = listOf(PROCESSING, CREATED)
-    private val completeStatuses = listOf(PROCESSING)
-    private val processStatuses = listOf(CREATED)
+    private val cancelableStatuses = listOf(CREATED)
+    private val completeStatuses = listOf(PROCESSING, PROCESSED)
+    private val processingStatuses = listOf(CREATED)
+    private val processedStatuses = listOf(PROCESSING)
 
     override fun createOrderCart(productId: String, name: String): Order {
         val order = createOrder(name, productId, 1)
@@ -74,25 +75,58 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         return findByQuery.first()
     }
 
-    override fun processOrder(orderId: String, name: String): Order {
-        val order = findOrder(orderId, name)
+    override fun processingOrder(orderId: String, name: String): Order {
+        val order = findOrderForSaler(name, orderId)
         return orderRepository.save(changeStatus(order, PROCESSING))
     }
 
+    override fun processedOrder(orderId: String, name: String): Order {
+        val order = findOrderForSaler(name, orderId)
+        return orderRepository.save(changeStatus(order, PROCESSED))
+    }
+
+    private fun findOrderForSaler(name: String, orderId: String): Order {
+        val account = accountApi.getAccount(name)
+        val findByQuery = orderRepository.findByQuery(getQueryOrder()
+                .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
+                .addCriteria(Criteria.where("${_Order.product}.${Product._Product.ACCOUNT}").`is`(account)))
+        if (findByQuery.size != 1) {
+            throw NotFoundException("Can Not Found Order By id = $orderId")
+        }
+        val order = findByQuery.first()
+        return order
+    }
+
     override fun completeOrder(orderId: String, name: String): Order {
-        val order = findOrder(orderId, name)
+        val order = findOrderForCustomer(name, orderId)
         return orderRepository.save(changeStatus(order, COMPLETED))
     }
 
     override fun cancelOrder(orderId: String, name: String): Order {
-        val order = findOrder(orderId, name)
+        val order = findOrderForCustomer(name, orderId)
         return orderRepository.save(changeStatus(order, CANCELED))
+    }
+
+    private fun findOrderForCustomer(name: String, orderId: String): Order {
+        val customer = accountApi.getUser(name)
+        val findByQuery = orderRepository.findByQuery(getQueryOrder()
+                .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
+                .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
+        if (findByQuery.size != 1) {
+            throw NotFoundException("Can Not Found Order By id = $orderId")
+        }
+        val order = findByQuery.first()
+        return order
     }
 
     private fun changeStatus(order: Order, status: Status): Order {
         if (order.statusHistory.any { it.first == COMPLETED }) {
             throw IllegalStateException("Нельзя сетить статус после $COMPLETED-- ордер звершен")
         }
+        if (order.statusHistory.any { it.first == IN_A_CART }) {
+            throw IllegalStateException("Нельзя сетить статус $IN_A_CART")
+        }
+
 
         when (status) {
             CREATED -> throw IllegalStateException("Нельзя сетить статус $CREATED, он заполняется только при создании ордера")
@@ -103,8 +137,13 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
                 order.completedTime = LocalDateTime.now()
             }
             PROCESSING -> {
-                if (order.status !in processStatuses) {
-                    throw IllegalArgumentException("Процессить можно только ордера в статусе $processStatuses")
+                if (order.status !in processingStatuses) {
+                    throw IllegalArgumentException("Процессить можно только ордера в статусе $processingStatuses")
+                }
+            }
+            PROCESSED -> {
+                if (order.status !in processedStatuses) {
+                    throw IllegalArgumentException("Процессить можно только ордера в статусе $processedStatuses")
                 }
             }
             CANCELED -> {

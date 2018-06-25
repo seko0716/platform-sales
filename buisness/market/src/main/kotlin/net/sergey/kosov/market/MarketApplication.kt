@@ -49,18 +49,18 @@ class MarketApplication(var productService: ProductService,
             }
             if (it % 5 == 0) {
                 val order = orderService.create(OrderViewCreation(id), "user")
-                orderService.processOrder(orderId = order.id.toString(), name = "user")
+                orderService.processingOrder(orderId = order.id.toString(), name = "test")
             }
             if (it % 7 == 0) {
                 val order = orderService.create(OrderViewCreation(id), "user")
-                orderService.processOrder(orderId = order.id.toString(), name = "user")
+                orderService.processingOrder(orderId = order.id.toString(), name = "test")
                 orderService.completeOrder(orderId = order.id.toString(), name = "user")
             }
             if (it % 9 == 0) {
                 val order = orderService.create(OrderViewCreation(id), "user")
-                orderService.processOrder(orderId = order.id.toString(), name = "test")
+//                orderService.processingOrder(orderId = order.id.toString(), name = "test")
 //                orderService.completeOrder(orderId = order.id.toString())
-                orderService.cancelOrder(orderId = order.id.toString(), name = "test")
+                orderService.cancelOrder(orderId = order.id.toString(), name = "user")
             }
         }
 

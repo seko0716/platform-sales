@@ -71,14 +71,14 @@ class TestOrderService {
     @Test
     fun processOrder() {//после оплаты
         val order: Order = orderService.findOrder(orderId = orderId, name = "1")
-        val processedOrder = orderService.processOrder(orderId = order.id.toString(), name = "1")
+        val processedOrder = orderService.processingOrder(orderId = order.id.toString(), name = "1")
         Assert.assertEquals(Status.PROCESSING, processedOrder.status)
     }
 
     @Test
     fun completeOrder() {//после оплаты
         val order: Order = orderService.findOrder(orderId = orderId, name = "1")
-        val processedOrder = orderService.processOrder(orderId = order.id.toString(), name = "1")
+        val processedOrder = orderService.processingOrder(orderId = order.id.toString(), name = "1")
         val completedOrder = orderService.completeOrder(orderId = processedOrder.id.toString(), name = "1")
         Assert.assertEquals(Status.COMPLETED, completedOrder.status)
     }
