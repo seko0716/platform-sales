@@ -51,6 +51,11 @@ class MarketApplication(var productService: ProductService,
                 val order = orderService.create(OrderViewCreation(id), "user")
                 orderService.processingOrder(orderId = order.id.toString(), name = "test")
             }
+            if (it % 4 == 0) {
+                val order = orderService.create(OrderViewCreation(id), "user")
+                orderService.processingOrder(orderId = order.id.toString(), name = "test")
+                orderService.processedOrder(orderId = order.id.toString(), name = "test")
+            }
             if (it % 7 == 0) {
                 val order = orderService.create(OrderViewCreation(id), "user")
                 orderService.processingOrder(orderId = order.id.toString(), name = "test")

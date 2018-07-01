@@ -162,6 +162,9 @@ function loadOrders() {
             } else if (value.status === "CANCELED") {
                 value.canceled = true
             }
+            if (value.status === "PROCESSED") {
+                value.processed = true
+            }
         });
         console.log(orders);
 
@@ -170,6 +173,7 @@ function loadOrders() {
             "<tr>" +
             "    <th>CREATED</th>" +
             "    <th>PROCESSING</th>" +
+            "    <th>PROCESSED</th>" +
             "    <th>COMPLETED</th>" +
             "    <th>CANCELED</th>" +
             "    <th>|||</th>" +
@@ -177,17 +181,15 @@ function loadOrders() {
             "</thead>" +
             "<tbody>" +
             "{{#.}}<tr>" +
-            "    <td class=\"warning\"><a href='/market/view/order/{{id}}'>{{#created}}{{title}}{{/created}}</a></td>" +
-            "    <td class=\"info\"><a href='/market/view/order/{{id}}'>{{#processing}}{{title}}{{/processing}}</a></td>" +
-            "    <td class=\"success\"><a href='/market/view/order/{{id}}'>{{#completed}}{{title}}{{/completed}}</a></td>" +
-            "    <td class=\"active\"><a href='/market/view/order/{{id}}'>{{#canceled}}{{title}}{{/canceled}}</a></td>" +
+            "    <td class=\"warning\">{{#created}}<a href='/market/view/order/{{id}}'>{{title}}</a>{{/created}}</td>" +
+            "    <td class=\"info\">{{#processing}}<a href='/market/view/order/{{id}}'>{{title}}</a>{{/processing}}</td>" +
+            "    <td class=\"primary\">{{#processed}}<a href='/market/view/order/{{id}}'>{{title}}</a>{{/processed}}</td>" +
+            "    <td class=\"success\">{{#completed}}<a href='/market/view/order/{{id}}'>{{title}}</a>{{/completed}}</td>" +
+            "    <td class=\"active\">{{#canceled}}<a href='/market/view/order/{{id}}'>{{title}}</a>{{/canceled}}</td>" +
             "    <td>" +
             "        {{#created}}<button onclick='cancelOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
             "            <span class=\"glyphicon glyphicon-ban-circle\"></span>" +
             "        </button>{{/created}}" +
-            "        {{#processing}}<button onclick='cancelOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
-            "            <span class=\"glyphicon glyphicon-ban-circle\"></span>" +
-            "        </button>{{/processing}}" +
             "        {{#completed}}<button onclick='deleteOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
             "            <span class=\"glyphicon glyphicon-trash\"></span>" +
             "        </button>{{/completed}}" +
