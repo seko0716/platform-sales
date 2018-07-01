@@ -168,7 +168,7 @@ function loadOrders() {
         });
         console.log(orders);
 
-        var template = "<table class=\"table table-sm\">" +
+        var template = "<table id='table_orders' class=\"table table-sm\">" +
             "<thead>" +
             "<tr>" +
             "    <th>CREATED</th>" +
@@ -200,8 +200,23 @@ function loadOrders() {
             "</tr>{{/.}}" +
             "</tbody>" +
             "</table>";
-        _fillData(template, orders, "#orders")
-    })
+        _fillData(template, orders, "#orders");
+
+        $('#table_orders').dataTable({
+            "aoColumns": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                {"bSortable": false}
+            ]
+        });
+        // $('#table_orders').DataTable();
+    });
+
+
+
 }
 
 
