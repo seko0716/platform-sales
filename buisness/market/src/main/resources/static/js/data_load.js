@@ -324,20 +324,23 @@ function loadCart() {
             "{{#.}}<tr>" +
             "    <td class=\"col-sm-8 col-md-6\">" +
             "        <div class=\"media\">" +
-            "            <a class=\"thumbnail pull-left\" href=\"#\"> <img class=\"media-object\"" +
-            "                                                          src=\"http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png\"" +
+            "            <a class=\"thumbnail pull-left\" href=\"#\">" +
+            " <img class=\"media-object\"" +
+            "        src=\"http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png\"" +
             "                                                          style=\"width: 72px; height: 72px;\">" +
             "            </a>" +
             "            <div class=\"media-body\">" +
             "<span hidden class='orderId'>{{id}}</span>" +
             "                <h4 class=\"media-heading\"><a href=\"/market/view/product/{{product.id}}\">{{title}}</a></h4>" +
-            "                <h5 class=\"media-heading\"> by <a href=\"/market/view/shop/{{product.account.marketName}}\" class=\"text-success\">{{product.account.marketName}}</a></h5>" +
+            "                <h5 class=\"media-heading\"> by " +
+            "<a href=\"/market/view/shop/{{product.account.marketName}}\" class=\"text-success\">{{product.account.marketName}}</a></h5>" +
 
             "            </div>" +
             "        </div>" +
             "    </td>" +
             "    <td class=\"col-sm-1 col-md-1\" style=\"text-align: center\">" +
-            "        <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail1\" onchange=\"targetSum({{product.price}}, this.value, '{{id}}')\" value=\"{{count}}\">" +
+            "        <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail1\" " +
+            "onchange=\"targetSum({{product.price}}, this.value, '{{id}}')\" value=\"{{count}}\">" +
             "    </td>" +
             "    <td class=\"col-sm-1 col-md-1 text-center\"><strong>${{product.price}}</strong></td>" +
             "    <td class=\"col-sm-1 col-md-1 text-center\"><strong id='{{id}}' class='Total'>$!!!!</strong></td>" +
