@@ -15,4 +15,5 @@ interface OrderService {
     fun processedOrder(orderId: String, name: String): Order
     fun deleteOrder(orderId: String, name: String)
     fun getCart(name: String): List<Order>
+    fun buyCart(orderId: String, name: String): Order
 }

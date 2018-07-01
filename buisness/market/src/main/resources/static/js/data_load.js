@@ -190,10 +190,10 @@ function loadOrders() {
             "        {{#created}}<button onclick='cancelOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
             "            <span class=\"glyphicon glyphicon-ban-circle\"></span>" +
             "        </button>{{/created}}" +
-            "        {{#completed}}<button onclick='deleteOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
+            "        {{#completed}}<button onclick='deleteOrderById(\"{{id}}\",loadOrders)' type=\"button\" class=\"btn btn-default btn-sm\">" +
             "            <span class=\"glyphicon glyphicon-trash\"></span>" +
             "        </button>{{/completed}}" +
-            "        {{#canceled}}<button onclick='deleteOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
+            "        {{#canceled}}<button onclick='deleteOrderById(\"{{id}}\",loadOrders)' type=\"button\" class=\"btn btn-default btn-sm\">" +
             "            <span class=\"glyphicon glyphicon-trash\"></span>" +
             "        </button>{{/canceled}}" +
             "    </td>" +
@@ -261,8 +261,8 @@ function cancelOrderById(id) {
     });
 }
 
-function deleteOrderById(id) {
-    post("/market/order/delete/" + id, null, loadOrders, function (err) {
+function deleteOrderById(id, operation=loadOrders) {
+    post("/market/order/delete/" + id, null, operation, function (err) {
         console.log(err)
     });
 }
@@ -314,7 +314,8 @@ function loadCart() {
             "                                                          style=\"width: 72px; height: 72px;\">" +
             "            </a>" +
             "            <div class=\"media-body\">" +
-            "                <h4 class=\"media-heading\"><a href=\"#\">{{title}}</a></h4>" +
+            "<span hidden class='orderId'>{{id}}</span>" +
+            "                <h4 class=\"media-heading\"><a href=\"/market/view/product/{{product.id}}\">{{title}}</a></h4>" +
             "                <h5 class=\"media-heading\"> by <a href=\"/market/view/shop/{{product.account.marketName}}\" class=\"text-success\">{{product.account.marketName}}</a></h5>" +
 
             "            </div>" +
@@ -326,8 +327,11 @@ function loadCart() {
             "    <td class=\"col-sm-1 col-md-1 text-center\"><strong>${{product.price}}</strong></td>" +
             "    <td class=\"col-sm-1 col-md-1 text-center\"><strong id='{{id}}' class='Total'>$!!!!</strong></td>" +
             "    <td class=\"col-sm-1 col-md-1\">" +
-            "        <button type=\"button\" class=\"btn btn-danger\" onclick='deleteOrderById(\"{{id}}\")'>" +
-            "            <span class=\"glyphicon glyphicon-remove\"></span> Remove" +
+            "        <button type=\"button\" class=\"btn btn-danger\" onclick='deleteOrderById(\"{{id}}\",loadCart)'>" +
+            "            <span class=\"glyphicon glyphicon-remove\"></span>" +
+            "        </button>" +
+            "        <button type=\"button\" class=\"btn btn-success buy\" onclick='buyOrder(\"{{id}}\")'> " +
+            "            <span class=\"glyphicon glyphicon-play\"></span>" +
             "        </button>" +
             "    </td>" +
             "</tr>{{/.}}" +
@@ -344,12 +348,12 @@ function loadCart() {
             "    <td>  </td>" +
             "    <td>  </td>" +
             "    <td>" +
-            "        <button type=\"button\" class=\"btn btn-default\">" +
+            "        <button type=\"button\" class=\"btn btn-default\" onclick='window.location.replace(\"/market/view/products\")'>" +
             "            <span class=\"glyphicon glyphicon-shopping-cart\"></span> Continue Shopping" +
             "        </button>" +
             "    </td>" +
             "    <td>" +
-            "        <button type=\"button\" class=\"btn btn-success\">" +
+            "        <button type=\"button\" class=\"btn btn-success\" onclick='buyAll()'>" +
             "            Checkout <span class=\"glyphicon glyphicon-play\"></span>" +
             "        </button>" +
             "    </td>" +
@@ -403,17 +407,35 @@ function addToCart() {
     }, function (err) {
         console.log(err)
     })
-
 }
 
-
-function buy() {
-    var id = getId();
-    put("/market/order", {productId: id, count: 1}, function (order) {
-        window.location.replace("/market/view/order/" + order.id)
+function buyOrder(orderId) {
+    post("/market/order/buyCart/" + orderId, null, function (order) {
+        window.location.replace("/market/view/order/" + order.id);
+    }, function (err) {
+        console.log(err)
     })
 }
 
+function buy(id = getId()) {
+    put("/market/order", {productId: id, count: 1}, function (order) {
+        window.location.replace("/market/view/order/" + order.id);
+    }, function (err) {
+        console.log(err)
+    })
+}
+
+function buyAll() {
+    Array.apply(null, document.getElementsByClassName("orderId")).forEach(function (value) {
+        var id = value.innerText;
+        post("/market/order/buyCart/" + id, null, function () {
+
+        }, function (err) {
+            console.log(err)
+        });
+    });
+    window.location.replace("/market/view/orders");
+}
 
 
 

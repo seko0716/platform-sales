@@ -62,6 +62,11 @@ class OrderController(val orderService: OrderService) {
         return orderService.updateOrderCart(orderId, count, principal.name)
     }
 
+    @PostMapping("/order/buyCart/{orderId}")
+    fun buyCart(@PathVariable("orderId") orderId: String, principal: Principal): Order {
+        return orderService.buyCart(orderId, principal.name)
+    }
+
     @GetMapping("/orders/cart")
     fun cartStatus(principal: Principal): List<Order> {
         return orderService.getCart(principal.name)

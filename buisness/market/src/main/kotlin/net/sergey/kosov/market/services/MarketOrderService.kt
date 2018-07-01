@@ -167,6 +167,19 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         }
     }
 
+    override fun buyCart(orderId: String, name: String): Order {
+        val customer = accountApi.getUser(name)
+        val findByQuery = orderRepository.findByQuery(Query(Criteria.where(_Order.STATUS).`is`(Status.IN_A_CART))
+                .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
+                .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
+        if (findByQuery.size != 1) {
+            throw NotFoundException("Can Not Found Order By id = $orderId")
+        }
+        val order = findByQuery.first()
+        order.status = CREATED
+        return orderRepository.save(order)
+    }
+
     override fun deleteOrder(orderId: String, name: String) {
         val customer = accountApi.getUser(name)
         val findByQuery = orderRepository.findByQuery(Query().addCriteria(Criteria.where(_Order.ID).`is`(orderId))
