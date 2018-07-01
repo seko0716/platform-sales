@@ -62,5 +62,10 @@ class OrderController(val orderService: OrderService) {
         return orderService.updateOrderCart(orderId, count, principal.name)
     }
 
+    @GetMapping("/orders/cart")
+    fun cartStatus(principal: Principal): List<Order> {
+        return orderService.getCart(principal.name)
+    }
+
 
 }

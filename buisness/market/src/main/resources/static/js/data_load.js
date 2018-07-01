@@ -292,10 +292,29 @@ function completeOrder() {
 }
 
 
-function loadCategoryById() {
-    var id = getId();
-    $.get("/market/category/" + id, function (category) {
+function updateCart() {
+    $.get("/market/orders/cart", function (orders) {
+        getElement("cart_count").innerText = " Count: " + orders.length
+    });
 
+    console.log("updateCart")
+}
+
+function addToCart() {
+    var id = getId();
+    put("/market/order/cart/" + id, null, function () {
+        updateCart()
+    }, function (err) {
+        console.log(err)
+    })
+
+}
+
+
+function buy() {
+    var id = getId();
+    put("/market/order", {productId: id, count: 1}, function (order) {
+        window.location.replace("/market/view/order/" + order.id)
     })
 }
 

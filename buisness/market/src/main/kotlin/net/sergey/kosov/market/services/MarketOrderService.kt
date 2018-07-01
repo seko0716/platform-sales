@@ -9,6 +9,7 @@ import net.sergey.kosov.market.domains.entity.Status
 import net.sergey.kosov.market.domains.entity.Status.*
 import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 import net.sergey.kosov.market.repository.order.OrderRepository
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -22,31 +23,30 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
     private val cancelableStatuses = listOf(CREATED)
     private val completeStatuses = listOf(PROCESSING, PROCESSED)
     private val deletableStatuses = listOf(CANCELED, COMPLETED)
-    override fun deleteOrder(orderId: String, name: String) {
-        val order = findOrderForCustomer(name, orderId)
-        if (order.status in deletableStatuses) {
-            orderRepository.delete(order)
-        } else {
-            throw IllegalArgumentException("Удалять можно только ордера в статусе $deletableStatuses")
-        }
-    }
+
 
     private val processingStatuses = listOf(CREATED)
     private val processedStatuses = listOf(PROCESSING)
 
     override fun createOrderCart(productId: String, name: String): Order {
-        val order = createOrder(name, productId, 1)
-        return orderRepository.insert(order)
+        val customer = accountApi.getUser(name)
+        val orders = orderRepository.findByQuery(Query(Criteria.where(_Order.STATUS).`is`(Status.IN_A_CART))
+                .addCriteria(Criteria.where("${_Order.product}.${Product._Product.ID}").`is`(ObjectId(productId)))
+                .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
+        return if (orders.isNotEmpty()) {
+            orders.first()
+        } else {
+            val order = createOrder(name, productId, 1)
+            order.status = IN_A_CART
+            orderRepository.insert(order)
+        }
     }
 
     override fun updateOrderCart(orderId: String, count: Int, name: String): Order {
         val customer = accountApi.getUser(name)
-        val account = accountApi.getAccount(name)
         val findByQuery = orderRepository.findByQuery(Query(Criteria.where(_Order.STATUS).`is`(Status.IN_A_CART))
                 .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
-                .addCriteria(Criteria().orOperator(
-                        Criteria.where(_Order.CUSTOMER).`is`(customer),
-                        Criteria.where("${_Order.product}.${Product._Product.ACCOUNT}").`is`(account))))
+                .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
         if (findByQuery.size != 1) {
             throw NotFoundException("Can Not Found Order By id = $orderId")
         }
@@ -167,6 +167,21 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
             this.status = status
             this.statusHistory.add(Pair(status, LocalDateTime.now()))
         }
+    }
+
+    override fun deleteOrder(orderId: String, name: String) {
+        val order = findOrderForCustomer(name, orderId)
+        if (order.status in deletableStatuses) {
+            orderRepository.delete(order)
+        } else {
+            throw IllegalArgumentException("Удалять можно только ордера в статусе $deletableStatuses")
+        }
+    }
+
+    override fun getCart(name: String): List<Order> {
+        val customer = accountApi.getUser(name)
+        return orderRepository.findByQuery(Query(Criteria.where(_Order.STATUS).`is`(Status.IN_A_CART))
+                .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
     }
 
     private fun getQueryOrder(): Query {
