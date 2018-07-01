@@ -207,6 +207,10 @@ function loadOrders() {
 
 function loadOrder() {
     var orderId = getId();
+    $("#cancel").hide();
+    $("#complete").hide();
+    $("#delete").hide();
+    $("#complete").hide();
     $.get("/market/order/" + orderId, function (order) {
         console.log(order);
         getElement("product-title").innerText = order.title;
@@ -241,7 +245,8 @@ function loadOrder() {
             $("#cancel").show();
         } else if (order.status === "PROCESSING") {
             $("#complete").show();
-            $("#cancel").show();
+        } else if (order.status === "PROCESSED") {
+            $("#complete").show();
         } else if (order.status === "COMPLETED") {
             $("#delete").show();
         } else if (order.status === "CANCELED") {
@@ -259,7 +264,6 @@ function cancelOrderById(id) {
 function deleteOrderById(id) {
     post("/market/order/delete/" + id, null, loadOrders, function (err) {
         console.log(err)
-        console.log(11231231)
     });
 }
 
