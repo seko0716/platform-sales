@@ -11,6 +11,7 @@ import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 import net.sergey.kosov.market.repository.order.OrderRepository
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
@@ -66,7 +67,7 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
 
     override fun getOrders(customerName: String): List<Order> {
         val customer = accountApi.getUser(customerName)
-        return orderRepository.findByQuery(getQueryOrder().addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
+        return orderRepository.findByQuery(getQueryOrder().addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)).with(Sort(_Order.CREATED_TIME)))
     }
 
     override fun findOrder(orderId: String, name: String): Order {
@@ -158,6 +159,10 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
                 if (order.status !in cancelableStatuses) {
                     throw IllegalArgumentException("Отменять можно только ордера в статусе $cancelableStatuses")
                 }
+            }
+
+            else -> {
+                throw IllegalArgumentException("status not supported")
             }
         }
 
