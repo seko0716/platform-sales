@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
 
 <head>
 
@@ -31,35 +31,7 @@
 
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Start Bootstrap</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
+    <div th:replace="fragments/header :: header"></div>
 </nav>
 
 <!-- Page Content -->
@@ -68,61 +40,14 @@
     <div class="row">
 
         <div class="col-md-3">
-
-            <p class="lead">Раньше смотрели</p>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
-                        <div class="caption">
-                            <h4><a href="#">First Product</a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div th:replace="fragments/history :: history"></div>
         </div>
+
 
         <div class="col-md-9">
 
             <div class="row">
-                <div class="">
+                <div class="" id="cart">
                     <table class="table table-hover">
                         <thead>
                         <tr>
@@ -149,7 +74,8 @@
                                 </div>
                             </td>
                             <td class="col-sm-1 col-md-1" style="text-align: center">
-                                <input type="email" class="form-control" id="exampleInputEmail1" value="3">
+                                <input type="email" class="form-control" onchange="targetSum(4.87,this.value)"
+                                       id="exampleInputEmail1" value="3">
                             </td>
                             <td class="col-sm-1 col-md-1 text-center"><strong>$4.87</strong></td>
                             <td class="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>

@@ -22,9 +22,7 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
                                                 val accountApi: AccountApi) : OrderService {
     private val cancelableStatuses = listOf(CREATED)
     private val completeStatuses = listOf(PROCESSING, PROCESSED)
-    private val deletableStatuses = listOf(CANCELED, COMPLETED)
-
-
+    private val deletableStatuses = listOf(CANCELED, COMPLETED, IN_A_CART)
     private val processingStatuses = listOf(CREATED)
     private val processedStatuses = listOf(PROCESSING)
 
@@ -170,7 +168,13 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
     }
 
     override fun deleteOrder(orderId: String, name: String) {
-        val order = findOrderForCustomer(name, orderId)
+        val customer = accountApi.getUser(name)
+        val findByQuery = orderRepository.findByQuery(Query().addCriteria(Criteria.where(_Order.ID).`is`(orderId))
+                .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
+        if (findByQuery.size != 1) {
+            throw NotFoundException("Can Not Found Order By id = $orderId")
+        }
+        val order = findByQuery.first()
         if (order.status in deletableStatuses) {
             orderRepository.delete(order)
         } else {

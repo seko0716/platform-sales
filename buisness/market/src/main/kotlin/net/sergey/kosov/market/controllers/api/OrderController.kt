@@ -55,7 +55,7 @@ class OrderController(val orderService: OrderService) {
         return orderService.createOrderCart(productId, principal.name)
     }
 
-    @PostMapping("/order/cart/{orderId}{cont}")
+    @PostMapping("/order/cart/{orderId}/{cont}")
     fun updateOrderCart(@PathVariable("orderId") orderId: String,
                         @PathVariable("count") count: Int,
                         principal: Principal): Order {

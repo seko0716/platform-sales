@@ -292,18 +292,114 @@ function completeOrder() {
 }
 
 
-function updateCart() {
+function loadCart() {
+    $.get("/market/orders/cart", function (orders) {
+        var template = "<table class=\"table table-hover\">" +
+            "<thead>" +
+            "<tr>" +
+            "    <th>Product</th>" +
+            "    <th>Quantity</th>" +
+            "    <th class=\"text-center\">Price</th>" +
+            "    <th class=\"text-center\">Total</th>" +
+            "    <th> </th>" +
+            "</tr>" +
+            "</thead>" +
+            "<tbody>" +
+
+            "{{#.}}<tr>" +
+            "    <td class=\"col-sm-8 col-md-6\">" +
+            "        <div class=\"media\">" +
+            "            <a class=\"thumbnail pull-left\" href=\"#\"> <img class=\"media-object\"" +
+            "                                                          src=\"http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png\"" +
+            "                                                          style=\"width: 72px; height: 72px;\">" +
+            "            </a>" +
+            "            <div class=\"media-body\">" +
+            "                <h4 class=\"media-heading\"><a href=\"#\">{{title}}</a></h4>" +
+            "                <h5 class=\"media-heading\"> by <a href=\"/market/view/shop/{{product.account.marketName}}\" class=\"text-success\">{{product.account.marketName}}</a></h5>" +
+
+            "            </div>" +
+            "        </div>" +
+            "    </td>" +
+            "    <td class=\"col-sm-1 col-md-1\" style=\"text-align: center\">" +
+            "        <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail1\" onchange=\"targetSum({{product.price}}, this.value, '{{id}}')\" value=\"{{count}}\">" +
+            "    </td>" +
+            "    <td class=\"col-sm-1 col-md-1 text-center\"><strong>${{product.price}}</strong></td>" +
+            "    <td class=\"col-sm-1 col-md-1 text-center\"><strong id='{{id}}' class='Total'>$!!!!</strong></td>" +
+            "    <td class=\"col-sm-1 col-md-1\">" +
+            "        <button type=\"button\" class=\"btn btn-danger\" onclick='deleteOrderById(\"{{id}}\")'>" +
+            "            <span class=\"glyphicon glyphicon-remove\"></span> Remove" +
+            "        </button>" +
+            "    </td>" +
+            "</tr>{{/.}}" +
+
+            "<tr>" +
+            "    <td>  </td>" +
+            "    <td>  </td>" +
+            "    <td>  </td>" +
+            "    <td><h5>Subtotal</h5></td>" +
+            "    <td class=\"text-right\"><h5><strong id='sum'>$24.59</strong></h5></td>" +
+            "</tr>" +
+            "<tr>" +
+            "    <td>  </td>" +
+            "    <td>  </td>" +
+            "    <td>  </td>" +
+            "    <td>" +
+            "        <button type=\"button\" class=\"btn btn-default\">" +
+            "            <span class=\"glyphicon glyphicon-shopping-cart\"></span> Continue Shopping" +
+            "        </button>" +
+            "    </td>" +
+            "    <td>" +
+            "        <button type=\"button\" class=\"btn btn-success\">" +
+            "            Checkout <span class=\"glyphicon glyphicon-play\"></span>" +
+            "        </button>" +
+            "    </td>" +
+            "</tr>" +
+            "</tbody>" +
+            "</table>";
+
+        _fillData(template, orders, "#cart");
+
+        orders.forEach(function (value) {
+            targetSum(value.product.price, value.count, value.id, false)
+        });
+        calculateAllSum()
+    });
+}
+
+
+function targetSum(price, count, id, send=true) {
+    getElement(id).innerText = "$" + price * count;
+    calculateAllSum();
+    if (send) {
+        post("/market/order/cart/" + id + "/" + count, null, function () {
+
+        }, function (err) {
+
+        })
+    }
+}
+
+function calculateAllSum() {
+    var sum = 0;
+    Array.apply(null, document.getElementsByClassName("Total")).map(function (it) {
+        return Number.parseInt(it.innerText.split("$")[1])
+    }).forEach(function (value) {
+        sum += value;
+    });
+    getElement("sum").innerText = sum;
+}
+
+
+function updateCartCount() {
     $.get("/market/orders/cart", function (orders) {
         getElement("cart_count").innerText = " Count: " + orders.length
     });
-
-    console.log("updateCart")
 }
 
 function addToCart() {
     var id = getId();
     put("/market/order/cart/" + id, null, function () {
-        updateCart()
+        updateCartCount()
     }, function (err) {
         console.log(err)
     })
