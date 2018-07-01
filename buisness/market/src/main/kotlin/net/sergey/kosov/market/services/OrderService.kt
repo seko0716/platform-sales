@@ -13,4 +13,5 @@ interface OrderService {
     fun createOrderCart(productId: String, name: String): Order
     fun updateOrderCart(orderId: String, count: Int, name: String): Order
     fun processedOrder(orderId: String, name: String): Order
+    fun deleteOrder(orderId: String, name: String)
 }

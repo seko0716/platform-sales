@@ -251,28 +251,40 @@ function loadOrder() {
 }
 
 function cancelOrderById(id) {
-    console.log("cancel " + id);
-    loadOrders();
+    post("/market/order/cancel/" + id, null, loadOrders, function (err) {
+        console.log(err)
+    });
 }
 
 function deleteOrderById(id) {
-    console.log("delete " + id);
-    loadOrder();
+    post("/market/order/delete/" + id, null, loadOrders, function (err) {
+        console.log(err)
+        console.log(11231231)
+    });
 }
 
 function cancelOrder() {
     var id = getId();
-    loadOrder();
+    post("/market/order/cancel/" + id, null, loadOrder, function (err) {
+        console.log(err)
+    });
 }
 
 function deleteOrder() {
     var id = getId();
-    window.location.replace("/market/view/orders");
+    post("/market/order/delete/" + id, null, function () {
+        window.location.replace("/market/view/orders")
+    }, function (err) {
+        console.log(err)
+    });
+
 }
 
 function completeOrder() {
     var id = getId();
-    loadOrder();
+    post("/market/order/complete/" + id, null, loadOrder, function (err) {
+        console.log(err)
+    });
 }
 
 

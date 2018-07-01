@@ -44,6 +44,12 @@ class OrderController(val orderService: OrderService) {
         return orderService.cancelOrder(orderId, principal.name)
     }
 
+    @PostMapping("/order/delete/{orderId}")
+    fun deleteOrder(@PathVariable("orderId") orderId: String, principal: Principal): List<*> {
+        orderService.deleteOrder(orderId, principal.name)
+        return listOf<String>()
+    }
+
     @PutMapping("/order/cart/{productId}")
     fun createOrderCart(@PathVariable("productId") productId: String, principal: Principal): Order {
         return orderService.createOrderCart(productId, principal.name)
@@ -55,5 +61,6 @@ class OrderController(val orderService: OrderService) {
                         principal: Principal): Order {
         return orderService.updateOrderCart(orderId, count, principal.name)
     }
+
 
 }

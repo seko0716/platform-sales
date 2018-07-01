@@ -21,6 +21,16 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
                                                 val accountApi: AccountApi) : OrderService {
     private val cancelableStatuses = listOf(CREATED)
     private val completeStatuses = listOf(PROCESSING, PROCESSED)
+    private val deletableStatuses = listOf(CANCELED, COMPLETED)
+    override fun deleteOrder(orderId: String, name: String) {
+        val order = findOrderForCustomer(name, orderId)
+        if (order.status in deletableStatuses) {
+            orderRepository.delete(order)
+        } else {
+            throw IllegalArgumentException("Удалять можно только ордера в статусе $deletableStatuses")
+        }
+    }
+
     private val processingStatuses = listOf(CREATED)
     private val processedStatuses = listOf(PROCESSING)
 
