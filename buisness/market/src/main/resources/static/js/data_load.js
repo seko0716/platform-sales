@@ -82,6 +82,7 @@ function loadProduct() {
         getElement("product-desc").innerText = product.description;
         getElement("product-price").innerText = '$ ' + product.price;
         getElement("product-shop").innerText = product.account.marketName;
+        getElement("product_shop_url").href = '/market/view/shop/' + product.account.marketName;
 
 
         getElement("product-info").innerHTML = product.productInfo;
@@ -216,7 +217,6 @@ function loadOrders() {
     });
 
 
-
 }
 
 
@@ -327,7 +327,7 @@ function loadCart() {
             "            <a class=\"thumbnail pull-left\" href=\"#\">" +
             " <img class=\"media-object\"" +
             "        src=\"http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png\"" +
-            "                                                          style=\"width: 72px; height: 72px;\">" +
+            "                                  style=\"width: 72px; height: 72px;\">" +
             "            </a>" +
             "            <div class=\"media-body\">" +
             "<span hidden class='orderId'>{{id}}</span>" +
@@ -456,8 +456,50 @@ function buyAll() {
 }
 
 
+function getAuthData() {
+    return {
+        "Authorization": "Basic dXNlcjoxMQ=="
+    };
+}
 
+function loadAccount() {
+    var marketName = getId();
+    $.ajax({
+        type: 'GET',
+        url: "http://localhost:8085/account/account/" + marketName,
+        headers: getAuthData(),
+        success: function (account) {
+            getElement("shop_name").innerText = account.marketName;
 
+            var array = account.images;
+            var images = [];
+
+            for (idx in array)
+                images.push({'index': idx, 'str': array[idx]});
+
+            var template =
+                "<ol class=\"carousel-indicators\">\n" +
+                "    {{#.}}<li data-target=\"#carousel-example-generic\" data-slide-to=\"{{index}}\" id='actual{{index}}'></li> {{/.}}" +
+                "</ol>\n" +
+                "<div class=\"carousel-inner\">\n" +
+                "    {{#.}}<div class='item' id='item_active{{index}}'>\n" +
+                "        <img class=\"slide-image\" src=\"{{str}}\" alt=\"\">\n" +
+                "    </div>{{/.}}" +
+                "</div>\n" +
+                "<a class=\"left carousel-control\" href=\"#carousel-example-generic\" data-slide=\"prev\">\n" +
+                "    <span class=\"glyphicon glyphicon-chevron-left\"></span>\n" +
+                "</a>\n" +
+                "<a class=\"right carousel-control\" href=\"#carousel-example-generic\" data-slide=\"next\">\n" +
+                "    <span class=\"glyphicon glyphicon-chevron-right\"></span>\n" +
+                "</a>";
+            _fillData(template, images, "#carousel-example-generic");
+            getElement("item_active0").setAttribute('class', "item active");
+            getElement("actual0").setAttribute('class', "active");
+
+        }
+    });
+
+}
 
 
 

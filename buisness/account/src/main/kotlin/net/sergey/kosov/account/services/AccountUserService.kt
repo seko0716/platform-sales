@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class AccountUserService(var userRepository: UserRepository) : UserService {
+    override fun createUser(user: User): User {
+        return userRepository.insert(user)
+    }
+
     override fun getUser(username: String): User {
         val findByQuery = userRepository.findByQuery(Query(Criteria.where("name").`is`(username)))
         if (findByQuery.size != 1) {

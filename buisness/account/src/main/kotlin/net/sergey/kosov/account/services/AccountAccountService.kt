@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class AccountAccountService(var accountRepository: AccountRepository) : AccountService {
+    override fun createAccount(marketName: String, images: List<String>): Account {
+        val account = Account(marketName = marketName, images = images)
+        return accountRepository.insert(account)
+    }
+
     override fun getAccount(name: String): Account {
         val findByQuery = accountRepository.findByQuery(Query(Criteria.where("marketName").`is`(name)))
         if (findByQuery.size != 1) {

@@ -82,7 +82,9 @@
                     </div>
                     <hr>
                     <div id="product-price" class="product-price">$ 1234.00</div>
-                    <div id="product-shop" class="product-stock">In Stock</div>
+                    <a id="product_shop_url" href="#">
+                        <div id="product-shop" class="product-stock">In Stock</div>
+                    </a>
                     <hr>
                     <div class="btn-group cart">
                         <button type="button" onclick="addToCart()" class="btn btn-success">
@@ -209,6 +211,7 @@
 
     <script>
         loadProduct();
+        loadAccount();
     </script>
 
 

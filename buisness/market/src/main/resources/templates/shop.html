@@ -40,7 +40,7 @@
     <div class="row">
 
         <div class="col-md-3">
-            <p class="lead">Shop Name</p>
+            <p class="lead" id="shop_name">Shop Name</p>
             <div class="list-group">
                 <a href="/market/view/create_product" class="list-group-item">Crete product</a>
                 <a href="#" class="list-group-item">Рейтинг и статистика</a>
@@ -54,12 +54,17 @@
                 <div class="col-md-12">
                     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
-                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="0" id="actual0"
+                                class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1" id="actual1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2" id="actual2"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="3" id="actual3"></li>
                         </ol>
                         <div class="carousel-inner">
-                            <div class="item active">
+                            <div class="item" id="item_active0">
+                                <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                            </div>
+                            <div class="item active left" id="item_active1">
                                 <img class="slide-image" src="http://placehold.it/800x300" alt="">
                             </div>
                             <div class="item">

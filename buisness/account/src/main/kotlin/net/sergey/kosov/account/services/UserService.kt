@@ -5,4 +5,5 @@ import net.sergey.kosov.account.domains.User
 interface UserService {
 
     fun getUser(username: String): User
+    fun createUser(user: User): User
 }
