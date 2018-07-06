@@ -12,12 +12,14 @@
     <title>Shop Homepage - Start Bootstrap Template</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/market/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css">
 
     <!-- Custom CSS -->
-    <link href="/market/css/shop-homepage.css" rel="stylesheet">
+    <link href="/css/shop-homepage.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css"
+          rel="stylesheet"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -40,26 +42,19 @@
     <div class="row">
 
         <div class="col-md-3">
-            <div th:replace="fragments/filter :: filter"></div>
+
             <div th:replace="fragments/history :: history"></div>
         </div>
 
         <div class="col-md-9">
-            <div class="col-md-12 thumbnail">
-                <div class="input-group">
-                    <input id="search" type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" onclick="searchProducts()">Go!</button>
-                    </span>
-                </div><!-- /input-group -->
-            </div>
 
-            <div th:replace="fragments/product_list :: products"></div>
+            <div class="row" id="orders">
+
+            </div>
 
         </div>
 
     </div>
-
 </div>
 <!-- /.container -->
 
@@ -80,16 +75,21 @@
 <!-- /.container -->
 
 <!-- jQuery -->
-<script src="/market/js/jquery.js"></script>
+<script src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/mustache.min.js"></script>
+<script src="/js/data_load.js"></script>
+<script src="/js/utils.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="/market/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
-
-<!-- dataload -->
-<script type="text/javascript" src="/market/js/mustache.min.js"></script>
-<script src="/market/js/utils.js"></script>
-<script src="/market/js/data_load.js"></script>
+<script>
+    loadOrders();
+</script>
 
 
 </body>

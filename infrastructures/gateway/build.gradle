@@ -28,6 +28,9 @@ dependencies {
     compile('ch.qos.logback:logback-core')
     compile('ch.qos.logback:logback-classic')
 
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'net.sourceforge.nekohtml:nekohtml'
+
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
 }
 

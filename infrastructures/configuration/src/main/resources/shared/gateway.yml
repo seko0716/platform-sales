@@ -29,5 +29,11 @@ zuul:
         stripPrefix: false
         sensitiveHeaders:
 
+    market-service:
+        path: /market/**
+        serviceId: market-service
+        stripPrefix: false
+        sensitiveHeaders:
+
 server:
   port: 4000

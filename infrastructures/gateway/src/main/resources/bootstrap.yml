@@ -19,6 +19,10 @@ spring:
       fail-fast: true
       password: 11
       username: user
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+    prefix: file:./infrastructures/gateway/resources/templates/
 
 
 security:
