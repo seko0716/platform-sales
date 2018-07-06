@@ -10,12 +10,13 @@ import net.sergey.kosov.market.services.ProductService
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer
 import java.math.BigDecimal
 import javax.annotation.PostConstruct
 
 
 @EnableOAuth2Client
-//@EnableResourceServer //todo revert for oAuth. comment for base64
+@EnableResourceServer //todo revert for oAuth. comment for base64
 @SpringBootApplication
 class MarketApplication(var productService: ProductService,
                         var categoryService: CategoryService,

@@ -28,6 +28,13 @@ chart:
 
 spring:
   profiles: test
+  data:
+    mongodb:
+      host: localhost
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+      database: market
+      port: 27017
 
 security:
   oauth2:
