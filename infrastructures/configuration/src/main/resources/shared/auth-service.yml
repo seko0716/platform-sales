@@ -10,3 +10,16 @@ spring:
 server:
   context-path: /uaa
   port: 5000
+
+
+---
+spring:
+  profiles: test
+
+  data:
+    mongodb:
+      host: localhost
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+      database: auth
+      port: 27017
