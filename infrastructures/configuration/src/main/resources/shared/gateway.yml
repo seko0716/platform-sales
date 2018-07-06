@@ -37,3 +37,25 @@ zuul:
 
 server:
   port: 4000
+
+---
+
+spring:
+  profiles: test
+
+
+zuul:
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 20000
+    socket-timeout-millis: 20000
+
+  routes:
+    auth-service:
+        path: /uaa/**
+        url: http://192.168.0.105:5000
+        stripPrefix: false
+        sensitiveHeaders:
+
+
+
