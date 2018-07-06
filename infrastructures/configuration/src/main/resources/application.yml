@@ -7,7 +7,7 @@ spring:
         native:
           search-locations: classpath:/shared
   profiles:
-     active: native
+     active: native,test
 
 server:
   port: 8888
@@ -15,3 +15,17 @@ server:
 security:
   user:
     password: ${CONFIG_SERVICE_PASSWORD}
+
+---
+spring:
+  profiles: test
+
+security:
+  user:
+    password: 11
+    name: user
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG

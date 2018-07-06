@@ -7,3 +7,21 @@ spring:
       fail-fast: true
       password: ${CONFIG_SERVICE_PASSWORD}
       username: user
+  profiles:
+    active: test
+
+---
+spring:
+  profiles: test
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: 11
+      username: user
+
+
+security:
+  user:
+    password: 11
+    name: user

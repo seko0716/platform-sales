@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: test
   application:
     name: registry
   cloud:
@@ -16,3 +18,19 @@ eureka:
     fetchRegistry: false
     server:
       waitTimeInMsWhenSyncEmpty: 0
+
+---
+spring:
+  profiles: test
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: 11
+      username: user
+
+
+security:
+  user:
+    password: 11
+    name: user
