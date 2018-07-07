@@ -12,34 +12,41 @@ spring:
 ---
 spring:
   application:
-    name: account-service-test
+    name: account-service
   profiles: test
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://192.168.0.105:8888
       fail-fast: true
       password: 11
       username: user
-      enabled: false
-    service-registry:
-      auto-registration:
-        enabled: false
-  thymeleaf:
-    cache: false
-    mode: LEGACYHTML5
+  data:
+    mongodb:
+      host: localhost
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+      database: account
+      port: 27019
+  mongodb:
+    embedded:
+      storage:
+        database-dir: account-mongo
 
 server:
   context-path: /account
   port: 8085
 
 
+
 security:
-  user:
-    password: 11
-    name: user
   oauth2:
-    resource:
-      user-info-uri: http://localhost:5000/uaa/users/current
+    client:
+      clientId: account-service
+      clientSecret: account
+      accessTokenUri: http://192.168.0.105:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
 
 logging:
   level:

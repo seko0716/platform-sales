@@ -20,12 +20,12 @@ class AccountApplication {
 
     @PostConstruct
     fun init() {
-        var account: Account = accountService.createAccount(marketName = "test", images = listOf("http://placehold.it/800x300",
+        val account: Account = accountService.createAccount(marketName = "test", images = listOf("http://placehold.it/800x300",
                 "http://placehold.it/800x300",
                 "http://placehold.it/800x300",
                 "http://placehold.it/800x300"))
 
-        userService.createUser(User(name = "user", family = "12", account = account))
+        userService.createUser(User(name = "admin", family = "12", account = account))
     }
 
 }
