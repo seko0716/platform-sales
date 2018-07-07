@@ -4,7 +4,7 @@ function showLoginForm() {
 
 $(window).load(function () {
 
-    var user = getCurrentUser();
+    let user = getCurrentUser();
 
     if (!user) {
         showLoginForm();
@@ -14,8 +14,8 @@ $(window).load(function () {
 
 function getCurrentUser() {
 
-    var token = getOauthTokenFromStorage();
-    var user = null;
+    const token = getOauthTokenFromStorage();
+    let user = null;
 
     if (token) {
         $.ajax({

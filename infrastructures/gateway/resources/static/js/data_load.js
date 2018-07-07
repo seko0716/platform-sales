@@ -5,7 +5,7 @@ function _fillData(template, products, id) {
 }
 
 function _fillProductList(products) {
-    var template =
+    const template =
         "{{#.}}<div class=\"col-sm-4 col-lg-4 col-md-4\">" +
         "<div class=\"thumbnail\">" +
         "<img alt=\"\" src=\"http://placehold.it/320x150\">" +
@@ -40,7 +40,7 @@ function loadProducts() {
 function loadChart() {
 
     get("/market/products/chart", function (products) {
-        var template =
+        const template =
             "{{#.}}<a href=\"/view/product/{{id}}\"><div class=\"col-md-6\">" +
             "  <div class=\"thumbnail\">" +
             "    <img src=\"http://placehold.it/320x150\" alt=\"\">" +
@@ -58,9 +58,9 @@ function loadChart() {
 }
 
 function searchProducts() {
-    var title = document.getElementById("search").value;
-    var pay = document.getElementById("pay").value.split(",");
-    var data = {priceLeft: pay[0], priceRight: pay[1], title: title};
+    const title = document.getElementById("search").value;
+    const pay = document.getElementById("pay").value.split(",");
+    const data = {priceLeft: pay[0], priceRight: pay[1], title: title};
 
     post("/market/products", data, function (data) {
         _fillProductList(data)
@@ -74,7 +74,7 @@ function getElement(id) {
 }
 
 function loadProduct() {
-    var productId = getId();
+    const productId = getId();
 
     get("/market/product/" + productId, function (product) {
         console.log(product);
@@ -87,7 +87,7 @@ function loadProduct() {
 
 
         getElement("product-info").innerHTML = product.productInfo;
-        var template = "<table class=\"table table-striped\">" +
+        const template = "<table class=\"table table-striped\">" +
             "    <thead>" +
             "    <tr>" +
             "        <th scope=\"col\">Title</th>" +
@@ -117,13 +117,13 @@ function getCharacteristics(category, characteristics = []) {
     return characteristics;
 }
 
-var categoriesStorage;
+let categoriesStorage;
 
 function loadAvailableCategories() {
     get("/market/categories", function (categories) {
         categoriesStorage = categories;
 
-        var template = "<option selected disabled>select category</option>" +
+        const template = "<option selected disabled>select category</option>" +
             "{{#.}}<option value=\"{{id}}\">{{title}}</option>{{/.}}";
         _fillData(template, categories, "#categories");
         console.log(categoriesStorage)
@@ -131,13 +131,13 @@ function loadAvailableCategories() {
 }
 
 function fillCharacteristic() {
-    var categoryId = getElement("categories").value;
-    var category = categoriesStorage.filter(function (it) {
+    const categoryId = getElement("categories").value;
+    const category = categoriesStorage.filter(function (it) {
         return it.id === categoryId;
     });
-    var characteristics = getCharacteristics(category[0]);
+    const characteristics = getCharacteristics(category[0]);
 
-    var template = "{{#.}}<label class=\"col-sm-2 col-form-label\">{{name}}</label>" +
+    const template = "{{#.}}<label class=\"col-sm-2 col-form-label\">{{name}}</label>" +
         "<div class=\"col-sm-10\">" +
         "    <input type=\"text\" id='{{name}}' class=\"form-control characteristic\">" +
         "</div>{{/.}}";
@@ -146,7 +146,7 @@ function fillCharacteristic() {
 
 
 function loadProductsByShop() {
-    var shopName = getId();
+    const shopName = getId();
     get("/market/products/market/" + shopName, function (products) {
         _fillProductList(products)
     })
@@ -168,9 +168,9 @@ function loadOrders() {
                 value.processed = true
             }
         });
-        console.log(orders);
+        // console.log(orders);
 
-        var template = "<table id='table_orders' class=\"table table-sm\">" +
+        const template = "<table id='table_orders' class=\"table table-sm\">" +
             "<thead>" +
             "<tr>" +
             "    <th>CREATED</th>" +
@@ -222,11 +222,11 @@ function loadOrders() {
 
 
 function loadOrder() {
-    var orderId = getId();
+    const orderId = getId();
     $("#cancel").hide();
     $("#complete").hide();
     $("#delete").hide();
-    $("#complete").hide();
+    // $("#complete").hide();
     get("/market/order/" + orderId, function (order) {
         console.log(order);
         getElement("product-title").innerText = order.title;
@@ -284,14 +284,14 @@ function deleteOrderById(id, operation=loadOrders) {
 }
 
 function cancelOrder() {
-    var id = getId();
+    const id = getId();
     post("/market/order/cancel/" + id, null, loadOrder, function (err) {
         console.log(err)
     });
 }
 
 function deleteOrder() {
-    var id = getId();
+    const id = getId();
     post("/market/order/delete/" + id, null, function () {
         window.location.replace("/view/orders")
     }, function (err) {
@@ -301,7 +301,7 @@ function deleteOrder() {
 }
 
 function completeOrder() {
-    var id = getId();
+    const id = getId();
     post("/market/order/complete/" + id, null, loadOrder, function (err) {
         console.log(err)
     });
@@ -310,7 +310,7 @@ function completeOrder() {
 
 function loadCart() {
     get("/market/orders/cart", function (orders) {
-        var template = "<table class=\"table table-hover\">" +
+        const template = "<table class=\"table table-hover\">" +
             "<thead>" +
             "<tr>" +
             "    <th>Product</th>" +
@@ -403,7 +403,7 @@ function targetSum(price, count, id, send=true) {
 }
 
 function calculateAllSum() {
-    var sum = 0;
+    let sum = 0;
     Array.apply(null, document.getElementsByClassName("Total")).map(function (it) {
         return Number.parseInt(it.innerText.split("$")[1])
     }).forEach(function (value) {
@@ -420,7 +420,7 @@ function updateCartCount() {
 }
 
 function addToCart() {
-    var id = getId();
+    const id = getId();
     put("/market/order/cart/" + id, null, function () {
         updateCartCount()
     }, function (err) {
@@ -446,7 +446,7 @@ function buy(id = getId()) {
 
 function buyAll() {
     Array.apply(null, document.getElementsByClassName("orderId")).forEach(function (value) {
-        var id = value.innerText;
+        const id = value.innerText;
         post("/market/order/buyCart/" + id, null, function () {
 
         }, function (err) {
@@ -464,7 +464,7 @@ function getAuthData() {
 }
 
 function loadAccount() {
-    var marketName = getId();
+    const marketName = getId();
     $.ajax({
         type: 'GET',
         url: "/account/account/" + marketName,
@@ -472,13 +472,13 @@ function loadAccount() {
         success: function (account) {
             getElement("shop_name").innerText = account.marketName;
 
-            var array = account.images;
-            var images = [];
+            const array = account.images;
+            const images = [];
 
             for (idx in array)
                 images.push({'index': idx, 'str': array[idx]});
 
-            var template =
+            const template =
                 "<ol class=\"carousel-indicators\">\n" +
                 "    {{#.}}<li data-target=\"#carousel-example-generic\" data-slide-to=\"{{index}}\" id='actual{{index}}'></li> {{/.}}" +
                 "</ol>\n" +

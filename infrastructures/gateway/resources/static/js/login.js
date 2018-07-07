@@ -1,5 +1,5 @@
 function login() {
-    var credential = {
+    const credential = {
         client_id: "browser",
         username: document.getElementById("username").value,
         password: document.getElementById("password").value,
