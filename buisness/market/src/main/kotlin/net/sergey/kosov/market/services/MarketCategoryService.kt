@@ -64,3 +64,20 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
     private fun getAvailableCategories(account: Account) =
             Criteria().orOperator(Criteria.where(ACCOUNT).`is`(account), Criteria.where(ACCOUNT).`is`(null))
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

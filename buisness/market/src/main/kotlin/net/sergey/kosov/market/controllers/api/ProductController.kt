@@ -10,7 +10,7 @@ import java.security.Principal
 @RestController
 class ProductController(val productService: ProductService) {
     @GetMapping("/product/{id}")
-    fun findProductById(@PathVariable("id") id: String, principal: Principal): Product {
+    fun findProductById(@PathVariable("id") id: String, principal: Principal?): Product {
         return productService.findProductById(id)
     }
 
@@ -25,8 +25,8 @@ class ProductController(val productService: ProductService) {
     }
 
     @GetMapping("/products/market")
-    fun getProducts4Market(principal: Principal): List<Product> {
-        return productService.getProducts4Market(principal.name)
+    fun getProducts4Market(principal: Principal?): List<Product> {
+        return productService.getProducts4Market(principal?.name ?: "anon")
     }
 
     @GetMapping("/products/market/{market_name}")

@@ -9,7 +9,7 @@ function createCategory() {
     put("/market/category", data, function (category) {
         console.log(category)
     }, function (error) {
-        alert("error");
+        console.log(error)
     });
 }
 
@@ -33,6 +33,6 @@ function createProduct() {
     put("/market/product", data, function (product) {
         window.location.replace("/view/product/" + product.id);
     }, function (error) {
-        alert("error");
+        console.log(error)
     });
 }

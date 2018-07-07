@@ -31,7 +31,7 @@ function _fillProductList(products) {
 }
 
 function loadProducts() {
-    $.get("/market/products", function (products) {
+    get("/market/products", function (products) {
         _fillProductList(products);
     });
 }
@@ -76,7 +76,7 @@ function getElement(id) {
 function loadProduct() {
     var productId = getId();
 
-    $.get("/market/product/" + productId, function (product) {
+    get("/market/product/" + productId, function (product) {
         console.log(product);
 
         getElement("product-title").innerText = product.title;
@@ -120,7 +120,7 @@ function getCharacteristics(category, characteristics = []) {
 var categoriesStorage;
 
 function loadAvailableCategories() {
-    $.get("/market/categories", function (categories) {
+    get("/market/categories", function (categories) {
         categoriesStorage = categories;
 
         var template = "<option selected disabled>select category</option>" +
@@ -147,13 +147,13 @@ function fillCharacteristic() {
 
 function loadProductsByShop() {
     var shopName = getId();
-    $.get("/market/products/market/" + shopName, function (products) {
+    get("/market/products/market/" + shopName, function (products) {
         _fillProductList(products)
     })
 }
 
 function loadOrders() {
-    $.get("/market/orders", function (orders) {
+    get("/market/orders", function (orders) {
         orders.forEach(function (value) {
             if (value.status === "CREATED") {
                 value.created = true;
@@ -227,7 +227,7 @@ function loadOrder() {
     $("#complete").hide();
     $("#delete").hide();
     $("#complete").hide();
-    $.get("/market/order/" + orderId, function (order) {
+    get("/market/order/" + orderId, function (order) {
         console.log(order);
         getElement("product-title").innerText = order.title;
         getElement("product-desc").innerText = order.product.description;
@@ -309,7 +309,7 @@ function completeOrder() {
 
 
 function loadCart() {
-    $.get("/market/orders/cart", function (orders) {
+    get("/market/orders/cart", function (orders) {
         var template = "<table class=\"table table-hover\">" +
             "<thead>" +
             "<tr>" +

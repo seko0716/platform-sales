@@ -45,6 +45,8 @@ class MarketApplication(var productService: ProductService,
         val create = categoryService.create(categoryViewCreation, "test")
         categoryViewCreation.parentId = create.id.toString()
         val create2 = categoryService.create(categoryViewCreation, "test")
+        categoryViewCreation.parentId = null
+        categoryService.create(categoryViewCreation, "admin")
 
         (1..200).forEach {
             val id = productService.createProduct(
@@ -109,7 +111,7 @@ class CustomResourceServerConfigurerAdapter : ResourceServerConfigurerAdapter() 
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .antMatchers("/products").permitAll()
+                .antMatchers("/products", "/product/*", "/products/market/*").permitAll()
                 .anyRequest().authenticated()
     }
 }
