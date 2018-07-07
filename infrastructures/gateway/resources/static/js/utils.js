@@ -10,6 +10,14 @@ function del(url, data, success, fail) {
     request("delete", url, data, success, fail)
 }
 
+function get(url, data, success, fail) {
+    request("get", url, data, success, fail)
+}
+
+function get(url, success, fail) {
+    request("get", url, null, success, fail)
+}
+
 function request(method, url, data, success, fail) {
     function failDefault(error) {
         console.log(error)
@@ -18,7 +26,7 @@ function request(method, url, data, success, fail) {
     $.ajax({
         method: method,
         headers: {
-            'Accept': 'application/json',
+            'Authorization': getAuthorization(),
             'Content-Type': 'application/json'
         },
         url: url,
@@ -33,4 +41,15 @@ function request(method, url, data, success, fail) {
 
 function getId() {
     return window.location.href.split("/").slice(-1)[0]
+}
+
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function getAuthorization() {
+    return getCookie("token_type") + " " + getCookie("access_token")
 }

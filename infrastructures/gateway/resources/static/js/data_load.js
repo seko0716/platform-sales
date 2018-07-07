@@ -38,7 +38,8 @@ function loadProducts() {
 
 
 function loadChart() {
-    $.get("/market/products/chart", function (products) {
+
+    get("/market/products/chart", function (products) {
         var template =
             "{{#.}}<a href=\"/market/view/product/{{id}}\"><div class=\"col-md-6\">" +
             "  <div class=\"thumbnail\">" +
@@ -413,7 +414,7 @@ function calculateAllSum() {
 
 
 function updateCartCount() {
-    $.get("/market/orders/cart", function (orders) {
+    get("/market/orders/cart", function (orders) {
         getElement("cart_count").innerText = " Count: " + orders.length
     });
 }
@@ -466,7 +467,7 @@ function loadAccount() {
     var marketName = getId();
     $.ajax({
         type: 'GET',
-        url: "http://localhost:8085/account/account/" + marketName,
+        url: "/account/account/" + marketName,
         headers: getAuthData(),
         success: function (account) {
             getElement("shop_name").innerText = account.marketName;

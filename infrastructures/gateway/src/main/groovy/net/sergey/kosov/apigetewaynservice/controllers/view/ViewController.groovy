@@ -45,4 +45,9 @@ class ViewController {
     String orders() {
         return "orders"
     }
+
+    @GetMapping("/view/login")
+    String login() {
+        return "login"
+    }
 }

@@ -31,7 +31,7 @@ function createProduct() {
         productInfo: productInfo
     };
     put("/market/product", data, function (product) {
-        window.location.replace("/market/view/product/" + product.id);
+        window.location.replace("/view/product/" + product.id);
     }, function (error) {
         alert("error");
     });
