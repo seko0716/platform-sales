@@ -25,9 +25,3 @@ spring:
     prefix: file:./infrastructures/gateway/resources/templates/
   resources:
     static-locations: file:./infrastructures/gateway/resources/static/
-
-
-security:
-  user:
-    password: 11
-    name: user
