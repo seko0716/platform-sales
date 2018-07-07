@@ -34,7 +34,7 @@ spring:
 #      username: user
 #      password: ${MONGODB_PASSWORD}
       database: market
-      port: 27017
+      port: 27018
 
 security:
   oauth2:
