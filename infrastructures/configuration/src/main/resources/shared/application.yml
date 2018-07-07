@@ -45,4 +45,4 @@ eureka:
 security:
   oauth2:
     resource:
-      user-info-uri: http://192.168.0.106:5000/uaa/users/current
+      user-info-uri: http://192.168.0.105:5000/uaa/users/current
