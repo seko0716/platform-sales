@@ -54,3 +54,7 @@ function getOauthTokenFromStorage() {
 function removeOauthTokenFromStorage() {
     return localStorage.removeItem('token');
 }
+
+function showLoginForm() {
+    window.location.replace("/view/login");
+}

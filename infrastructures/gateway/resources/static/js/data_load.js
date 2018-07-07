@@ -424,7 +424,7 @@ function addToCart() {
     put("/market/order/cart/" + id, null, function () {
         updateCartCount()
     }, function (err) {
-        console.log(err)
+        showLoginForm()
     })
 }
 
@@ -432,7 +432,7 @@ function buyOrder(orderId) {
     post("/market/order/buyCart/" + orderId, null, function (order) {
         window.location.replace("/view/order/" + order.id);
     }, function (err) {
-        console.log(err)
+        showLoginForm()
     })
 }
 
@@ -440,7 +440,7 @@ function buy(id = getId()) {
     put("/market/order", {productId: id, count: 1}, function (order) {
         window.location.replace("/view/order/" + order.id);
     }, function (err) {
-        console.log(err)
+        showLoginForm()
     })
 }
 

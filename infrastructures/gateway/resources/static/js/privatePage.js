@@ -1,7 +1,3 @@
-function showLoginForm() {
-    window.location.replace("/view/login");
-}
-
 $(window).load(function () {
 
     let user = getCurrentUser();
