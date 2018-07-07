@@ -18,11 +18,11 @@ function get(url, success, fail) {
     request("get", url, null, success, fail)
 }
 
-function request(method, url, data, success, fail) {
-    function failDefault(error) {
-        console.log(error)
-    }
+function failDefault(error) {
+    console.log(error)
+}
 
+function request(method, url, data, success, fail = failDefault) {
     $.ajax({
         method: method,
         headers: {
