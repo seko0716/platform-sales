@@ -47,11 +47,12 @@
             </ul>
         </div>
         <script>
-            isAuthorize(function () {
+            var token = getOauthTokenFromStorage()
+            if (token) {
                 $("#login").hide()
-            }, function () {
+            } else {
                 $("#logout").hide()
-            });
+            }
 
             updateCartCount();
 
