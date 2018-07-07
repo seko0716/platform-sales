@@ -53,3 +53,15 @@ function getCookie(name) {
 function getAuthorization() {
     return getCookie("token_type") + " " + getCookie("access_token")
 }
+
+function isAuthorize(authorize = function () {
+
+}, anon = function () {
+    window.location.replace("/view/login");
+}) {
+    get("/uaa/users/current", function (message) {
+        authorize()
+    }, function (error) {
+        anon()
+    });
+}
