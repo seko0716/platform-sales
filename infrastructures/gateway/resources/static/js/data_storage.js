@@ -36,3 +36,30 @@ function createProduct() {
         console.log(error)
     });
 }
+
+function createAccount() {
+    function calculateGender() {
+        if (getElement("femaleRadio").checked)
+            return "FEMALE";
+        if (getElement("maleRadio").checked)
+            return "MALE";
+        if (getElement("uncknownRadio").checked)
+            return "UNCKNOWN";
+    }
+
+    var data = {
+        fullName: getElement("fullName").value,
+        firstName: getElement("fist_name").value,
+        lastName: getElement("last_name").value,
+        email: getElement("email").value,
+        password: getElement("password").value,
+        marketName: getElement("market_name").value,
+        birthDay: getElement("birthDate").value,
+        country: getElement("country").value,
+        gender: calculateGender()
+
+    };
+    put("/account/create", data, function (data) {
+        console.log(data)
+    })
+}

@@ -50,4 +50,9 @@ class ViewController {
     String login() {
         return "login"
     }
+
+    @GetMapping("/view/registration")
+    String registration() {
+        return "registration"
+    }
 }

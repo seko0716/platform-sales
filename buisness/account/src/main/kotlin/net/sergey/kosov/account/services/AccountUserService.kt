@@ -1,5 +1,6 @@
 package net.sergey.kosov.account.services
 
+import net.sergey.kosov.account.api.AuthUserClient
 import net.sergey.kosov.account.domains.User
 import net.sergey.kosov.account.repositories.UserRepository
 import net.sergey.kosov.common.exceptions.NotFoundException
@@ -8,8 +9,12 @@ import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
 
 @Service
-class AccountUserService(var userRepository: UserRepository) : UserService {
+class AccountUserService(var userRepository: UserRepository,
+                         var authUserClient: AuthUserClient) : UserService {
     override fun createUser(user: User): User {
+        val authUser = User.User(username = user.email, password = user.password)
+        authUserClient.createUser(authUser)
+        user.password = ""
         return userRepository.insert(user)
     }
 
@@ -21,3 +26,4 @@ class AccountUserService(var userRepository: UserRepository) : UserService {
         return findByQuery.first()
     }
 }
+
