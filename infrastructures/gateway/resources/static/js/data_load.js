@@ -11,7 +11,7 @@ function _fillProductList(products) {
         "<img alt=\"\" src=\"http://placehold.it/320x150\">" +
         "<div class=\"caption\">" +
         "<h4 class=\"pull-right\">$ {{price}}</h4>" +
-        "<h4><a style=\"white-space: normal\" href=\"/market/view/product/{{id}}\">{{title}}</a></h4>" +
+        "<h4><a style=\"white-space: normal\" href=\"/view/product/{{id}}\">{{title}}</a></h4>" +
         "<p>{{description}}</p>" +
         "</div>" +
         "<div class=\"ratings\">" +
@@ -41,7 +41,7 @@ function loadChart() {
 
     get("/market/products/chart", function (products) {
         var template =
-            "{{#.}}<a href=\"/market/view/product/{{id}}\"><div class=\"col-md-6\">" +
+            "{{#.}}<a href=\"/view/product/{{id}}\"><div class=\"col-md-6\">" +
             "  <div class=\"thumbnail\">" +
             "    <img src=\"http://placehold.it/320x150\" alt=\"\">" +
             // "    <div class=\"caption\">" +
@@ -83,7 +83,7 @@ function loadProduct() {
         getElement("product-desc").innerText = product.description;
         getElement("product-price").innerText = '$ ' + product.price;
         getElement("product-shop").innerText = product.account.marketName;
-        getElement("product_shop_url").href = '/market/view/shop/' + product.account.marketName;
+        getElement("product_shop_url").href = '/view/shop/' + product.account.marketName;
 
 
         getElement("product-info").innerHTML = product.productInfo;
@@ -183,11 +183,11 @@ function loadOrders() {
             "</thead>" +
             "<tbody>" +
             "{{#.}}<tr>" +
-            "    <td class=\"warning\">{{#created}}<a href='/market/view/order/{{id}}'>{{title}}</a>{{/created}}</td>" +
-            "    <td class=\"info\">{{#processing}}<a href='/market/view/order/{{id}}'>{{title}}</a>{{/processing}}</td>" +
-            "    <td class=\"primary\">{{#processed}}<a href='/market/view/order/{{id}}'>{{title}}</a>{{/processed}}</td>" +
-            "    <td class=\"success\">{{#completed}}<a href='/market/view/order/{{id}}'>{{title}}</a>{{/completed}}</td>" +
-            "    <td class=\"active\">{{#canceled}}<a href='/market/view/order/{{id}}'>{{title}}</a>{{/canceled}}</td>" +
+            "    <td class=\"warning\">{{#created}}<a href='/view/order/{{id}}'>{{title}}</a>{{/created}}</td>" +
+            "    <td class=\"info\">{{#processing}}<a href='/view/order/{{id}}'>{{title}}</a>{{/processing}}</td>" +
+            "    <td class=\"primary\">{{#processed}}<a href='/view/order/{{id}}'>{{title}}</a>{{/processed}}</td>" +
+            "    <td class=\"success\">{{#completed}}<a href='/view/order/{{id}}'>{{title}}</a>{{/completed}}</td>" +
+            "    <td class=\"active\">{{#canceled}}<a href='/view/order/{{id}}'>{{title}}</a>{{/canceled}}</td>" +
             "    <td>" +
             "        {{#created}}<button onclick='cancelOrderById(\"{{id}}\")' type=\"button\" class=\"btn btn-default btn-sm\">" +
             "            <span class=\"glyphicon glyphicon-ban-circle\"></span>" +
@@ -293,7 +293,7 @@ function cancelOrder() {
 function deleteOrder() {
     var id = getId();
     post("/market/order/delete/" + id, null, function () {
-        window.location.replace("/market/view/orders")
+        window.location.replace("/view/orders")
     }, function (err) {
         console.log(err)
     });
@@ -332,9 +332,9 @@ function loadCart() {
             "            </a>" +
             "            <div class=\"media-body\">" +
             "<span hidden class='orderId'>{{id}}</span>" +
-            "                <h4 class=\"media-heading\"><a href=\"/market/view/product/{{product.id}}\">{{title}}</a></h4>" +
+            "                <h4 class=\"media-heading\"><a href=\"/view/product/{{product.id}}\">{{title}}</a></h4>" +
             "                <h5 class=\"media-heading\"> by " +
-            "<a href=\"/market/view/shop/{{product.account.marketName}}\" class=\"text-success\">{{product.account.marketName}}</a></h5>" +
+            "<a href=\"/view/shop/{{product.account.marketName}}\" class=\"text-success\">{{product.account.marketName}}</a></h5>" +
 
             "            </div>" +
             "        </div>" +
@@ -367,7 +367,7 @@ function loadCart() {
             "    <td>  </td>" +
             "    <td>  </td>" +
             "    <td>" +
-            "        <button type=\"button\" class=\"btn btn-default\" onclick='window.location.replace(\"/market/view/products\")'>" +
+            "        <button type=\"button\" class=\"btn btn-default\" onclick='window.location.replace(\"/view/products\")'>" +
             "            <span class=\"glyphicon glyphicon-shopping-cart\"></span> Continue Shopping" +
             "        </button>" +
             "    </td>" +
@@ -430,7 +430,7 @@ function addToCart() {
 
 function buyOrder(orderId) {
     post("/market/order/buyCart/" + orderId, null, function (order) {
-        window.location.replace("/market/view/order/" + order.id);
+        window.location.replace("/view/order/" + order.id);
     }, function (err) {
         console.log(err)
     })
@@ -438,7 +438,7 @@ function buyOrder(orderId) {
 
 function buy(id = getId()) {
     put("/market/order", {productId: id, count: 1}, function (order) {
-        window.location.replace("/market/view/order/" + order.id);
+        window.location.replace("/view/order/" + order.id);
     }, function (err) {
         console.log(err)
     })
@@ -453,7 +453,7 @@ function buyAll() {
             console.log(err)
         });
     });
-    window.location.replace("/market/view/orders");
+    window.location.replace("/view/orders");
 }
 
 
