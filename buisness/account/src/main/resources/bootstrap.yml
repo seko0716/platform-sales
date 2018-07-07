@@ -30,7 +30,7 @@ spring:
   mongodb:
     embedded:
       storage:
-        database-dir: account-mongo
+        database-dir: db/account-mongo
 
 server:
   context-path: /account

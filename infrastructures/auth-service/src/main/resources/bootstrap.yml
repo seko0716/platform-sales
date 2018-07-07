@@ -20,6 +20,10 @@ spring:
       fail-fast: true
       password: 11
       username: user
+  mongodb:
+    embedded:
+      storage:
+        database-dir: db/auth-mongo
 
 server:
   context-path: /uaa

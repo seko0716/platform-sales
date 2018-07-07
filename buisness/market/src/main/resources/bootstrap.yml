@@ -17,7 +17,10 @@ spring:
   cloud:
     config:
       uri: http://192.168.0.105:8888
-
+  mongodb:
+    embedded:
+      storage:
+        database-dir: db/market-mongo
 
 
 logging:
