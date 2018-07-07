@@ -51,7 +51,11 @@ function getCookie(name) {
 }
 
 function getAuthorization() {
-    return getCookie("token_type") + " " + getCookie("access_token")
+    var token = getOauthTokenFromStorage();
+    if (token == null) {
+        return ""
+    }
+    return "Bearer " + token
 }
 
 function isAuthorize(authorize = function () {
@@ -64,4 +68,12 @@ function isAuthorize(authorize = function () {
     }, function (error) {
         anon()
     });
+}
+
+function getOauthTokenFromStorage() {
+    return localStorage.getItem('token');
+}
+
+function removeOauthTokenFromStorage() {
+    return localStorage.removeItem('token');
 }

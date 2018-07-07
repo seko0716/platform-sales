@@ -37,9 +37,28 @@
                     <a href="/view/cart" id="cart_count" class="glyphicon glyphicon-shopping-cart"> </a>
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a id="login" href="/view/login">Login</a>
+                </li>
+                <li id="logout">
+                    <a href="#" onclick="logout()">Logout</a>
+                </li>
+            </ul>
         </div>
         <script>
-            updateCartCount()
+            isAuthorize(function () {
+                $("#login").hide()
+            }, function () {
+                $("#logout").hide()
+            });
+
+            updateCartCount();
+
+            function logout() {
+                removeOauthTokenFromStorage();
+                location.reload();
+            }
         </script>
 
         <!-- /.navbar-collapse -->

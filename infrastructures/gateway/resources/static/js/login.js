@@ -14,14 +14,14 @@ function login() {
         },
         url: "/uaa/oauth/token",
         data: credential,
-        success: function (msg) {
-            document.cookie = "access_token=" + msg.access_token;
-            document.cookie = "token_type=" + msg.token_type;
+        success: function (data) {
+            localStorage.setItem('token', data.access_token);
             window.location.replace("/view/products/");
         },
         error: function (msg) {
             console.log("error");
             console.log(msg);
+            removeOauthTokenFromStorage()
         }
     });
 }
