@@ -18,10 +18,10 @@ class AccountUserService(var userRepository: UserRepository,
         return userRepository.insert(user)
     }
 
-    override fun getUser(username: String): User {
-        val findByQuery = userRepository.findByQuery(Query(Criteria.where("name").`is`(username)))
+    override fun getUser(email: String): User {
+        val findByQuery = userRepository.findByQuery(Query(Criteria.where("email").`is`(email)))
         if (findByQuery.size != 1) {
-            throw NotFoundException("can not found user by name: $username")
+            throw NotFoundException("can not found user by email: $email")
         }
         return findByQuery.first()
     }

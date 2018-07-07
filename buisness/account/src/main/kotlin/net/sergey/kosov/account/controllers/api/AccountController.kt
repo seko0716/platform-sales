@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class AccountController(var accountService: AccountService) {
 
-    @GetMapping(path = ["/account/{name}"])
-    fun getAccount(@PathVariable("name") name: String): Account {
-        return accountService.getAccount(name)
+    @GetMapping(path = ["/account/{marketName}"])
+    fun getAccount(@PathVariable("marketName") marketName: String): Account {
+        return accountService.getAccount(marketName)
     }
 
     @PreAuthorize("permitAll()")

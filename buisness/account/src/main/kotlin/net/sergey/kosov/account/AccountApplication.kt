@@ -1,8 +1,11 @@
 package net.sergey.kosov.account
 
 import feign.RequestInterceptor
-import net.sergey.kosov.account.services.AccountService
-import net.sergey.kosov.account.services.UserService
+import net.sergey.kosov.account.domains.Account
+import net.sergey.kosov.account.domains.Gender
+import net.sergey.kosov.account.domains.User
+import net.sergey.kosov.account.repositories.AccountRepository
+import net.sergey.kosov.account.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -18,6 +21,8 @@ import org.springframework.security.oauth2.client.token.grant.client.ClientCrede
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter
+import java.time.LocalDate
+import javax.annotation.PostConstruct
 
 @EnableOAuth2Client
 @EnableResourceServer
@@ -25,9 +30,21 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @SpringBootApplication
 class AccountApplication {
     @Autowired
-    lateinit var accountService: AccountService
+    lateinit var accountService: AccountRepository
     @Autowired
-    lateinit var userService: UserService
+    lateinit var userService: UserRepository
+
+    @PostConstruct
+    fun init() {
+        try {
+            accountService.save(Account(marketName = "test", description = ""))
+            val save = accountService.save(Account(marketName = "admin", description = ""))
+            userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "admin", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = save, password = ""))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
 
 
 }

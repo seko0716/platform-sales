@@ -27,10 +27,10 @@ class AccountAccountService(var accountRepository: AccountRepository,
         return accountRepository.insert(account)
     }
 
-    override fun getAccount(name: String): Account {
-        val findByQuery = accountRepository.findByQuery(Query(Criteria.where("marketName").`is`(name)))
+    override fun getAccount(marketName: String): Account {
+        val findByQuery = accountRepository.findByQuery(Query(Criteria.where("marketName").`is`(marketName)))
         if (findByQuery.size != 1) {
-            throw NotFoundException("can not found account by marketName: $name")
+            throw NotFoundException("can not found account by marketName: $marketName")
         }
         return findByQuery.first()
     }

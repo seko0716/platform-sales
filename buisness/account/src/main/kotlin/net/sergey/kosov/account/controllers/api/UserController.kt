@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class UserController(var userService: UserService) {
-    @GetMapping(path = ["/user/{name}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
-    fun getUser(@PathVariable("name") username: String): User {
-        return userService.getUser(username)
+    @GetMapping(path = ["/user/{email}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    fun getUser(@PathVariable("email") email: String): User {
+        return userService.getUser(email)
     }
 }

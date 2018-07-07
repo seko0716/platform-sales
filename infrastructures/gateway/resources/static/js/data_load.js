@@ -117,7 +117,7 @@ function getCharacteristics(category, characteristics = []) {
     return characteristics;
 }
 
-let categoriesStorage;
+var categoriesStorage;
 
 function loadAvailableCategories() {
     get("/market/categories", function (categories) {
@@ -277,7 +277,7 @@ function cancelOrderById(id) {
     });
 }
 
-function deleteOrderById(id, operation=loadOrders) {
+function deleteOrderById(id, operation = loadOrders) {
     post("/market/order/delete/" + id, null, operation, function (err) {
         console.log(err)
     });
@@ -390,7 +390,7 @@ function loadCart() {
 }
 
 
-function targetSum(price, count, id, send=true) {
+function targetSum(price, count, id, send = true) {
     getElement(id).innerText = "$" + price * count;
     calculateAllSum();
     if (send) {
