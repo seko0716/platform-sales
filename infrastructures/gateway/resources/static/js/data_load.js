@@ -468,44 +468,25 @@ function loadAccount() {
     get("/account/account/" + marketName, function (account) {
         getElement("shop_name").innerText = account.marketName;
 
-        account.images = ["https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg", "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg", "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg"]
-
         const array = account.images;
-        const images = [];
+        if (array.length > 0) {
+            const images = [];
 
-        for (idx in array) {
-            images.push({'index': idx, 'str': array[idx]});
+            for (idx in array) {
+                images.push({'index': idx, 'str': array[idx]});
+            }
+            console.log(images);
+
+            var templateIndicators = "{{#.}}<li data-target=\"#carousel-example-generic\" data-slide-to=\"0\" id='actual{{index}}'></li>{{/.}}";
+            _fillData(templateIndicators, images, "#carousel-indicators");
+            $('#actual0').addClass("active");
+
+            var templateImages = "{{#.}}<div class=\"item\" id='item_active{{index}}'>" +
+                "                                <img class=\"slide-image\" src=\"{{str}}\" alt=\"\">" +
+                "                            </div>{{/.}}";
+            _fillData(templateImages, images, "#carousel-inner");
+            $('#item_active0').addClass("active");
         }
-        console.log(images);
-
-        const templateIndicators = "<li data-target=\"#carousel-example-generic\" data-slide-to=\"0\" id='actual{{index}}'></li>";
-        _fillData(templateIndicators, images, "#carousel-indicators");
-        $('#actual0').class = "active";
-
-        const templateImages = "<div class=\"item\" id='item_active{{index}}'>" +
-            "                                <img class=\"slide-image\" src=\"http://placehold.it/800x300\" alt=\"\">\n" +
-            "                            </div>";
-        _fillData(templateImages, images, "#carousel-inner");
-        $('#item_active0').class = "item active";
-
-
-        /* const template =
-             "<ol class=\"carousel-indicators\">\n" +
-             "    {{#.}}<li data-target=\"#carousel-example-generic\" data-slide-to=\"{{index}}\" id='actual{{index}}'></li> {{/.}}" +
-             "</ol>\n" +
-             "<div class=\"carousel-inner\">\n" +
-             "    {{#.}}<div class='item' id='item_active{{index}}'>\n" +
-             "        <img class=\"slide-image\" src=\"{{str}}\" alt=\"\">\n" +
-             "    </div>{{/.}}" +
-             "</div>\n" +
-             "<a class=\"left carousel-control\" href=\"#carousel-example-generic\" data-slide=\"prev\">\n" +
-             "    <span class=\"glyphicon glyphicon-chevron-left\"></span>\n" +
-             "</a>\n" +
-             "<a class=\"right carousel-control\" href=\"#carousel-example-generic\" data-slide=\"next\">\n" +
-             "    <span class=\"glyphicon glyphicon-chevron-right\"></span>\n" +
-             "</a>";*/
-        // _fillData(template, images, "#carousel-example-generic");
-
 
     });
 

@@ -37,7 +37,10 @@ class AccountApplication {
     @PostConstruct
     fun init() {
         try {
-            accountService.save(Account(marketName = "test", description = ""))
+            accountService.save(Account(marketName = "test", description = "",
+                    images = listOf("https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
+                            "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
+                            "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg")))
             val save = accountService.save(Account(marketName = "admin", description = ""))
             userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "admin", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = save, password = ""))
         } catch (e: Exception) {
