@@ -44,6 +44,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.security.oauth:spring-security-oauth2'
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-websocket'
     compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.3")

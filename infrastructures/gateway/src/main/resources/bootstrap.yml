@@ -43,3 +43,8 @@ zuul:
       serviceId: account-service
       stripPrefix: false
       sensitiveHeaders:
+    communication-service:
+      path: /communication/**
+      serviceId: communication-service
+      stripPrefix: false
+      sensitiveHeaders:
