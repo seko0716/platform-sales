@@ -7,3 +7,47 @@ spring:
       fail-fast: true
       password: ${CONFIG_SERVICE_PASSWORD}
       username: user
+  profiles:
+    active: test
+---
+spring:
+  application:
+    name: communication-service
+  profiles: test
+  cloud:
+    config:
+      uri: http://192.168.0.105:8888
+      fail-fast: true
+      password: 11
+      username: user
+  data:
+    mongodb:
+      host: localhost
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+      database: communication
+      port: 27020
+  mongodb:
+    embedded:
+      storage:
+        database-dir: db/communication-mongo
+
+server:
+  context-path: /communication
+  port: 8086
+
+
+
+security:
+  oauth2:
+    client:
+      clientId: communication-service
+      clientSecret: communication
+      accessTokenUri: http://192.168.0.105:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG
