@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+
+</head>
+
+<body>
+
+
+<div class="col-md-9">
+    <div th:fragment="create_category">
+        <div class="form-group">
+            <label for="category_name">Category name</label>
+            <input type="text" class="form-control" id="category_name" placeholder="category name">
+        </div>
+        <div class="form-group">
+            <label for="description">Category description</label>
+            <input type="text" id="description" class="form-control" placeholder="description">
+        </div>
+        <div class="form-group">
+            <label for="categories">Parent category</label>
+            <select class="form-control" id="categories">
+                <!--<option value="id1">Parent1</option>
+                <option value="id2">Parent2</option>
+                <option value="id3">Parent3</option>
+                <option value="id4">Parent4</option>
+                <option value="id5">Parent5</option>-->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="properties">Category properties (duplicates in hierarchy be deleted)</label>
+            <select multiple class="form-control" id="properties" size="8">
+                <!--<option>Apple</option>
+                <option>Pear</option>
+                <option>Banana</option>
+                <option>Orange</option>-->
+            </select>
+            <br>
+            <div id="exist_alert" hidden=true class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                Characteristic already exist.
+            </div>
+            <input type="text" id="property_name" placeholder="new property name">
+            <button type="button" onclick="insertOption()">Insert property</button>
+            <button type="button" onclick="removeOption()">Remove property</button>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" onclick="createCategory()">Create</button>
+        </div>
+
+
+        <script>
+            loadAvailableCategories()
+        </script>
+        <script>
+            function insertOption() {
+                var property_name = document.getElementById("property_name").value;
+                var parentId = document.getElementById("categories").value;
+                var parentCategory = categoriesStorage.filter(function (it) {
+                    return it.id === parentId;
+                })[0];
+                var characteristicNames = getCharacteristics(parentCategory).map(function (it) {
+                    return it.name
+                });
+                Array.apply(null, getElement('properties').options).forEach(function (it) {
+                    characteristicNames.push(it.value);
+                });
+                var result = characteristicNames.includes(property_name);
+                if (result) {
+                    getElement("exist_alert").hidden = false
+                } else {
+                    var x = document.getElementById("properties");
+                    var option = document.createElement("option");
+                    option.text = property_name;
+                    x.add(option);
+                    getElement("exist_alert").hidden = true
+                }
+            }
+
+            function removeOption() {
+                var x = document.getElementById("properties");
+                x.remove(x.selectedIndex);
+            }
+        </script>
+
+    </div>
+</div>
+<!-- /.container -->
+
+
+</body>
+
+</html>

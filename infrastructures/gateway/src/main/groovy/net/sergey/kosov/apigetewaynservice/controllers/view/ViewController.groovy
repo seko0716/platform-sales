@@ -2,57 +2,54 @@ package net.sergey.kosov.apigetewaynservice.controllers.view
 
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
+@RequestMapping("/view")
 class ViewController {
 
-    @GetMapping("/view/products")
+    @GetMapping("/products")
     String products() {
         return "products"
     }
 
-    @GetMapping("/view/product/*")
+    @GetMapping("/product/*")
     String product() {
         return "product"
     }
 
-    @GetMapping("/view/create_category")
-    String category() {
-        return "create_category"
-    }
-
-    @GetMapping("/view/create_product")
-    String createProduct() {
-        return "create_product"
-    }
-
-    @GetMapping("/view/shop/*")
+    @GetMapping("/shop/*")
     String shop() {
         return "shop"
     }
 
-    @GetMapping("/view/cart")
+    @GetMapping("/cart")
     String cart() {
         return "cart"
     }
 
-    @GetMapping("/view/order/*")
+    @GetMapping("/order/*")
     String order() {
         return "order"
     }
 
-    @GetMapping("/view/orders")
+    @GetMapping("/orders")
     String orders() {
         return "orders"
     }
 
-    @GetMapping("/view/login")
+    @GetMapping("/login")
     String login() {
         return "login"
     }
 
-    @GetMapping("/view/registration")
+    @GetMapping("/registration")
     String registration() {
         return "registration"
+    }
+
+    @GetMapping("/account")
+    String account() {
+        return "account"
     }
 }
