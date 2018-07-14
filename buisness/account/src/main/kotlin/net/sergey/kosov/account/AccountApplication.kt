@@ -78,7 +78,7 @@ class CustomResourceServerConfigurerAdapter : ResourceServerConfigurerAdapter() 
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .antMatchers("/products", "/product/*", "/products/market/*").permitAll()
+                .antMatchers("/create", "/product/*", "/products/market/*").permitAll()
                 .anyRequest().authenticated()
     }
 }

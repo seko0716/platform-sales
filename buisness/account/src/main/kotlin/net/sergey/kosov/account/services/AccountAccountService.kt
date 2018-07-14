@@ -8,10 +8,12 @@ import net.sergey.kosov.common.exceptions.NotFoundException
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AccountAccountService(var accountRepository: AccountRepository,
                             var userService: UserService) : AccountService {
+    @Transactional
     override fun createAccount(viewCreationAccount: ViewCreationAccount): Account {
         val account = Account(marketName = viewCreationAccount.marketName, images = listOf())
         val user = User(fullName = viewCreationAccount.fullName,

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class UserController(var userService: UserService) {
-    @GetMapping(path = ["/user/{email}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    @GetMapping(path = ["/user/{email:.+}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun getUser(@PathVariable("email") email: String): User {
         return userService.getUser(email)
     }
