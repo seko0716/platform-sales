@@ -7,13 +7,12 @@ import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import net.sergey.kosov.market.services.CategoryService
 import net.sergey.kosov.market.services.OrderService
 import net.sergey.kosov.market.services.ProductService
-import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import java.math.BigDecimal
 import javax.annotation.PostConstruct
 
 @Profile("test")
-@Configuration
+//@Configuration
 class DataInit(var productService: ProductService,
                var categoryService: CategoryService,
                var orderService: OrderService) {

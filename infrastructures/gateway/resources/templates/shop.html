@@ -53,18 +53,13 @@
             <div class="row carousel-holder">
                 <div class="col-md-12">
                     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carousel-example-generic" data-slide-to="0" id="actual0"
-                                class="active"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="1" id="actual1"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="2" id="actual2"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="3" id="actual3"></li>
+                        <ol class="carousel-indicators" id="carousel-indicators">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
                         </ol>
-                        <div class="carousel-inner">
-                            <div class="item" id="item_active0">
-                                <img class="slide-image" src="http://placehold.it/800x300" alt="">
-                            </div>
-                            <div class="item active left" id="item_active1">
+                        <div class="carousel-inner" id="carousel-inner">
+                            <div class="item active">
                                 <img class="slide-image" src="http://placehold.it/800x300" alt="">
                             </div>
                             <div class="item">
@@ -85,7 +80,7 @@
 
             </div>
 
-            <div th:replace="fragments/product_list :: shop_products"></div>
+            <!--<div th:replace="fragments/product_list :: shop_products"></div>-->
 
         </div>
 
@@ -122,6 +117,9 @@
 <script src="/js/utils.js"></script>
 <script src="/js/data_load.js"></script>
 
+<script>
+    loadAccount();
+</script>
 
 </body>
 
