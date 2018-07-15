@@ -3,6 +3,7 @@ package net.sergey.kosov.market.services
 import net.sergey.kosov.common.exceptions.NotFoundException
 import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.api.StatisticApi
+import net.sergey.kosov.market.domains.entity.Account
 import net.sergey.kosov.market.domains.entity.Category
 import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.entity.Product
@@ -24,7 +25,7 @@ class MarketProductService(private val productRepository: ProductRepository,
 
     override fun getProducts4Market(userName: String): List<Product> {
         val account = getAccount(userName)
-        return productRepository.findByQuery(getProductQuery().addCriteria(Criteria.where(_Product.ACCOUNT).`is`(account)))
+        return productRepository.findByQuery(getProductQuery().addCriteria(getAccountCriteria(account)))
     }
 
     override fun createProduct(productViewCreation: ProductViewCreation, userName: String): Product {
@@ -74,23 +75,28 @@ class MarketProductService(private val productRepository: ProductRepository,
         return productRepository.findAll(productsIdsChart).toList()
     }
 
-    override fun disabledProduct(id: String): Product = productRepository.save(findProductById(id).apply { enabled = false })
+    override fun disabledProduct(id: String) = productRepository.save(findProductById(id).apply { enabled = false })
 
-    override fun enabledProduct(id: String): Product = productRepository.save(findProductById(id).apply { enabled = true })
+    override fun enabledProduct(id: String) = productRepository.save(findProductById(id).apply { enabled = true })
 
     override fun findProducts(filter: ProductFilter): List<Product> {
-        val betweenCriteria = Criteria().andOperator(Criteria.where(_Product.PRICE).gte(filter.priceLeft),
-                Criteria.where(_Product.PRICE).lte(filter.priceRight))
-        val query = getProductQuery()
-                .addCriteria(betweenCriteria)
-                .addCriteria(Criteria.where(_Product.TITLE).regex(filter.title))
-        return productRepository.findByQuery(query)
+        return productRepository.findByQuery(getProductQuery()
+                .addCriteria(getCriteriaBetweenPrice(filter))
+                .addCriteria(getCriteriaTitleRegex(filter)))
     }
 
-    override fun findProducts(): List<Product> {
-        val query = getProductQuery().limit(100)
-        return productRepository.findByQuery(query)
-    }
+    override fun findProducts(): List<Product> = productRepository.findByQuery(getProductQuery().limit(100))
+
+
+    private fun getAccountCriteria(account: Account) =
+            Criteria.where(_Product.ACCOUNT).`is`(account)
+
+    private fun getCriteriaBetweenPrice(filter: ProductFilter) =
+            Criteria().andOperator(Criteria.where(_Product.PRICE).gte(filter.priceLeft),
+                    Criteria.where(_Product.PRICE).lte(filter.priceRight))
+
+    private fun getCriteriaTitleRegex(filter: ProductFilter) =
+            Criteria.where(_Product.TITLE).regex(filter.title)
 
     private fun getProductQuery() = Query(Criteria.where(_Product.ENABLED).`is`(true))
 }

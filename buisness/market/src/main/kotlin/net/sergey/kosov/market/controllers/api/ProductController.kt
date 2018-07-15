@@ -29,7 +29,7 @@ class ProductController(val productService: ProductService) {
         return productService.getProducts4Market(marketName)
     }
 
-    @PostMapping("/product/{id}/disabled")
+/*    @PostMapping("/product/{id}/disabled")
     fun disabledProduct(@PathVariable("id") id: String): Product { //todo   валидация того что пользователь принадлежит аккаунту продукта
         return productService.disabledProduct(id)
     }
@@ -37,7 +37,7 @@ class ProductController(val productService: ProductService) {
     @PostMapping("/product/{id}/enabled")
     fun enabledProduct(@PathVariable("id") id: String): Product { //todo   валидация того что пользователь принадлежит аккаунту продукта
         return productService.enabledProduct(id)
-    }
+    }*/
 
     @PutMapping("/product")
     fun createProduct(@RequestBody product: ProductViewCreation, principal: Principal): Product {
