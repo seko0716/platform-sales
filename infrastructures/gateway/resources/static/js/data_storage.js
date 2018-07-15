@@ -37,17 +37,17 @@ function createProduct() {
     });
 }
 
-function createAccount() {
-    function calculateGender() {
-        if (getElement("femaleRadio").checked)
-            return "FEMALE";
-        if (getElement("maleRadio").checked)
-            return "MALE";
-        if (getElement("uncknownRadio").checked)
-            return "UNCKNOWN";
-    }
+function calculateGender() {
+    if (getElement("femaleRadio").checked)
+        return "FEMALE";
+    if (getElement("maleRadio").checked)
+        return "MALE";
+    if (getElement("uncknownRadio").checked)
+        return "UNCKNOWN";
+}
 
-    var data = {
+function createAccount() {
+    const data = {
         fullName: getElement("fullName").value,
         firstName: getElement("fist_name").value,
         lastName: getElement("last_name").value,
@@ -66,7 +66,7 @@ function createAccount() {
 
 function updateAccount() {
 
-    var data = {
+    const data = {
         marketName: $('#marketName').val(),
         marketDescription: $('#marketDescription').val(),
         marketId: $('#market_id').text(),
@@ -77,4 +77,21 @@ function updateAccount() {
         location.reload();
     })
 
+}
+
+function updateUser() {
+    const data = {
+        fullName: getElement("fullName").value,
+        firstName: getElement("fist_name").value,
+        lastName: getElement("last_name").value,
+        email: getElement("email").value,
+        password: getElement("password").value,
+        birthDay: getElement("birthDate").value,
+        country: getElement("country").value,
+        gender: calculateGender()
+
+    };
+    post("/account/user/update", data, function (data) {
+        console.log(data)
+    })
 }

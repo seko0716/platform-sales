@@ -485,7 +485,7 @@ function loadCurrentUser() {
         $('#fist_name').val(user.firstName);
         $('#last_name').val(user.lastName);
         $('#email').val(user.email);
-        $('#market_name').val(user.account.marketName);
+        $('#market_name_l').remove();
         $('#birthDate').val(user.birthDay);
         $('#country').val(user.country);
         $('#' + user.gender.toLocaleLowerCase() + "Radio").attr('checked', true);

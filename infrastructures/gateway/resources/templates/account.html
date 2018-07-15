@@ -49,14 +49,14 @@
 
             <div class="row">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#home">MARKET SETTINGS</a></li>
-                    <li><a data-toggle="tab" href="#menu1">USER SETTINGS</a></li>
-                    <li><a data-toggle="tab" href="#menu2">CATEGORIES</a></li>
-                    <li><a data-toggle="tab" href="#menu3">PRODUCTS</a></li>
+                    <li class="active"><a data-toggle="tab" href="#account_tab">MARKET SETTINGS</a></li>
+                    <li><a data-toggle="tab" href="#user_tab">USER SETTINGS</a></li>
+                    <li><a data-toggle="tab" href="#categories_tab">CATEGORIES</a></li>
+                    <li><a data-toggle="tab" href="#products_tab">PRODUCTS</a></li>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home" class="tab-pane fade in active">
+                    <div id="account_tab" class="tab-pane fade in active">
                         <h3>Market</h3>
                         <div>
                             <div class="form-group">
@@ -124,7 +124,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="menu1" class="tab-pane fade">
+                    <div id="user_tab" class="tab-pane fade">
                         <h3>User</h3>
                         <div>
                             <div th:replace="fragments/user_info :: user_info"></div>
@@ -135,12 +135,12 @@
                             </div>
                         </div> <!-- /form -->
                     </div>
-                    <div id="menu2" class="tab-pane fade">
+                    <div id="categories_tab" class="tab-pane fade">
                         <h3>Categories</h3>
                         <p>посмотерть существующие</p>
                         <div th:replace="fragments/create_category :: create_category"></div>
                     </div>
-                    <div id="menu3" class="tab-pane fade">
+                    <div id="products_tab" class="tab-pane fade">
                         <h3>Products</h3>
                         <p>посмотерть существующие</p>
                         <div th:replace="fragments/create_product :: create_product"></div>

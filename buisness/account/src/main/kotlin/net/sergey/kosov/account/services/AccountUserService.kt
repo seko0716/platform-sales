@@ -2,6 +2,7 @@ package net.sergey.kosov.account.services
 
 import net.sergey.kosov.account.api.AuthUserClient
 import net.sergey.kosov.account.domains.User
+import net.sergey.kosov.account.domains.ViewCreationAccount
 import net.sergey.kosov.account.repositories.UserRepository
 import net.sergey.kosov.common.exceptions.NotFoundException
 import org.springframework.data.mongodb.core.query.Criteria
@@ -11,6 +12,19 @@ import org.springframework.stereotype.Service
 @Service
 class AccountUserService(var userRepository: UserRepository,
                          var authUserClient: AuthUserClient) : UserService {
+    override fun updateUser(name: String, viewCreationAccount: ViewCreationAccount): User {
+        val user = getUser(name)
+        user.apply {
+            fullName = viewCreationAccount.fullName
+            firstName = viewCreationAccount.firstName
+            lastName = viewCreationAccount.lastName
+            birthDay = viewCreationAccount.birthDay
+            country = viewCreationAccount.country
+            gender = viewCreationAccount.gender
+        }
+
+        return userRepository.save(user)
+    }
 
     override fun getUsersInAccount(name: String): List<User> {
         val account = getUser(name).account
