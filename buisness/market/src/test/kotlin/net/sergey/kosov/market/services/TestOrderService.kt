@@ -69,21 +69,21 @@ class TestOrderService {
         val currentUser = User("2", "3", email = "test2")
         val goods = productService.createProduct(productViewCreation, "2")
         val order: Order = orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = "2")
-        Assert.assertEquals(order, orderService.findOrder(order.id.toString(), "test2"))
+        Assert.assertEquals(order, orderService.findOrder(order.id.toString(), "1"))
         Assert.assertEquals(Status.CREATED, order.status)
     }
 
     @Test
     fun processOrder() {//после оплаты
         val order: Order = orderService.findOrder(orderId = orderId, userName = "1")
-        val processedOrder = orderService.processingOrder(orderId = order.id.toString(), userName = "test3")
+        val processedOrder = orderService.processingOrder(orderId = order.id.toString(), userName = "1")
         Assert.assertEquals(Status.PROCESSING, processedOrder.status)
     }
 
     @Test
     fun completeOrder() {//после оплаты
         val order: Order = orderService.findOrder(orderId = orderId, userName = "1")
-        val processedOrder = orderService.processingOrder(orderId = order.id.toString(), userName = "test3")
+        val processedOrder = orderService.processingOrder(orderId = order.id.toString(), userName = "1")
         val completedOrder = orderService.completeOrder(orderId = processedOrder.id.toString(), userName = "1")
         Assert.assertEquals(Status.COMPLETED, completedOrder.status)
     }
