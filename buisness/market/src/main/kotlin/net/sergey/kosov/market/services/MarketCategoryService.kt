@@ -29,7 +29,7 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
 
     private fun findParentCategory(parentId: String?, name: String, accountId: String): Category? {
         return if (parentId != null) {
-            findCategoryById(parentId, name, accountId)
+            findCategoryById(parentId, accountId, name)
         } else {
             null
         }

@@ -76,7 +76,7 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         if (order != null) {
             val user = accountApi.getUser(userName)
             val marketId = order.product.account.id
-            if (order.customer != user && accountApi.getAccount(userName, marketId) == order.product.account) {
+            if (order.customer != user && accountApi.getAccount(userName, marketId) != order.product.account) {
                 throw NotFoundException("Can Not Found Order By id = $orderId")
             }
             return order
@@ -99,7 +99,7 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
                 .addCriteria(Criteria.where(_Order.ID).`is`(orderId))).firstOrNull()
         if (order != null) {
             val marketId = order.product.account.id
-            if (accountApi.getAccount(userName, marketId) == order.product.account) {
+            if (accountApi.getAccount(userName, marketId) != order.product.account) {
                 throw NotFoundException("Can Not Found Order By id = $orderId")
             }
             return order

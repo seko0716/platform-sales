@@ -40,7 +40,7 @@ class AccountApplication {
     @PostConstruct
     fun init() {
         try {
-            accountService.save(Account(marketName = "test", description = "",
+            val test = accountService.save(Account(marketName = "test", description = "",
                     images = listOf("https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                             "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                             "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg")))
@@ -48,6 +48,7 @@ class AccountApplication {
                     "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                     "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg"), users = listOf("test")))
             userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "admin", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = save))
+            userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "test", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = test))
         } catch (e: Exception) {
             e.printStackTrace()
         }
