@@ -25,7 +25,7 @@ class AccountAccountService(var accountRepository: AccountRepository,
                 country = viewCreationAccount.country,
                 gender = viewCreationAccount.gender,
                 account = account)
-        val createdUser = userService.createUser(user, viewCreationAccount.password)
+        userService.createUser(user, viewCreationAccount.password)
         return accountRepository.insert(account)
     }
 
@@ -34,11 +34,8 @@ class AccountAccountService(var accountRepository: AccountRepository,
     }
 
     override fun getAccount(marketName: String): Account {
-        val findByQuery = accountRepository.findByQuery(Query(Criteria.where("marketName").`is`(marketName)))
-        if (findByQuery.size != 1) {
-            throw NotFoundException("can not found account by marketName: $marketName")
-        }
-        return findByQuery.first()
+        return accountRepository.findOneByQuery(Query(Criteria.where("marketName").`is`(marketName)))
+                ?: throw NotFoundException("can not found account by marketName: $marketName")
     }
 
     override fun getAccount(userName: String, accountId: String): Account {

@@ -38,11 +38,8 @@ class AccountUserService(var userRepository: UserRepository,
     }
 
     override fun getUser(email: String): User {
-        val findByQuery = userRepository.findByQuery(Query(Criteria.where("email").`is`(email)))
-        if (findByQuery.size != 1) {
-            throw NotFoundException("can not found user by email: $email")
-        }
-        return findByQuery.first()
+        return userRepository.findOneByQuery(Query(Criteria.where("email").`is`(email)))
+                ?: throw NotFoundException("can not found user by email: $email")
     }
 }
 
