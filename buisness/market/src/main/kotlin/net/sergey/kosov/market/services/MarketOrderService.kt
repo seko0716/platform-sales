@@ -27,22 +27,22 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
     private val processingStatuses = listOf(CREATED)
     private val processedStatuses = listOf(PROCESSING)
 
-    override fun createOrderCart(productId: String, name: String): Order {
-        val customer = accountApi.getUser(name)
+    override fun createOrderCart(productId: String, userName: String): Order {
+        val customer = accountApi.getUser(userName)
         val orders = orderRepository.findByQuery(Query(Criteria.where(_Order.STATUS).`is`(Status.IN_A_CART))
                 .addCriteria(Criteria.where("${_Order.product}.${Product._Product.ID}").`is`(ObjectId(productId)))
                 .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
         return if (orders.isNotEmpty()) {
             orders.first()
         } else {
-            val order = createOrder(name, productId, 1)
+            val order = createOrder(userName, productId, 1)
             order.status = IN_A_CART
             orderRepository.insert(order)
         }
     }
 
-    override fun updateOrderCart(orderId: String, count: Int, name: String): Order {
-        val customer = accountApi.getUser(name)
+    override fun updateOrderCart(orderId: String, count: Int, userName: String): Order {
+        val customer = accountApi.getUser(userName)
         val findByQuery = orderRepository.findByQuery(Query(Criteria.where(_Order.STATUS).`is`(Status.IN_A_CART))
                 .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
                 .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
@@ -70,62 +70,62 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         return orderRepository.findByQuery(getQueryOrder().addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)).with(Sort(_Order.CREATED_TIME)))
     }
 
-    override fun findOrder(orderId: String, name: String): Order {
-        val customer = accountApi.getUser(name)
-        val account = accountApi.getAccount(name)
-        val findByQuery = orderRepository.findByQuery(getQueryOrder()
-                .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
-                .addCriteria(Criteria().orOperator(
-                        Criteria.where(_Order.CUSTOMER).`is`(customer),
-                        Criteria.where("${_Order.product}.${Product._Product.ACCOUNT}").`is`(account))))
-        if (findByQuery.size != 1) {
-            throw NotFoundException("Can Not Found Order By id = $orderId")
+    override fun findOrder(orderId: String, userName: String): Order {
+        val order = orderRepository.findByQuery(getQueryOrder()
+                .addCriteria(Criteria.where(_Order.ID).`is`(orderId))).firstOrNull()
+        if (order != null) {
+            val user = accountApi.getUser(userName)
+            val marketId = order.product.account.id
+            if (order.customer != user && accountApi.getAccount(userName, marketId) == order.product.account) {
+                throw NotFoundException("Can Not Found Order By id = $orderId")
+            }
+            return order
         }
-        return findByQuery.first()
+        throw NotFoundException("Can Not Found Order By id = $orderId")
     }
 
-    override fun processingOrder(orderId: String, name: String): Order {
-        val order = findOrderForSaler(name, orderId)
+    override fun processingOrder(orderId: String, userName: String): Order {
+        val order = findOrderForSaler(userName, orderId)
         return orderRepository.save(changeStatus(order, PROCESSING))
     }
 
-    override fun processedOrder(orderId: String, name: String): Order {
-        val order = findOrderForSaler(name, orderId)
+    override fun processedOrder(orderId: String, userName: String): Order {
+        val order = findOrderForSaler(userName, orderId)
         return orderRepository.save(changeStatus(order, PROCESSED))
     }
 
-    private fun findOrderForSaler(name: String, orderId: String): Order {
-        val account = accountApi.getAccount(name)
-        val findByQuery = orderRepository.findByQuery(getQueryOrder()
-                .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
-                .addCriteria(Criteria.where("${_Order.product}.${Product._Product.ACCOUNT}").`is`(account)))
-        if (findByQuery.size != 1) {
-            throw NotFoundException("Can Not Found Order By id = $orderId")
+    private fun findOrderForSaler(userName: String, orderId: String): Order {
+        val order = orderRepository.findByQuery(getQueryOrder()
+                .addCriteria(Criteria.where(_Order.ID).`is`(orderId))).firstOrNull()
+        if (order != null) {
+            val marketId = order.product.account.id
+            if (accountApi.getAccount(userName, marketId) == order.product.account) {
+                throw NotFoundException("Can Not Found Order By id = $orderId")
+            }
+            return order
         }
-        val order = findByQuery.first()
-        return order
+        throw NotFoundException("Can Not Found Order By id = $orderId")
     }
 
-    override fun completeOrder(orderId: String, name: String): Order {
-        val order = findOrderForCustomer(name, orderId)
+    override fun completeOrder(orderId: String, userName: String): Order {
+        val order = findOrderForCustomer(userName, orderId)
         return orderRepository.save(changeStatus(order, COMPLETED))
     }
 
-    override fun cancelOrder(orderId: String, name: String): Order {
-        val order = findOrderForCustomer(name, orderId)
+    override fun cancelOrder(orderId: String, userName: String): Order {
+        val order = findOrderForCustomer(userName, orderId)
         return orderRepository.save(changeStatus(order, CANCELED))
     }
 
-    private fun findOrderForCustomer(name: String, orderId: String): Order {
-        val customer = accountApi.getUser(name)
+    private fun findOrderForCustomer(userName: String, orderId: String): Order {
+        val customer = accountApi.getUser(userName)
         val findByQuery = orderRepository.findByQuery(getQueryOrder()
                 .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
                 .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
         if (findByQuery.size != 1) {
             throw NotFoundException("Can Not Found Order By id = $orderId")
         }
-        val order = findByQuery.first()
-        return order
+        return findByQuery.first()
     }
 
     private fun changeStatus(order: Order, status: Status): Order {
@@ -172,8 +172,8 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         }
     }
 
-    override fun buyCart(orderId: String, name: String): Order {
-        val customer = accountApi.getUser(name)
+    override fun buyCart(orderId: String, userName: String): Order {
+        val customer = accountApi.getUser(userName)
         val findByQuery = orderRepository.findByQuery(Query(Criteria.where(_Order.STATUS).`is`(Status.IN_A_CART))
                 .addCriteria(Criteria.where(_Order.ID).`is`(orderId))
                 .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
@@ -185,8 +185,8 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         return orderRepository.save(order)
     }
 
-    override fun deleteOrder(orderId: String, name: String) {
-        val customer = accountApi.getUser(name)
+    override fun deleteOrder(orderId: String, userName: String) {
+        val customer = accountApi.getUser(userName)
         val findByQuery = orderRepository.findByQuery(Query().addCriteria(Criteria.where(_Order.ID).`is`(orderId))
                 .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
         if (findByQuery.size != 1) {
@@ -200,8 +200,8 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         }
     }
 
-    override fun getCart(name: String): List<Order> {
-        val customer = accountApi.getUser(name)
+    override fun getCart(userName: String): List<Order> {
+        val customer = accountApi.getUser(userName)
         return orderRepository.findByQuery(Query(Criteria.where(_Order.STATUS).`is`(Status.IN_A_CART))
                 .addCriteria(Criteria.where(_Order.CUSTOMER).`is`(customer)))
     }

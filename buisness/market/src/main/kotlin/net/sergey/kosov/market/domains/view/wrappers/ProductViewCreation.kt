@@ -10,4 +10,5 @@ data class ProductViewCreation(var title: String,
                                var price: BigDecimal,
                                var categoryId: String,
                                var characteristics: List<Characteristic> = listOf(),
-                               val productInfo: String)
+                               val productInfo: String,
+                               var accountId: String)

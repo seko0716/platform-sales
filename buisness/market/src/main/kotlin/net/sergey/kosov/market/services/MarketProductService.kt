@@ -22,14 +22,14 @@ class MarketProductService(private val productRepository: ProductRepository,
                            private val categoryService: CategoryService,
                            @Value("\${chart.size}") private var chartSize: Int) : ProductService {
 
-    override fun getProducts4Market(name: String): List<Product> {
-        val account = getAccount(name)
+    override fun getProducts4Market(userName: String): List<Product> {
+        val account = getAccount(userName)
         return productRepository.findByQuery(getProductQuery().addCriteria(Criteria.where(_Product.ACCOUNT).`is`(account)))
     }
 
-    override fun createProduct(productViewCreation: ProductViewCreation, name: String): Product {
-        val account = getAccount(name)
-        val category = categoryService.findCategoryById(productViewCreation.categoryId, name)
+    override fun createProduct(productViewCreation: ProductViewCreation, userName: String): Product {
+        val account = getAccount(userName, productViewCreation.accountId)
+        val category = categoryService.findCategoryById(productViewCreation.categoryId, productViewCreation.accountId, userName)
         val tags = calculateTags(productViewCreation, category)
 
         val products = Product(title = productViewCreation.title,
@@ -63,12 +63,14 @@ class MarketProductService(private val productRepository: ProductRepository,
 
     private fun getAccount(name: String) = accountApi.getAccount(name)
 
+    private fun getAccount(userName: String, accountId: String) = accountApi.getAccount(userName, accountId)
+
     override fun findProductById(id: String): Product {
         return productRepository.findOne(id) ?: throw NotFoundException("can not found product by id $id")
     }
 
-    override fun getProducts4Chart(name: String): List<Product> {
-        val productsIdsChart = statisticApi.getChart(username = name, chartSize = chartSize)
+    override fun getProducts4Chart(userName: String): List<Product> {
+        val productsIdsChart = statisticApi.getChart(username = userName, chartSize = chartSize)
         return productRepository.findAll(productsIdsChart).toList()
     }
 

@@ -41,9 +41,17 @@ class AccountAccountService(var accountRepository: AccountRepository,
         return findByQuery.first()
     }
 
+    override fun getAccount(userName: String, accountId: String): Account {
+        val account = accountRepository.findOne(accountId)
+        if (userService.getUser(email = userName).account == account || account.users.contains(userName)) {
+            return account
+        }
+        throw NotFoundException("can not found account")
+    }
+
     override fun updateAccount(name: String, viewUpdateAccount: ViewUpdateAccount): Account {
         val account = accountRepository.findOne(viewUpdateAccount.marketId)
-        if (account == userService.getUser(name).account || account == accountRepository.findByQuery(Query(Criteria.where("users").`is`(name))).firstOrNull()) {
+        if (account == userService.getUser(name).account || account.users.contains(name)) {
             account.description = viewUpdateAccount.marketDescription
             account.marketName = viewUpdateAccount.marketName
             account.images = viewUpdateAccount.marketImages

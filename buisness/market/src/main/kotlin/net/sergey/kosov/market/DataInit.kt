@@ -1,5 +1,6 @@
 package net.sergey.kosov.market
 
+import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.view.wrappers.CategoryViewCreation
 import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
@@ -16,11 +17,12 @@ import javax.annotation.PostConstruct
 @Configuration
 class DataInit(var productService: ProductService,
                var categoryService: CategoryService,
-               var orderService: OrderService) {
+               var orderService: OrderService,
+               var accountApi: AccountApi) {
     @PostConstruct
     fun init() {
         try {
-
+            val accountId = accountApi.getAccount("admin").id
             val categoryViewCreation = CategoryViewCreation(title = "category",
                     characteristics = listOf(Characteristic(name = "cpu"),
                             Characteristic(name = "gpu"),
@@ -29,7 +31,7 @@ class DataInit(var productService: ProductService,
                             Characteristic(name = "box"),
                             Characteristic(name = "fan"),
                             Characteristic(name = "ports")
-                    ))
+                    ), accountId = accountId)
             val create = categoryService.create(categoryViewCreation, "test")
             categoryViewCreation.parentId = create.id.toString()
             val create2 = categoryService.create(categoryViewCreation, "test")
@@ -42,7 +44,7 @@ class DataInit(var productService: ProductService,
                                 description = "The Corsair Gaming Series GS600 is the ideal price/performance choice for mid-spec gaming PC",
                                 categoryId = create.id.toString(),
                                 productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.",
-                                price = BigDecimal.valueOf(1234.00 + it)),
+                                price = BigDecimal.valueOf(1234.00 + it), accountId = accountId),
                         "test").id.toString()
                 productService.enabledProduct(id)
                 if (it % 10 == 0) {
@@ -50,23 +52,23 @@ class DataInit(var productService: ProductService,
                 }
                 if (it % 5 == 0) {
                     val order = orderService.create(OrderViewCreation(id), "admin")
-                    orderService.processingOrder(orderId = order.id.toString(), name = "test")
+                    orderService.processingOrder(orderId = order.id.toString(), userName = "test")
                 }
                 if (it % 4 == 0) {
                     val order = orderService.create(OrderViewCreation(id), "admin")
-                    orderService.processingOrder(orderId = order.id.toString(), name = "test")
-                    orderService.processedOrder(orderId = order.id.toString(), name = "test")
+                    orderService.processingOrder(orderId = order.id.toString(), userName = "test")
+                    orderService.processedOrder(orderId = order.id.toString(), userName = "test")
                 }
                 if (it % 7 == 0) {
                     val order = orderService.create(OrderViewCreation(id), "admin")
-                    orderService.processingOrder(orderId = order.id.toString(), name = "test")
-                    orderService.completeOrder(orderId = order.id.toString(), name = "admin")
+                    orderService.processingOrder(orderId = order.id.toString(), userName = "test")
+                    orderService.completeOrder(orderId = order.id.toString(), userName = "admin")
                 }
                 if (it % 9 == 0) {
                     val order = orderService.create(OrderViewCreation(id), "admin")
 //                orderService.processingOrder(orderId = order.id.toString(), name = "test")
 //                orderService.completeOrder(orderId = order.id.toString())
-                    orderService.cancelOrder(orderId = order.id.toString(), name = "admin")
+                    orderService.cancelOrder(orderId = order.id.toString(), userName = "admin")
                 }
             }
         } catch (e: Exception) {

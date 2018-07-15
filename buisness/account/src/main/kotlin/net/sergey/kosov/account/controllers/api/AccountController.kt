@@ -11,8 +11,14 @@ import java.security.Principal
 @RestController
 class AccountController(var accountService: AccountService) {
 
+    @GetMapping(path = ["/account/{userName}/{accountId}"])
+    @PreAuthorize("#oauth2.hasScope('server')")
+    fun getAccount(@PathVariable("userName") userName: String, @PathVariable("accountId") accountId: String): Account {
+        return accountService.getAccount(userName, accountId)
+    }
+
     @GetMapping(path = ["/account/{marketName}"])
-    fun getAccount(@PathVariable("marketName") marketName: String): Account {
+    fun getAccountByMarketName(@PathVariable("marketName") marketName: String): Account {
         return accountService.getAccount(marketName)
     }
 

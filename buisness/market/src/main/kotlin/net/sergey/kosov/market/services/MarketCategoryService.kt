@@ -6,7 +6,6 @@ import net.sergey.kosov.market.domains.entity.Account
 import net.sergey.kosov.market.domains.entity.Category
 import net.sergey.kosov.market.domains.entity.Category._Category.ACCOUNT
 import net.sergey.kosov.market.domains.entity.Category._Category.ID
-import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.view.wrappers.CategoryViewCreation
 import net.sergey.kosov.market.repository.category.CategoryRepository
 import org.springframework.data.mongodb.core.query.Criteria
@@ -17,9 +16,9 @@ import org.springframework.stereotype.Service
 class MarketCategoryService(var categoryRepository: CategoryRepository,
                             var accountApi: AccountApi) : CategoryService {
 
-    override fun create(categoryViewCreation: CategoryViewCreation, ownerName: String): Category {
-        val account: Account = accountApi.getAccount(ownerName)
-        val parentCategory = findParentCategory(categoryViewCreation.parentId, ownerName)
+    override fun create(categoryViewCreation: CategoryViewCreation, currentUserName: String): Category {
+        val account: Account = accountApi.getAccount(currentUserName, categoryViewCreation.accountId)
+        val parentCategory = findParentCategory(categoryViewCreation.parentId, currentUserName, categoryViewCreation.accountId)
         val category = Category(title = categoryViewCreation.title,
                 description = categoryViewCreation.description,
                 account = account,
@@ -28,22 +27,16 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
         return categoryRepository.insert(category)
     }
 
-    private fun findParentCategory(parentId: String?, name: String): Category? {
+    private fun findParentCategory(parentId: String?, name: String, accountId: String): Category? {
         return if (parentId != null) {
-            findCategoryById(parentId, name)
+            findCategoryById(parentId, name, accountId)
         } else {
             null
         }
     }
 
-    override fun setCharacteristics(categoryId: String, characteristics: List<Characteristic>, name: String): Category {
-        val category = findCategoryById(categoryId, name)
-        category.characteristics = characteristics
-        return categoryRepository.save(category)
-    }
-
-    override fun findCategoryById(categoryId: String, name: String): Category {
-        val account: Account = accountApi.getAccount(name)
+    override fun findCategoryById(categoryId: String, accountId: String, currentUserName: String): Category {
+        val account: Account = accountApi.getAccount(currentUserName, accountId)
         val query = Query(Criteria.where(ID).`is`(categoryId))
                 .addCriteria(getAvailableCategories(account))
         val categories = categoryRepository.findByQuery(query)
@@ -55,8 +48,8 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
         }
     }
 
-    override fun getCategories(name: String): List<Category> {
-        val account: Account = accountApi.getAccount(name)
+    override fun getCategories(currentUserName: String, accountId: String): List<Category> {
+        val account: Account = accountApi.getAccount(currentUserName, accountId)
         val query = Query(getAvailableCategories(account))
         return categoryRepository.findByQuery(query)
     }

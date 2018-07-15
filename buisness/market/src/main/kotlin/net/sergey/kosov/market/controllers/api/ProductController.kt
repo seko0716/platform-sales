@@ -24,11 +24,6 @@ class ProductController(val productService: ProductService) {
         return productService.findProducts()
     }
 
-    @GetMapping("/products/market")
-    fun getProducts4Market(principal: Principal?): List<Product> {
-        return productService.getProducts4Market(principal?.name ?: "anon")
-    }
-
     @GetMapping("/products/market/{market_name}")
     fun getProducts4Market(@PathVariable("market_name") marketName: String): List<Product> {
         return productService.getProducts4Market(marketName)
@@ -53,9 +48,4 @@ class ProductController(val productService: ProductService) {
     fun findProducts(@RequestBody filter: ProductFilter): List<Product> {
         return productService.findProducts(filter)
     }
-
-//    @PostMapping("/product/{id}/characteristic")
-//    fun setCharacteristic(@RequestBody characteristics: List<Characteristic>, @PathVariable("id") id: String): Product {
-//        return productService.setCharacteristic(characteristics, id)
-//    }
 }

@@ -120,7 +120,7 @@ function getCharacteristics(category, characteristics = []) {
 var categoriesStorage;
 
 function loadAvailableCategories() {
-    get("/market/categories", function (categories) {
+    get("/market/" + $('#market_id').text() + "/categories", function (categories) {
         categoriesStorage = categories;
 
         const template = "<option selected disabled>select category</option>" +

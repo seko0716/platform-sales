@@ -16,4 +16,6 @@ interface AccountApi {
     @RequestMapping(path = ["/account/account/{name}"], method = [RequestMethod.GET], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun getAccount(@PathVariable("name") name: String): Account
 
+    @RequestMapping(path = ["/account/account/{name}/{accountId}"], method = [RequestMethod.GET], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    fun getAccount(@PathVariable("name") name: String, @PathVariable("accountId") accountId: String): Account
 }

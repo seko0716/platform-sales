@@ -10,22 +10,17 @@ import java.security.Principal
 class CategoryController(val categoryService: CategoryService) {
     @PutMapping("/category")
     fun create(@RequestBody categoryViewCreation: CategoryViewCreation, principal: Principal): Category {
-        return categoryService.create(categoryViewCreation = categoryViewCreation, ownerName = principal.name)
+        return categoryService.create(categoryViewCreation = categoryViewCreation, currentUserName = principal.name)
     }
 
-    @GetMapping("/category/{categoryId}")
-    fun find(@PathVariable("categoryId") categoryId: String, principal: Principal): Category {
-        return categoryService.findCategoryById(categoryId, principal.name)
+    @GetMapping("/category/{accountId}/{categoryId}")
+    fun find(@PathVariable("categoryId") categoryId: String,
+             @PathVariable("accountId") accountId: String, principal: Principal): Category {
+        return categoryService.findCategoryById(categoryId = categoryId, accountId = accountId, currentUserName = principal.name)
     }
 
-    @GetMapping("/categories")
-    fun getCategories(principal: Principal): List<Category> {
-        return categoryService.getCategories(principal.name)
+    @GetMapping("/{accountId}/categories")
+    fun getCategories(principal: Principal, @PathVariable("accountId") accountId: String): List<Category> {
+        return categoryService.getCategories(currentUserName = principal.name, accountId = accountId)
     }
-
-//    @PostMapping("/category/{categoryId}")
-//    fun setCharacteristics(@PathVariable("categoryId") categoryId: String,
-//                           @RequestBody characteristics: List<Characteristic>, principal: Principal): Category {
-//        return categoryService.setCharacteristics(categoryId, characteristics, principal.name)
-//    }
 }

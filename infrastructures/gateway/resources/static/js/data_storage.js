@@ -5,7 +5,13 @@ function createCategory() {
     const characteristics = Array.apply(null, getElement('properties').options).map(function (it) {
         return {name: it.value, value: null};
     });
-    const data = {title: category_name, description: description, parentId: parentId, characteristics: characteristics};
+    const data = {
+        title: category_name,
+        description: description,
+        parentId: parentId,
+        characteristics: characteristics,
+        accountId: $('#market_id').text()
+    };
     put("/market/category", data, function (category) {
         console.log(category)
     }, function (error) {
@@ -28,7 +34,8 @@ function createProduct() {
         price: price,
         categoryId: categoryId,
         characteristics: characteristics,
-        productInfo: productInfo
+        productInfo: productInfo,
+        accountId: $('#market_id').text()
     };
     put("/market/product", data, function (product) {
         window.location.replace("/view/product/" + product.id);
