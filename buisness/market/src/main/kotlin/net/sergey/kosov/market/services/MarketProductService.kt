@@ -88,15 +88,13 @@ class MarketProductService(private val productRepository: ProductRepository,
     override fun findProducts(): List<Product> = productRepository.findByQuery(getProductQuery().limit(100))
 
 
-    private fun getAccountCriteria(account: Account) =
-            Criteria.where(_Product.ACCOUNT).`is`(account)
+    private fun getAccountCriteria(account: Account) = Criteria.where(_Product.ACCOUNT).`is`(account)
 
     private fun getCriteriaBetweenPrice(filter: ProductFilter) =
             Criteria().andOperator(Criteria.where(_Product.PRICE).gte(filter.priceLeft),
                     Criteria.where(_Product.PRICE).lte(filter.priceRight))
 
-    private fun getCriteriaTitleRegex(filter: ProductFilter) =
-            Criteria.where(_Product.TITLE).regex(filter.title)
+    private fun getCriteriaTitleRegex(filter: ProductFilter) = Criteria.where(_Product.TITLE).regex(filter.title)
 
     private fun getProductQuery() = Query(Criteria.where(_Product.ENABLED).`is`(true))
 }
