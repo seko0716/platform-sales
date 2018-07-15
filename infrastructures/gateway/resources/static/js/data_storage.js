@@ -92,6 +92,6 @@ function updateUser() {
 
     };
     post("/account/user/update", data, function (data) {
-        console.log(data)
+        location.reload();
     })
 }
