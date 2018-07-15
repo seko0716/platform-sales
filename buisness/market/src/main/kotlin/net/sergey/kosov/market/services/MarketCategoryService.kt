@@ -28,11 +28,7 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
     }
 
     private fun findParentCategory(parentId: String?, name: String, accountId: String): Category? {
-        return if (parentId != null) {
-            findCategoryById(parentId, accountId, name)
-        } else {
-            null
-        }
+        return parentId?.let { findCategoryById(it, accountId, name) }
     }
 
     override fun findCategoryById(categoryId: String, accountId: String, currentUserName: String): Category {

@@ -75,15 +75,14 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
 
     override fun findOrder(orderId: String, userName: String): Order {
         val order = getOrderById(orderId)
-        if (order != null) {
+        return order?.let {
             val user = accountApi.getUser(userName)
             val marketId = order.product.account.id
             if (order.customer != user && accountApi.getAccount(userName, marketId) != order.product.account) {
                 throw NotFoundException("Can Not Found Order By id = $orderId")
             }
-            return order
-        }
-        throw NotFoundException("Can Not Found Order By id = $orderId")
+            order
+        } ?: throw NotFoundException("Can Not Found Order By id = $orderId")
     }
 
     override fun processingOrder(orderId: String, userName: String): Order {
@@ -98,14 +97,13 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
 
     private fun findOrderForSaler(userName: String, orderId: String): Order {
         val order = getOrderById(orderId)
-        if (order != null) {
+        return order?.let {
             val marketId = order.product.account.id
             if (accountApi.getAccount(userName, marketId) != order.product.account) {
                 throw NotFoundException("Can Not Found Order By id = $orderId")
             }
-            return order
-        }
-        throw NotFoundException("Can Not Found Order By id = $orderId")
+            order
+        } ?: throw NotFoundException("Can Not Found Order By id = $orderId")
     }
 
     override fun completeOrder(orderId: String, userName: String): Order {
