@@ -189,8 +189,7 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
 
     private fun getCriteriaOrderId(orderId: String) = Criteria.where(_Order.ID).`is`(orderId)
 
-    private fun getCriteriaCustomer(customer: User) =
-            Criteria.where(_Order.CUSTOMER).`is`(customer)
+    private fun getCriteriaCustomer(customer: User) = Criteria.where(_Order.CUSTOMER).`is`(customer)
 
     private fun getQueryCart() = Query(Criteria.where(_Order.STATUS).`is`(IN_A_CART))
 
