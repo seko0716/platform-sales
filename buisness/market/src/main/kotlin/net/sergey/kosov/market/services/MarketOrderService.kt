@@ -125,7 +125,6 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
             throw IllegalStateException("Нельзя сетить статус $IN_A_CART")
         }
 
-
         when (status) {
             CREATED -> throw IllegalStateException("Нельзя сетить статус $CREATED, он заполняется только при создании ордера")
             COMPLETED -> {
@@ -195,25 +194,21 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
 
     private fun getQueryCart() = Query(Criteria.where(_Order.STATUS).`is`(IN_A_CART))
 
-    private fun getQueryOrder(): Query {
-        return Query.query(Criteria.where(_Order.STATUS).ne(Status.IN_A_CART))
-    }
+    private fun getQueryOrder() = Query.query(Criteria.where(_Order.STATUS).ne(Status.IN_A_CART))
 
     private fun getSortByCreatedTime() = Sort(_Order.CREATED_TIME)
 
-    private fun getOrderById(orderId: String): Order? {
-        return orderRepository.findByQuery(getQueryOrder()
-                .addCriteria(getCriteriaOrderId(orderId)))
-                .firstOrNull()
-    }
+    private fun getOrderById(orderId: String) =
+            orderRepository.findByQuery(getQueryOrder()
+                    .addCriteria(getCriteriaOrderId(orderId)))
+                    .firstOrNull()
 
     private fun getCriteriaProductId(productId: String) =
             Criteria.where("${_Order.product}.${Product._Product.ID}").`is`(ObjectId(productId))
 
-    private fun getOrder(orderId: String, customer: User): Order {
-        return orderRepository.findOneByQuery(getQueryCart()
-                .addCriteria(getCriteriaOrderId(orderId))
-                .addCriteria(getCriteriaCustomer(customer)))
-                ?: throw NotFoundException("Can Not Found Order By id = $orderId")
-    }
+    private fun getOrder(orderId: String, customer: User) =
+            orderRepository.findOneByQuery(getQueryCart()
+                    .addCriteria(getCriteriaOrderId(orderId))
+                    .addCriteria(getCriteriaCustomer(customer)))
+                    ?: throw NotFoundException("Can Not Found Order By id = $orderId")
 }

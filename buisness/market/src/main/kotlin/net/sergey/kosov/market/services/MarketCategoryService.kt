@@ -49,20 +49,3 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
 
     private fun getCriteriaCategoryId(categoryId: String) = Criteria.where(ID).`is`(categoryId)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
