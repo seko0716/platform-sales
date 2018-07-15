@@ -1,5 +1,6 @@
 package net.sergey.kosov.account.domains
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import net.sergey.kosov.common.annotations.NoArgs
 import net.sergey.kosov.common.serializers.ObjectIdSerializer
@@ -17,15 +18,13 @@ data class User(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: Ob
                 var lastName: String,
                 @Indexed(unique = true, name = "email_index")
                 var email: String,
-                var password: String,
+                @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
                 var birthDay: LocalDate,
                 var country: String,
                 var gender: Gender,
-                var account: Account
-) {
+                var account: Account) {
+    @NoArgs
     data class User(var username: String,
-                    var password: String) {
-
-    }
+                    var password: String)
 }
 

@@ -63,3 +63,18 @@ function createAccount() {
         console.log(data)
     })
 }
+
+function updateAccount() {
+
+    var data = {
+        marketName: $('#marketName').val(),
+        marketDescription: $('#marketDescription').val(),
+        marketId: $('#market_id').text(),
+        marketImages: Array.apply(null, getElement("images").children).map(it => it.children[0].currentSrc)
+    };
+
+    post("/account/update", data, function (data) {
+        location.reload();
+    })
+
+}

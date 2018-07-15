@@ -456,11 +456,40 @@ function buyAll() {
     window.location.replace("/view/orders");
 }
 
+function loadAccountSettings() {
+    get("/account/current/account", function (account) {
+        console.log(account);
+        $('#marketName').val(account.marketName);
+        $('#link_to_added').val("/addUser/" + account.marketName + "/" + account.linkToAddedUsers);
+        $('#marketDescription').val(account.description);
+        $('#market_id').text(account.id);
 
-function getAuthData() {
-    return {
-        "Authorization": "Basic dXNlcjoxMQ=="
-    };
+        account.images.forEach(function (img) {
+            let id = Math.floor((Math.random() * 100) + 1);
+            $('#images').append("<div id=" + id + "><img src='" + img + "'>" +
+                "<button class=\"btn btn-primary\" onclick='deleteById(" + id + ")'>X</button></div>")
+        });
+    });
+
+    get("/account/users", function (users) {
+        var template = "{{#.}}<option>{{.}}</option>{{/.}}";
+        _fillData(template, users, "#user")
+    })
+
+
+}
+
+function loadCurrentUser() {
+    get("/account/current/user", function (user) {
+        $('#fullName').val(user.fullName);
+        $('#fist_name').val(user.firstName);
+        $('#last_name').val(user.lastName);
+        $('#email').val(user.email);
+        $('#market_name').val(user.account.marketName);
+        $('#birthDate').val(user.birthDay);
+        $('#country').val(user.country);
+        $('#' + user.gender.toLocaleLowerCase() + "Radio").attr('checked', true);
+    })
 }
 
 function loadAccount() {

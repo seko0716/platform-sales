@@ -9,10 +9,12 @@ import net.sergey.kosov.account.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.convert.Jsr310Converters
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext
@@ -28,6 +30,7 @@ import javax.annotation.PostConstruct
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @SpringBootApplication
+@EntityScan(value = ["net.sergey.kosov.account.domains"], basePackageClasses = [Jsr310Converters::class])
 class AccountApplication {
     @Autowired
     lateinit var accountService: AccountRepository
@@ -41,15 +44,14 @@ class AccountApplication {
                     images = listOf("https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                             "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                             "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg")))
-            val save = accountService.save(Account(marketName = "admin", description = ""))
-            userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "admin", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = save, password = ""))
+            val save = accountService.save(Account(marketName = "admin", description = "", images = listOf("https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
+                    "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
+                    "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg"), users = listOf("test")))
+            userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "admin", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = save))
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
-
-
 }
 
 fun main(args: Array<String>) {

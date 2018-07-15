@@ -11,10 +11,15 @@ import org.springframework.stereotype.Service
 @Service
 class AccountUserService(var userRepository: UserRepository,
                          var authUserClient: AuthUserClient) : UserService {
-    override fun createUser(user: User): User {
-        val authUser = User.User(username = user.email, password = user.password)
+
+    override fun getUsersInAccount(name: String): List<User> {
+        val account = getUser(name).account
+        return userRepository.findByQuery(Query.query(Criteria.where("account").`is`(account)))
+    }
+
+    override fun createUser(user: User, password: String): User {
+        val authUser = User.User(username = user.email, password = password)
         authUserClient.createUser(authUser)
-        user.password = ""
         return userRepository.insert(user)
     }
 

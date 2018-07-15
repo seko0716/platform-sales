@@ -58,18 +58,69 @@
                 <div class="tab-content">
                     <div id="home" class="tab-pane fade in active">
                         <h3>Market</h3>
-                        <p>добавить/удалить юзеров - продавцев</p>
-                        <p>добавить/удалить картинки</p>
-                        <p>изменить название</p>
+                        <div>
+                            <div class="form-group">
+                                <label id="market_id" hidden class="col-sm-3 control-label"></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="marketName" class="col-sm-3 control-label">Full Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="marketName" placeholder="Market name" class="form-control"
+                                           autofocus>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="marketDescription" class="col-sm-3 control-label">Description</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="marketDescription" placeholder="Description"
+                                           class="form-control"
+                                           autofocus>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" onclick="updateAccount()">Save</button>
+                            </div>
+                        </div>
 
                         <div>
                             <div class="form-group">
-                                <label for="fullName" class="col-sm-3 control-label">Full Name</label>
+                                <label for="user" class="col-sm-3 control-label">Users</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="fullName" placeholder="Full Name" class="form-control"
-                                           autofocus>
-                                    <span class="help-block">Last Name, First Name, eg.: Smith, Harry</span>
+                                    <select multiple class="form-control" id="user" size="8">
+
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="link_to_added" class="col-sm-3 control-label">Link to added users</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="link_to_added" placeholder="Description"
+                                           class="form-control"
+                                           autofocus>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div id="images"></div>
+
+                                <div class="col-sm-9">
+                                    <input type="text" id="images_input" placeholder="Image URL" class="form-control"
+                                           autofocus>
+                                    <button class="btn btn-primary" onclick="addImage()">Add</button>
+                                </div>
+                                <script>
+                                    function addImage() {
+                                        let id = Math.floor((Math.random() * 100) + 1);
+                                        let imageUrl = $('#images_input').val();
+                                        $('#images').after("<div id=" + id + "><img src='" + imageUrl + "'>" +
+                                            "<button class=\"btn btn-primary\" onclick='deleteById(" + id + ")'>X</button></div>")
+                                    }
+
+                                    function deleteById(id) {
+                                        console.log(id);
+                                        $('#' + id).remove()
+                                    }
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -130,6 +181,7 @@
 <script src="/js/data_load.js"></script>
 <script src="/js/data_storage.js"></script>
 <script>
+    loadCurrentUser();
     loadAccountSettings()
 </script>
 </body>
