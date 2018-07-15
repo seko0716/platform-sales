@@ -13,5 +13,9 @@ class CategoryRepositoryImpl @Autowired constructor(var mongoTemplate: MongoTemp
     override fun findByQuery(query: Query): List<Category> {
         return mongoTemplate.find(query, Category::class.java)
     }
+
+    override fun findOneByQuery(query: Query): Category? {
+        return mongoTemplate.findOne(query, Category::class.java)
+    }
 }
 

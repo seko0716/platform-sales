@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class ProductRepositoryImpl @Autowired constructor(var mongoTemplate: MongoTemplate) : RepositoryQuery<Product> {
+    override fun findOneByQuery(query: Query): Product? {
+        return mongoTemplate.findOne(query, Product::class.java)
+    }
 
     override fun findByQuery(query: Query): List<Product> {
         return mongoTemplate.find(query, Product::class.java)

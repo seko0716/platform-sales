@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class AccountRepositoryImpl @Autowired constructor(var mongoTemplate: MongoTemplate) : RepositoryQuery<Account> {
+    override fun findOneByQuery(query: Query): Account? {
+        return mongoTemplate.findOne(query, Account::class.java)
+    }
 
     override fun findByQuery(query: Query): List<Account> {
         return mongoTemplate.find(query, Account::class.java)

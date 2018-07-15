@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class OrderRepositoryImpl @Autowired constructor(var mongoTemplate: MongoTemplate) : RepositoryQuery<Order> {
+    override fun findOneByQuery(query: Query): Order? {
+        return mongoTemplate.findOne(query, Order::class.java)
+    }
 
     override fun findByQuery(query: Query): List<Order> {
         return mongoTemplate.find(query, Order::class.java)
