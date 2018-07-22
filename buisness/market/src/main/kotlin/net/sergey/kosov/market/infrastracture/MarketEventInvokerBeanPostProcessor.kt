@@ -54,7 +54,7 @@ class MarketEventInvokerBeanPostProcessor constructor(var internalNotificationIn
 class InternalNotificationInvoker @Autowired constructor(val communicationApi: CommunicationApi) {
     val methodName2Message: Map<String, String> = HashMap() //todo заиндектить сюда мапу из пропертей
 
-    @Async
+    @Async//todo посмотреть на каком пуле потоков это все работает
     fun sendEvent(retVal: Any, methodName: String, annotation: NotifyEvent) {
         if (retVal is Order) {
             val message = when (annotation.eventTo) {
