@@ -13,13 +13,13 @@ import java.time.LocalDateTime
 @Document
 data class Message(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: ObjectId = ObjectId(),
                    var mess: String,
+                   var type: MessageType,
                    var to: List<String>,
                    var protocol: String,
+                   @JsonSerialize(using = ObjectIdSerializer::class) var entityId: ObjectId? = null,
                    var from: String = "",
                    var accessToken: String = "",
                    var status: Status = Status.CREATED,
-                   @JsonSerialize(using = ObjectIdSerializer::class) var orderId: ObjectId? = null,
-                   @JsonSerialize(using = ObjectIdSerializer::class) var productId: ObjectId? = null,
                    var creationDate: LocalDateTime = LocalDateTime.now(),
                    var completedDate: LocalDateTime? = null) {
     fun toJson(): String {

@@ -22,18 +22,3 @@ class SseController @Autowired constructor(var sseService: SseService) {
     }
 }
 
-@Configuration
-@EnableWebSocketMessageBroker
-class WebSocketConfig : AbstractWebSocketMessageBrokerConfigurer() {
-
-    /**
-     * Register Stomp endpoints: the url to open the WebSocket connection.
-     */
-    override fun registerStompEndpoints(registry: StompEndpointRegistry) {
-
-        // Register the "/ws" endpoint, enabling the SockJS protocol.
-        // SockJS is used (both client and server side) to allow alternative
-        // messaging options if WebSocket is not available.
-        registry.addEndpoint("/ws").withSockJS()
-    }
-}

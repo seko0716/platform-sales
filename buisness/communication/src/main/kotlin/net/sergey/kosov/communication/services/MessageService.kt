@@ -10,6 +10,9 @@ import net.sergey.kosov.communication.repository.MessageRepository
 import org.bson.types.ObjectId
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -30,11 +33,8 @@ class MessageService @Autowired constructor(var authService: AuthService,
 
     fun createAndSend(viewMessageCreation: ViewMessageCreation, from: String = "internal"): Message {
         val message: Message = when (viewMessageCreation.type) {
-            ORDER_COMMENT -> {
-                createOrderComment(viewMessageCreation, from)
-            }
-            PRODUCT_COMMENT -> {
-                createProductComment(viewMessageCreation, from)
+            PRODUCT_COMMENT, ORDER_COMMENT -> {
+                createEntityComment(viewMessageCreation, from)
             }
             PERSONAL -> {
                 createPersonalMessage(viewMessageCreation, from)
@@ -50,36 +50,43 @@ class MessageService @Autowired constructor(var authService: AuthService,
     }
 
     private fun createInternalEvent(creation: ViewMessageCreation, from: String): Message {
-        val message = Message(to = listOf(creation.to), from = from, mess = creation.mess, protocol = creation.protocol)
+        val message = Message(to = listOf(creation.to), from = from, mess = creation.mess, protocol = creation.protocol, type = creation.type)
         return repository.save(message)
     }
 
     private fun createMarketEvent(creation: ViewMessageCreation, from: String): Message {
         val marketName = creation.to
         val account = accountApi.getAccount(marketName)
-        val message = Message(to = account.users, from = from, mess = creation.mess, protocol = creation.protocol)
+        val message = Message(to = account.users, from = from, mess = creation.mess, protocol = creation.protocol, type = creation.type)
         return repository.save(message)
     }
 
     private fun createPersonalMessage(creation: ViewMessageCreation, from: String): Message {
         val userEmail = creation.to
         val user = accountApi.getUser(userEmail)
-        val message = Message(to = listOf(user.email), from = from, mess = creation.mess, protocol = creation.protocol)
+        val message = Message(to = listOf(user.email), from = from, mess = creation.mess, protocol = creation.protocol, type = creation.type)
         return repository.save(message)
     }
 
-    private fun createProductComment(creation: ViewMessageCreation, from: String): Message {
+    private fun createEntityComment(creation: ViewMessageCreation, from: String): Message {
         val marketName = creation.to
         val account = accountApi.getAccount(marketName)
-        val message = Message(to = account.users, from = from, mess = creation.mess, productId = ObjectId(creation.entityId), protocol = creation.protocol)
+        val message = Message(to = account.users, from = from, mess = creation.mess, entityId = ObjectId(creation.entityId), type = creation.type, protocol = creation.protocol)
         return repository.save(message)
     }
 
-    private fun createOrderComment(creation: ViewMessageCreation, from: String): Message {
-        val marketName = creation.to
-        val account = accountApi.getAccount(marketName)
-        val message = Message(to = account.users, from = from, mess = creation.mess, orderId = ObjectId(creation.entityId), protocol = creation.protocol)
-        return repository.save(message)
+    fun getMessages(entityId: ObjectId, email: String): List<Message> {
+        return repository.findByQuery(Query.query(getCriteriaByEntityId(entityId))
+                .addCriteria(Criteria().orOperator(
+                        getCriteriaByFrom(email),
+                        getCriteriaByTo(email)
+                )).with(Sort("creationDate")))
     }
+
+    private fun getCriteriaByTo(email: String) = Criteria.where("to").`is`(email)
+
+    private fun getCriteriaByFrom(email: String) = Criteria.where("from").`is`(email)
+
+    private fun getCriteriaByEntityId(entityId: ObjectId) = Criteria.where("entityId").`is`(entityId)
 }
 

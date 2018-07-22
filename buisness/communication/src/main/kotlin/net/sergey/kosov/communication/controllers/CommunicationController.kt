@@ -19,6 +19,11 @@ class CommunicationController @Autowired constructor(var service: MessageService
         return service.createAndSend(message, principal.name)
     }
 
+    @GetMapping("/messages/type/")
+    fun getMessages(@PathVariable("entityId") entityId: ObjectId, principal: Principal): List<Message> {
+        return service.getMessages(entityId, principal.name)
+    }
+
     @GetMapping(path = ["/completed/{messageId}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     @PreAuthorize("#oauth2.hasScope('server')")
     fun completedMessage(@PathVariable("messageId") messageId: String) {
