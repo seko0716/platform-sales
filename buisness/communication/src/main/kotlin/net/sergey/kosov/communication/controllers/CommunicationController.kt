@@ -1,21 +1,21 @@
 package net.sergey.kosov.communication.controllers
 
-import net.sergey.kosov.communication.services.CommunicationService
+
+import net.sergey.kosov.communication.domains.Message
+import net.sergey.kosov.communication.domains.ViewMessageCreation
+import net.sergey.kosov.communication.services.MessageService
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-class CommunicationController @Autowired constructor(var service: CommunicationService) {
+class CommunicationController @Autowired constructor(var service: MessageService) {
 
     @PostMapping("/send")
-    fun send(message: String, protocol: String, to: String) {
-        service.createAndSend(message, protocol, to)
+    fun send(@RequestBody message: ViewMessageCreation): Message {
+        return service.createAndSend(message)
     }
 
     @GetMapping(path = ["/completed/{messageId}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])

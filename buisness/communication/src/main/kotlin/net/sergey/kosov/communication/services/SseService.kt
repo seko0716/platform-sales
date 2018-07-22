@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service
 
 
 @Service
-@EnableScheduling
 class SseService @Autowired constructor(var accountApi: AuthService) {
 
     @Autowired
@@ -34,13 +33,15 @@ class SseService @Autowired constructor(var accountApi: AuthService) {
 
 
     fun sendMessage(message: Message): Message {
-        notify(message, "admin")
+        message.to.forEach {
+            notify(message, it)
+        }
         return message
     }
 
-    @Scheduled(fixedRate = 3000)
+//    @Scheduled(fixedRate = 3000)
     fun test() {
-        val message = Message(mess = "hihihihi", to = "admin", protocol = "")
+        val message = Message(mess = "hihihihi", to = listOf("admin"), protocol = "")
         sendMessage(message)
     }
 }

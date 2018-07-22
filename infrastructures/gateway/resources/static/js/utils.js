@@ -36,7 +36,7 @@ function request(method, url, data, success, fail = failDefault) {
 }
 
 function getId() {
-    return window.location.href.split("/").slice(-1)[0]
+    return window.location.href.split("/").slice(-1)[0].split("#")[0]
 }
 
 function getAuthorization() {

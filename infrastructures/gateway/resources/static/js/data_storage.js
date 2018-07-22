@@ -77,9 +77,8 @@ function updateAccount() {
         marketName: $('#marketName').val(),
         marketDescription: $('#marketDescription').val(),
         marketId: $('#market_id').text(),
-        marketImages: Array.apply(null, getElement("images").children).map(it => it.children[0].currentSrc)
-    };
-
+        marketImages: Array.apply(null, getElement("images").children).map(it => it.children[0].currentSrc;)
+}
     post("/account/update", data, function (data) {
         location.reload();
     })
