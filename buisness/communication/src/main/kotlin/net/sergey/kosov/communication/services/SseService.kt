@@ -2,6 +2,7 @@ package net.sergey.kosov.communication.services
 
 import net.sergey.kosov.communication.api.AuthService
 import net.sergey.kosov.communication.domains.Message
+import net.sergey.kosov.communication.domains.MessageType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.scheduling.annotation.EnableScheduling
@@ -41,7 +42,7 @@ class SseService @Autowired constructor(var accountApi: AuthService) {
 
 //    @Scheduled(fixedRate = 3000)
     fun test() {
-        val message = Message(mess = "hihihihi", to = listOf("admin"), protocol = "")
+        val message = Message(mess = "hihihihi", to = listOf("admin"), protocol = "",type = MessageType.INTERNAL_EVENT)
         sendMessage(message)
     }
 }
