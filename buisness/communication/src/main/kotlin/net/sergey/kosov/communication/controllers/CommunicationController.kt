@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @RestController
 class CommunicationController @Autowired constructor(var service: MessageService) {
 
     @PostMapping("/send")
-    fun send(@RequestBody message: ViewMessageCreation): Message {
-        return service.createAndSend(message)
+    fun send(@RequestBody message: ViewMessageCreation, principal: Principal): Message {
+        return service.createAndSend(message, principal.name)
     }
 
     @GetMapping(path = ["/completed/{messageId}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
