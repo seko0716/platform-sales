@@ -1,7 +1,7 @@
 function sendOrderComment() {
     var message = {
         mess: $("#comment").val(),
-        protocol: "INNER",
+        protocol: "internal",
         to: $("#product-shop").text(),
         entityId: getId(),
         type: "ORDER_COMMENT"

@@ -41,12 +41,14 @@ class AccountApplication {
     fun init() {
         try {
             val test = accountService.save(Account(marketName = "test", description = "",
+                    users = listOf("test"),
                     images = listOf("https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                             "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                             "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg")))
-            val save = accountService.save(Account(marketName = "admin", description = "", images = listOf("https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
+            val save = accountService.save(Account(marketName = "admin", description = "",
+                    images = listOf("https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                     "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
-                    "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg"), users = listOf("test")))
+                            "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg"), users = listOf("test", "admin")))
             userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "admin", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = save))
             userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "test", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = test))
         } catch (e: Exception) {
