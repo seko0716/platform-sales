@@ -14,7 +14,7 @@ class SendingService @Autowired constructor(var template: RabbitTemplate) {
 
     fun send(message: Message): Message {
         return try {
-            template.convertAndSend(message.protocol, message.toJson())
+            template.convertAndSend(message.protocol, message)
             message
         } catch (e: AmqpException) {
             log.warn("проблемы с AMQ", e)

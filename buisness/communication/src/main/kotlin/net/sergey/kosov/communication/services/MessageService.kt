@@ -57,7 +57,7 @@ class MessageService @Autowired constructor(var authService: AuthService,
     private fun createMarketEvent(creation: ViewMessageCreation, from: String): Message {
         val marketName = creation.to
         val account = accountApi.getAccount(marketName)
-        val message = Message(to = account.users, from = from, mess = creation.mess, protocol = creation.protocol, type = creation.type)
+        val message = Message(to = account.users, from = from, mess = creation.mess, entityId = ObjectId(creation.entityId), type = creation.type, protocol = creation.protocol)
         return repository.save(message)
     }
 

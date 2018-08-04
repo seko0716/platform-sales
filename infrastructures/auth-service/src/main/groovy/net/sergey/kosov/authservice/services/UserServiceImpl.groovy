@@ -33,9 +33,9 @@ class UserServiceImpl implements UserService {
         String hash = encoder.encode(user.getPassword())
         user.setPassword(hash)
         repository.save(user)
-//        user = new User(username: "user", password: "11")
-//        hash = encoder.encode(user.getPassword())
-//        user.setPassword(hash)
-//        repository.save(user)
+        user = new User(username: "test", password: "11")
+        hash = encoder.encode(user.getPassword())
+        user.setPassword(hash)
+        repository.save(user)
     }
 }

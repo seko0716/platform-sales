@@ -48,3 +48,10 @@ zuul:
       serviceId: communication-service
       stripPrefix: false
       sensitiveHeaders:
+
+    internal-sender:
+      path: /internalsender/**
+      serviceId: internal-sender
+      stripPrefix: false
+      sensitiveHeaders:
+

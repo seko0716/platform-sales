@@ -12,7 +12,7 @@ function notify(message) {
 
 function connect() {
     // Create and init the SockJS object
-    const socket = new SockJS('/communication/ws' + '?access_token=' + getOauthTokenFromStorage());
+    const socket = new SockJS('/internalsender/ws' + '?access_token=' + getOauthTokenFromStorage());
     const stompClient = Stomp.over(socket);
     // Subscribe the '/notify' channell
     stompClient.connect({}, function (frame) {

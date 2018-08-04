@@ -1,6 +1,6 @@
-package net.sergey.kosov.communication.services
+package net.sergey.kosov.internalsender.services
 
-import net.sergey.kosov.communication.domains.Message
+import net.sergey.kosov.internalsender.domains.Message
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service

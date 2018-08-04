@@ -16,4 +16,6 @@ include 'infrastructures:common'
 findProject(':infrastructures:common')?.name = 'common'
 include 'buisness:account'
 findProject(':buisness:account')?.name = 'account'
+include 'buisness:internal-sender'
+findProject(':buisness:internal-sender')?.name = 'internal-sender'
 
