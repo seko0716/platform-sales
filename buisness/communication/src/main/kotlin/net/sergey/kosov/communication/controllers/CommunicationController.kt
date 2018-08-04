@@ -2,6 +2,7 @@ package net.sergey.kosov.communication.controllers
 
 
 import net.sergey.kosov.communication.domains.Message
+import net.sergey.kosov.communication.domains.MessageType
 import net.sergey.kosov.communication.domains.ViewMessageCreation
 import net.sergey.kosov.communication.services.MessageService
 import org.bson.types.ObjectId
@@ -25,9 +26,9 @@ class CommunicationController @Autowired constructor(var service: MessageService
         return service.createAndSend(message)
     }
 
-    @GetMapping("/messages/type/")
-    fun getMessages(@PathVariable("entityId") entityId: ObjectId, principal: Principal): List<Message> {
-        return service.getMessages(entityId, principal.name)
+    @GetMapping("/messages/{type}/{entityId}")
+    fun getMessages(@PathVariable("entityId") entityId: ObjectId, @PathVariable("type") type: MessageType, principal: Principal): List<Message> {
+        return service.getMessages(entityId, type, principal.name)
     }
 
     @GetMapping(path = ["/completed/{messageId}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])

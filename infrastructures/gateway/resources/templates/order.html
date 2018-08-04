@@ -123,7 +123,7 @@
                 <button onclick="sendOrderComment()" class="btn btn-default">Send</button>
             </div>
             <hr>
-            <section class="comments">
+            <section id="comments" class="comments">
                 <article class="comment">
                     <a class="comment-img" href="#non">
                         <img src="https://pbs.twimg.com/profile_images/444197466133385216/UA08zh-B.jpeg" alt=""
@@ -182,7 +182,8 @@
 <script src="/js/bootstrap-notify.min.js"></script>
 <script>
 
-    loadOrder()
+    loadOrder();
+    getOrderComments();
 </script>
 
 </body>

@@ -3,6 +3,7 @@ package net.sergey.kosov.communication.services
 import net.sergey.kosov.communication.api.AccountApi
 import net.sergey.kosov.communication.api.AuthService
 import net.sergey.kosov.communication.domains.Message
+import net.sergey.kosov.communication.domains.MessageType
 import net.sergey.kosov.communication.domains.MessageType.*
 import net.sergey.kosov.communication.domains.Status
 import net.sergey.kosov.communication.domains.ViewMessageCreation
@@ -75,13 +76,17 @@ class MessageService @Autowired constructor(var authService: AuthService,
         return repository.save(message)
     }
 
-    fun getMessages(entityId: ObjectId, email: String): List<Message> {
+    fun getMessages(entityId: ObjectId, type: MessageType, email: String): List<Message> {
         return repository.findByQuery(Query.query(getCriteriaByEntityId(entityId))
                 .addCriteria(Criteria().orOperator(
                         getCriteriaByFrom(email),
                         getCriteriaByTo(email)
-                )).with(Sort("creationDate")))
+                ))
+                .addCriteria(getCriteriaType(type))
+                .with(Sort(Sort.Direction.DESC, "creationDate")))
     }
+
+    private fun getCriteriaType(type: MessageType) = Criteria.where("type").`is`(type)
 
     private fun getCriteriaByTo(email: String) = Criteria.where("to").`is`(email)
 

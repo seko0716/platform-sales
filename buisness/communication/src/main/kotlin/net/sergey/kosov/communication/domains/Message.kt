@@ -1,5 +1,6 @@
 package net.sergey.kosov.communication.domains
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import net.sergey.kosov.common.annotations.NoArgs
 import net.sergey.kosov.common.serializers.ObjectIdSerializer
@@ -19,6 +20,8 @@ data class Message(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id:
                    var from: String = "",
                    var accessToken: String = "",
                    var status: Status = Status.CREATED,
+                   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                    var creationDate: LocalDateTime = LocalDateTime.now(),
+                   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                    var completedDate: LocalDateTime? = null)
 
