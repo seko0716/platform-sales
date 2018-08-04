@@ -17,6 +17,8 @@ class WebSocketConfig : AbstractWebSocketMessageBrokerConfigurer() {
         // Register the "/ws" endpoint, enabling the SockJS protocol.
         // SockJS is used (both client and server side) to allow alternative
         // messaging options if WebSocket is not available.
-        registry.addEndpoint("/ws").withSockJS()
+        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS()
     }
+
+
 }

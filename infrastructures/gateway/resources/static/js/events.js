@@ -10,6 +10,11 @@ function notify(message) {
 
 }
 
+var stompFailureCallback = function (error) {
+    setTimeout(connect, 1000);
+    console.log('STOMP: Reconecting in 1 seconds');
+};
+
 function connect() {
     // Create and init the SockJS object
     const socket = new SockJS('/internalsender/ws' + '?access_token=' + getOauthTokenFromStorage());
@@ -20,5 +25,5 @@ function connect() {
             // Call the notify function when receive a notification
             notify(JSON.parse(notification.body));
         });
-    });
+    }, stompFailureCallback);
 }

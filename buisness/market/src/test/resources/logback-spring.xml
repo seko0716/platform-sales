@@ -100,10 +100,7 @@
         <appender-ref ref="audit"/>
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="org.springframework.transaction" level="info" additivity="false">
-        <appender-ref ref="audit"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
+
     <logger name="org.hibernate.stat" level="info" additivity="false">
         <appender-ref ref="audit"/>
         <appender-ref ref="STDOUT"/>

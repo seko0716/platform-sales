@@ -38,4 +38,8 @@ security:
 
 rabbit:
   hostname: 192.168.0.105
+logging:
+  level:
+    o.apache.coyote.http11.Http11Processor: warn
+
 
