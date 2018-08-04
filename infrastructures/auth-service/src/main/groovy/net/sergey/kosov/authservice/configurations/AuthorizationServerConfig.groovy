@@ -59,6 +59,11 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
                 .secret(env.getProperty("COMMUNICATION_SERVICE_PASSWORD"))
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server")
+                .and()
+                .withClient("internal-sender")
+                .secret(env.getProperty("INTERNAL_SENDER_PASSWORD"))
+                .authorizedGrantTypes("client_credentials", "refresh_token")
+                .scopes("server")
     }
 
     @Bean
