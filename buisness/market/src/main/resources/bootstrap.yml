@@ -26,3 +26,12 @@ spring:
 logging:
   level:
     org.springframework.security: DEBUG
+
+security:
+  oauth2:
+    client:
+      clientId: market-service
+      clientSecret: market
+      accessTokenUri: http://192.168.0.105:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server

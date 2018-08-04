@@ -12,7 +12,7 @@ import java.security.Principal
 class AccountController(var accountService: AccountService) {
 
     @GetMapping(path = ["/account/{userName}/{accountId}"])
-//    @PreAuthorize("#oauth2.hasScope('server')")
+    @PreAuthorize("#oauth2.hasScope('server')")
     fun getAccount(@PathVariable("userName") userName: String, @PathVariable("accountId") accountId: String): Account {
         return accountService.getAccount(userName, accountId)
     }

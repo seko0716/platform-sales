@@ -25,7 +25,12 @@ dependencies {
     compile 'org.mongodb:bson:3.4.3'
 
     compileOnly 'org.springframework.data:spring-data-mongodb:1.10.9.RELEASE'
+    compileOnly 'org.springframework.security.oauth:spring-security-oauth2:2.0.14.RELEASE'
+    compileOnly 'org.springframework.boot:spring-boot-starter-security:1.5.9.RELEASE'
 
+    compileOnly 'net.logstash.logback:logstash-logback-encoder:4.11'
+    compileOnly('ch.qos.logback:logback-core')
+    compileOnly('ch.qos.logback:logback-classic')
 }
 
 compileKotlin {

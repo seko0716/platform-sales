@@ -6,10 +6,12 @@ import net.sergey.kosov.account.domains.Gender
 import net.sergey.kosov.account.domains.User
 import net.sergey.kosov.account.repositories.AccountRepository
 import net.sergey.kosov.account.repositories.UserRepository
+import net.sergey.kosov.common.security.CustomUserInfoTokenServices
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
+import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor
 import org.springframework.context.annotation.Bean
@@ -23,6 +25,7 @@ import org.springframework.security.oauth2.client.token.grant.client.ClientCrede
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices
 import java.time.LocalDate
 import javax.annotation.PostConstruct
 
@@ -64,6 +67,9 @@ fun main(args: Array<String>) {
 @Configuration
 class CustomResourceServerConfigurerAdapter : ResourceServerConfigurerAdapter() {
 
+    @Autowired
+    private lateinit var sso: ResourceServerProperties
+
     @Bean
     @ConfigurationProperties(prefix = "security.oauth2.client")
     fun clientCredentialsResourceDetails(): ClientCredentialsResourceDetails {
@@ -85,5 +91,10 @@ class CustomResourceServerConfigurerAdapter : ResourceServerConfigurerAdapter() 
         http.authorizeRequests()
                 .antMatchers("/create", "/product/*", "/products/market/*").permitAll()
                 .anyRequest().authenticated()
+    }
+
+    @Bean
+    fun tokenServices(): ResourceServerTokenServices {
+        return CustomUserInfoTokenServices(sso.userInfoUri, sso.clientId)
     }
 }

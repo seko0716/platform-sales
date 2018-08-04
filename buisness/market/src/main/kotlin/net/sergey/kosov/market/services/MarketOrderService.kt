@@ -9,7 +9,8 @@ import net.sergey.kosov.market.domains.entity.Status
 import net.sergey.kosov.market.domains.entity.Status.*
 import net.sergey.kosov.market.domains.entity.User
 import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
-import net.sergey.kosov.market.infrastracture.EventTo.*
+import net.sergey.kosov.market.infrastracture.EventTo.CUSTOMER
+import net.sergey.kosov.market.infrastracture.EventTo.SELLER
 import net.sergey.kosov.market.infrastracture.NotifyEvent
 import net.sergey.kosov.market.repository.order.OrderRepository
 import org.bson.types.ObjectId
@@ -89,7 +90,7 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
 
     @NotifyEvent(eventTo = CUSTOMER)
     override fun processedOrder(orderId: String, userName: String): Order {
-        val order = findOrderForSeller(userName, orderId)
+        val order = findOrderForCustomer(userName, orderId)
         return orderRepository.save(changeStatus(order, PROCESSED))
     }
 
