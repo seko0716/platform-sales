@@ -1,4 +1,4 @@
-package net.sergey.kosov.internalsender
+package net.sergey.kosov.internalsender.configuraations
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.amqp.core.AmqpAdmin
@@ -37,7 +37,6 @@ class SenderConfiguration {
         return RabbitTemplate(connectionFactory())
     }
 
-    //объявляем очередь с именем telegram
     @Bean
     fun internalQueue(): Queue {
         return Queue("internal")
