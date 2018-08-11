@@ -43,6 +43,13 @@ dependencies {
     compile('ch.qos.logback:logback-core')
     compile('ch.qos.logback:logback-classic')
 
+
+    compile('org.apache.spark:spark-core_2.11:2.3.1')
+    compile('org.apache.spark:spark-streaming_2.11:2.3.1')
+    compile 'org.apache.spark:spark-streaming-kafka-0-10_2.11:2.3.1'
+
+//    compile('org.apache.spark:spark-mllib_2.11:2.3.1')
+
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
