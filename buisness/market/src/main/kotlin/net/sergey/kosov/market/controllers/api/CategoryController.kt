@@ -13,12 +13,6 @@ class CategoryController(val categoryService: CategoryService) {
         return categoryService.create(categoryViewCreation = categoryViewCreation, currentUserName = principal.name)
     }
 
-    @GetMapping("/category/{accountId}/{categoryId}")
-    fun find(@PathVariable("categoryId") categoryId: String,
-             @PathVariable("accountId") accountId: String, principal: Principal): Category {
-        return categoryService.findCategoryById(categoryId = categoryId, accountId = accountId, currentUserName = principal.name)
-    }
-
     @GetMapping("/{accountId}/categories")
     fun getCategories(principal: Principal, @PathVariable("accountId") accountId: String): List<Category> {
         return categoryService.getCategories(currentUserName = principal.name, accountId = accountId)

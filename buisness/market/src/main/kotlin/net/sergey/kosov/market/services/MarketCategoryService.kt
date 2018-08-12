@@ -18,7 +18,7 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
 
     override fun create(categoryViewCreation: CategoryViewCreation, currentUserName: String): Category {
         val account: Account = accountApi.getAccount(currentUserName, categoryViewCreation.accountId)
-        val parentCategory = findParentCategory(categoryViewCreation.parentId, currentUserName, categoryViewCreation.accountId)
+        val parentCategory = findParentCategory(categoryViewCreation.parentId, currentUserName, account)
         val category = Category(title = categoryViewCreation.title,
                 description = categoryViewCreation.description,
                 account = account,
@@ -27,12 +27,11 @@ class MarketCategoryService(var categoryRepository: CategoryRepository,
         return categoryRepository.insert(category)
     }
 
-    private fun findParentCategory(parentId: String?, name: String, accountId: String): Category? {
-        return parentId?.let { findCategoryById(it, accountId, name) }
+    private fun findParentCategory(parentId: String?, name: String, account: Account): Category? {
+        return parentId?.let { findCategoryById(it, account, name) }
     }
 
-    override fun findCategoryById(categoryId: String, accountId: String, currentUserName: String): Category {
-        val account: Account = accountApi.getAccount(currentUserName, accountId)
+    override fun findCategoryById(categoryId: String, account: Account, currentUserName: String): Category {
         return categoryRepository.findOneByQuery(Query(getCriteriaCategoryId(categoryId))
                 .addCriteria(getAvailableCategories(account)))
                 ?: throw NotFoundException("can not fount category by id = $categoryId")

@@ -3,7 +3,6 @@ package net.sergey.kosov.market.services
 import net.sergey.kosov.common.exceptions.NotFoundException
 import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.api.StatisticApi
-import net.sergey.kosov.market.domains.entity.Account
 import net.sergey.kosov.market.domains.entity.Category
 import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.entity.Product
@@ -24,13 +23,12 @@ class MarketProductService(private val productRepository: ProductRepository,
                            @Value("\${chart.size}") private var chartSize: Int) : ProductService {
 
     override fun getProducts4Market(marketName: String): List<Product> {
-        val account = getAccount(marketName)
-        return productRepository.findByQuery(getProductQuery().addCriteria(getAccountCriteria(account)))
+        return productRepository.findByQuery(getProductQuery().addCriteria(getAccountCriteria(marketName)))
     }
 
     override fun createProduct(productViewCreation: ProductViewCreation, userName: String): Product {
         val account = getAccount(userName, productViewCreation.accountId)
-        val category = categoryService.findCategoryById(productViewCreation.categoryId, productViewCreation.accountId, userName)
+        val category = categoryService.findCategoryById(productViewCreation.categoryId, account, userName)
         val tags = calculateTags(productViewCreation, category)
 
         val products = Product(title = productViewCreation.title,
@@ -62,8 +60,6 @@ class MarketProductService(private val productRepository: ProductRepository,
         return category.flatMap { c -> c.characteristics.map { it.name } }
     }
 
-    private fun getAccount(marketName: String) = accountApi.getAccount(marketName)
-
     private fun getAccount(userName: String, accountId: String) = accountApi.getAccount(userName, accountId)
 
     override fun findProductById(id: String): Product {
@@ -88,7 +84,7 @@ class MarketProductService(private val productRepository: ProductRepository,
     override fun findProducts(): List<Product> = productRepository.findByQuery(getProductQuery().limit(100))
 
 
-    private fun getAccountCriteria(account: Account) = Criteria.where(_Product.ACCOUNT).`is`(account)
+    private fun getAccountCriteria(marketName: String) = Criteria.where("${_Product.ACCOUNT}.marketName").`is`(marketName)
 
     private fun getCriteriaBetweenPrice(filter: ProductFilter) =
             Criteria().andOperator(Criteria.where(_Product.PRICE).gte(filter.priceLeft),
