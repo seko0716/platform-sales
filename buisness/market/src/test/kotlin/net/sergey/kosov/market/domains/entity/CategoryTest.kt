@@ -11,7 +11,7 @@ internal class CategoryTest {
         val category2 = Category(title = "root2", parent = category1, characteristics = listOf(Characteristic("2"), Characteristic("22")))
         val category3 = Category(title = "root3", parent = category2, characteristics = listOf(Characteristic("3")))
         val category4 = Category(title = "root4", parent = category3, characteristics = listOf(Characteristic("4")))
-        val flatMap = category4.flatMap { it.characteristics.map { it.name } }
+        val flatMap = category4.flatMap { c -> c.characteristics.map { it.name } }
         Assert.assertEquals(listOf("4", "3", "2", "22", "1"), flatMap)
     }
 }

@@ -37,8 +37,8 @@ class TestProductService {
     @Before
     fun before() {
         Mockito.doReturn(Account("1", "1", "1")).`when`(accountApi).getAccount("1", "1")
-
-        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", "1", "1")
+        val account = accountApi.getAccount("1", "1")
+        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", account, "1")
 
         goodsChartIds = (1..10).mapTo(ArrayList()) {
             productService.createProduct(

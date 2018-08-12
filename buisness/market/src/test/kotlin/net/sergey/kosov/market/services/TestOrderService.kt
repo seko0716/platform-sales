@@ -45,13 +45,18 @@ class TestOrderService {
         Mockito.doReturn(Account("1", "1", id = "1")).`when`(accountApi).getAccount("1", "1")
         Mockito.doReturn(Account("1", "1", id = "1")).`when`(accountApi).getAccount("2", "1")
         Mockito.doReturn(Account("1", "1", id = "1")).`when`(accountApi).getAccount("22", "1")
+        val account = accountApi.getAccount("1", "1")
+        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", account, "1")
+        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", account, "2")
+        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", account, "22")
 
-        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", "1", "1")
-        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", "1", "2")
-        Mockito.doReturn(Category(title = "1")).`when`(categoryService).findCategoryById("", "1", "22")
 
-
-        val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.", accountId = "1")
+        val productViewCreation = ProductViewCreation(title = "name!!",
+                description = "description!!",
+                price = BigDecimal.ZERO,
+                categoryId = "",
+                productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.",
+                accountId = "1")
         val goods = productService.createProduct(productViewCreation, "1")
         val order: Order = orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = "1")
         orderId = order.id.toString()
@@ -66,7 +71,6 @@ class TestOrderService {
                 categoryId = "",
                 productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.",
                 accountId = "1")
-        val currentUser = User("2", "3", email = "test2")
         val goods = productService.createProduct(productViewCreation, "2")
         val order: Order = orderService.create(OrderViewCreation(productId = goods.id.toString(), count = 2), customerName = "2")
         Assert.assertEquals(order, orderService.findOrder(order.id.toString(), "1"))
@@ -84,14 +88,14 @@ class TestOrderService {
     fun completeOrder() {//после оплаты
         val order: Order = orderService.findOrder(orderId = orderId, userName = "1")
         val processedOrder = orderService.processingOrder(orderId = order.id.toString(), userName = "1")
-        val completedOrder = orderService.completeOrder(orderId = processedOrder.id.toString(), userName = "1")
+        val completedOrder = orderService.completeOrder(orderId = processedOrder.id.toString(), userName = "test3")
         Assert.assertEquals(Status.COMPLETED, completedOrder.status)
     }
 
     @Test
     fun cancelOrder() {//после оплаты
         val order: Order = orderService.findOrder(orderId = orderId, userName = "1")
-        val canceledOrder: Order = orderService.cancelOrder(orderId = order.id.toString(), userName = "1")
+        val canceledOrder: Order = orderService.cancelOrder(orderId = order.id.toString(), userName = "test3")
         Assert.assertEquals(Status.CANCELED, canceledOrder.status)
     }
 }
