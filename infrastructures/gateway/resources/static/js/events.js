@@ -1,7 +1,7 @@
 function showNotification(message) {
     console.log(message);
     $.notify({
-        message: message,
+        message: message
     });
 }
 

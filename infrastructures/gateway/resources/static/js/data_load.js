@@ -236,23 +236,23 @@ function loadOrder() {
         getElement("product-shop").innerText = order.product.account.marketName;
 
         if (order.statusHistory.find(function (value) {
-                return "CANCELED" === value.first
-            })) {
+            return "CANCELED" === value.first
+        })) {
             getElement("progress").innerHTML = "<center>Canceled</center>";
         } else {
             if (order.statusHistory.find(function (value) {
-                    return "CREATED" === value.first
-                })) {
+                return "CREATED" === value.first
+            })) {
                 getElement("created").hidden = false;
             }
             if (order.statusHistory.find(function (value) {
-                    return "COMPLETED" === value.first
-                })) {
+                return "COMPLETED" === value.first
+            })) {
                 getElement("completed").hidden = false;
             }
             if (order.statusHistory.find(function (value) {
-                    return "PROCESSING" === value.first
-                })) {
+                return "PROCESSING" === value.first
+            })) {
                 getElement("processing").hidden = false;
 
             }
@@ -272,7 +272,13 @@ function loadOrder() {
 }
 
 function cancelOrderById(id) {
-    post("/market/order/cancel/" + id, null, loadOrders, function (err) {
+    post("/market/order/cancel/" + id, null, function (order) {
+        loadOrders();
+        const name = order.customer.fullName;
+        const message = "Customer " + name + " canceled order " + id;
+        sendAccountInternalMessage(message, order.product.account.marketName, id)
+
+    }, function (err) {
         console.log(err)
     });
 }
@@ -285,7 +291,13 @@ function deleteOrderById(id, operation = loadOrders) {
 
 function cancelOrder() {
     const id = getId();
-    post("/market/order/cancel/" + id, null, loadOrder, function (err) {
+    post("/market/order/cancel/" + id, null, function (order) {
+        loadOrder();
+        const name = order.customer.fullName;
+        const message = "Customer " + name + " canceled order " + id;
+        sendAccountInternalMessage(message, order.product.account.marketName, id)
+
+    }, function (err) {
         console.log(err)
     });
 }
@@ -302,7 +314,13 @@ function deleteOrder() {
 
 function completeOrder() {
     const id = getId();
-    post("/market/order/complete/" + id, null, loadOrder, function (err) {
+    post("/market/order/complete/" + id, null, function (order) {
+        loadOrder();
+        const name = order.customer.fullName;
+        const message = "Customer " + name + " completed order " + id;
+        sendAccountInternalMessage(message, order.product.account.marketName, id)
+
+    }, function (err) {
         console.log(err)
     });
 }
@@ -430,7 +448,12 @@ function addToCart() {
 
 function buyOrder(orderId) {
     post("/market/order/buyCart/" + orderId, null, function (order) {
+        const name = order.customer.fullName;
+        const message = "Customer " + name + " create order " + id;
+        sendAccountInternalMessage(message, order.product.account.marketName, id);
+
         window.location.replace("/view/order/" + order.id);
+
     }, function (err) {
         showLoginForm()
     })
@@ -438,6 +461,10 @@ function buyOrder(orderId) {
 
 function buy(id = getId()) {
     put("/market/order", {productId: id, count: 1}, function (order) {
+        const name = order.customer.fullName;
+        const message = "Customer " + name + " create order " + id;
+        sendAccountInternalMessage(message, order.product.account.marketName, id);
+
         window.location.replace("/view/order/" + order.id);
     }, function (err) {
         showLoginForm()
@@ -448,7 +475,7 @@ function buyAll() {
     Array.apply(null, document.getElementsByClassName("orderId")).forEach(function (value) {
         const id = value.innerText;
         post("/market/order/buyCart/" + id, null, function () {
-
+//todo написать функцию отправи ивентов по все товарам в корзине
         }, function (err) {
             console.log(err)
         });

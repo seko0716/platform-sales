@@ -9,9 +9,6 @@ import net.sergey.kosov.market.domains.entity.Status
 import net.sergey.kosov.market.domains.entity.Status.*
 import net.sergey.kosov.market.domains.entity.User
 import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
-import net.sergey.kosov.market.infrastracture.EventTo.CUSTOMER
-import net.sergey.kosov.market.infrastracture.EventTo.SELLER
-import net.sergey.kosov.market.infrastracture.NotifyEvent
 import net.sergey.kosov.market.repository.order.OrderRepository
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -51,7 +48,6 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         return orderRepository.save(order)
     }
 
-    @NotifyEvent(eventTo = SELLER)
     override fun create(orderViewCreation: OrderViewCreation, customerName: String): Order {
         val order = createOrder(customerName, orderViewCreation.productId, orderViewCreation.count)
         return orderRepository.insert(order)
@@ -82,13 +78,11 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         } ?: throw NotFoundException("Can Not Found Order By id = $orderId")
     }
 
-    @NotifyEvent(eventTo = CUSTOMER)
     override fun processingOrder(orderId: String, userName: String): Order {
         val order = findOrderForSeller(userName, orderId)
         return orderRepository.save(changeStatus(order, PROCESSING))
     }
 
-    @NotifyEvent(eventTo = CUSTOMER)
     override fun processedOrder(orderId: String, userName: String): Order {
         val order = findOrderForCustomer(userName, orderId)
         return orderRepository.save(changeStatus(order, PROCESSED))
@@ -105,13 +99,11 @@ class MarketOrderService @Autowired constructor(var orderRepository: OrderReposi
         } ?: throw NotFoundException("Can Not Found Order By id = $orderId")
     }
 
-    @NotifyEvent(eventTo = SELLER)
     override fun completeOrder(orderId: String, userName: String): Order {
         val order = findOrderForCustomer(userName, orderId)
         return orderRepository.save(changeStatus(order, COMPLETED))
     }
 
-    @NotifyEvent(eventTo = SELLER)
     override fun cancelOrder(orderId: String, userName: String): Order {
         val order = findOrderForCustomer(userName, orderId)
         return orderRepository.save(changeStatus(order, CANCELED))

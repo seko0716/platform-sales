@@ -14,6 +14,22 @@ function sendOrderComment() {
 }
 
 
+function sendAccountInternalMessage(message, accountId, id) {
+    var mess = {
+        mess: message,
+        protocol: "internal",
+        to: accountId,
+        entityId: id,
+        type: "MARKET_EVENT"
+
+    };
+    post("/communication/send", mess, function (data) {
+    })
+
+}
+
+
+
 function getOrderComments() {
     const id = getId();
     const type = "ORDER_COMMENT";

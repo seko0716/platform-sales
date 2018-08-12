@@ -10,6 +10,10 @@ $(window).load(function () {
 
 function getCurrentUser() {
 
+    if (localStorage.getItem('user')) {
+        return localStorage.getItem('user');
+    }
+
     const token = getOauthTokenFromStorage();
     let user = null;
 
@@ -22,6 +26,7 @@ function getCurrentUser() {
             async: false,
             success: function (data) {
                 user = data;
+                localStorage.setItem('user', data);
             },
             error: function () {
                 removeOauthTokenFromStorage();

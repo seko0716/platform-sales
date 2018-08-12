@@ -52,6 +52,7 @@ function getOauthTokenFromStorage() {
 }
 
 function removeOauthTokenFromStorage() {
+    localStorage.removeItem('user');
     return localStorage.removeItem('token');
 }
 
