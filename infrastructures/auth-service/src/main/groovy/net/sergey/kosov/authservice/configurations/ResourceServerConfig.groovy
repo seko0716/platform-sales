@@ -16,8 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @EnableWebSecurity
 class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
-    void configureGlobal(
-            final AuthenticationManagerBuilder auth, UserDetailsService userDetailsService) throws Exception {
+    void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService userDetailsService) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder())
     }
 

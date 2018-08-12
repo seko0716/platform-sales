@@ -21,13 +21,14 @@ class CommunicationController @Autowired constructor(var service: MessageService
     }
 
     @PostMapping("/send/internal")
-//    @PreAuthorize("#oauth2.hasScope('server')")
+    @PreAuthorize("#oauth2.hasScope('server')")
     fun sendInternalMessage(@RequestBody message: ViewMessageCreation): Message {
         return service.createAndSend(message)
     }
 
     @GetMapping("/messages/{type}/{entityId}")
-    fun getMessages(@PathVariable("entityId") entityId: ObjectId, @PathVariable("type") type: MessageType, principal: Principal): List<Message> {
+    fun getMessages(@PathVariable("entityId") entityId: ObjectId,
+                    @PathVariable("type") type: MessageType, principal: Principal): List<Message> {
         return service.getMessages(entityId, type, principal.name)
     }
 

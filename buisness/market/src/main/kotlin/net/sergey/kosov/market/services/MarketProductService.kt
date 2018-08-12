@@ -23,8 +23,8 @@ class MarketProductService(private val productRepository: ProductRepository,
                            private val categoryService: CategoryService,
                            @Value("\${chart.size}") private var chartSize: Int) : ProductService {
 
-    override fun getProducts4Market(userName: String): List<Product> {
-        val account = getAccount(userName)
+    override fun getProducts4Market(marketName: String): List<Product> {
+        val account = getAccount(marketName)
         return productRepository.findByQuery(getProductQuery().addCriteria(getAccountCriteria(account)))
     }
 
@@ -59,10 +59,10 @@ class MarketProductService(private val productRepository: ProductRepository,
     }
 
     private fun getCharacteristicNamesInHierarchy(category: Category): List<String> {
-        return category.flatMap { it.characteristics.map { it.name } }
+        return category.flatMap { c -> c.characteristics.map { it.name } }
     }
 
-    private fun getAccount(name: String) = accountApi.getAccount(name)
+    private fun getAccount(marketName: String) = accountApi.getAccount(marketName)
 
     private fun getAccount(userName: String, accountId: String) = accountApi.getAccount(userName, accountId)
 

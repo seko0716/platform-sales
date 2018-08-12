@@ -9,10 +9,3 @@ data class Message(var mess: String,
                    var protocol: String = "internal",
                    var entityId: String)
 
-enum class MessageType {
-    ORDER_COMMENT,
-    PRODUCT_COMMENT,
-    PERSONAL,
-    MARKET_EVENT,
-    INTERNAL_EVENT
-}

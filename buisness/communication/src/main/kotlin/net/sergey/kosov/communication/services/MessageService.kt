@@ -1,7 +1,6 @@
 package net.sergey.kosov.communication.services
 
 import net.sergey.kosov.communication.api.AccountApi
-import net.sergey.kosov.communication.api.AuthService
 import net.sergey.kosov.communication.domains.Message
 import net.sergey.kosov.communication.domains.MessageType
 import net.sergey.kosov.communication.domains.MessageType.*
@@ -18,8 +17,7 @@ import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
-class MessageService @Autowired constructor(var authService: AuthService,
-                                            var accountApi: AccountApi,
+class MessageService @Autowired constructor(var accountApi: AccountApi,
                                             var sendingService: SendingService,
                                             var repository: MessageRepository) {
     private val log = LoggerFactory.getLogger(javaClass)
@@ -47,6 +45,7 @@ class MessageService @Autowired constructor(var authService: AuthService,
                 createInternalEvent(viewMessageCreation, from)
             }
         }
+        log.trace("send message {}", message)
         return sendingService.send(message)
     }
 

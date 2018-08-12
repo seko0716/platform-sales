@@ -10,14 +10,9 @@ import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
 
 @Service
-class ProductRecommendationService {
-    @Autowired
-    lateinit var jssc: JavaStreamingContext
-    @Autowired
-    lateinit var kafProperties: KafkaProperties
-    @Autowired
-    lateinit var productRecommendation: ProductRecommendation
-
+class ProductRecommendationService @Autowired constructor(var jssc: JavaStreamingContext,
+                                                          var kafProperties: KafkaProperties,
+                                                          var productRecommendation: ProductRecommendation) {
     @PostConstruct
     fun init() {
         val preferConsistent = LocationStrategies.PreferConsistent()

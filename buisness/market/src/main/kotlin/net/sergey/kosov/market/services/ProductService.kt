@@ -14,5 +14,5 @@ interface ProductService {
     fun findProducts(filter: ProductFilter): List<Product>
     fun setCharacteristic(characteristics: List<Characteristic>, id: String): Product
     fun findProducts(): List<Product>
-    fun getProducts4Market(userName: String): List<Product>
+    fun getProducts4Market(marketName: String): List<Product>
 }

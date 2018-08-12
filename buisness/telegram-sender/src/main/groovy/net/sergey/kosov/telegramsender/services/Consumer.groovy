@@ -29,7 +29,7 @@ class Consumer {
         def mess = new JsonSlurper().parseText(new String(message.getBody()))
         def answer = new TelegramMessage(to: mess["to"], mess: mess["mess"], accessToken: mess["accessToken"])
 //        new RestTemplate().postForObject("https://api.telegram.org/bot${answer.accessToken}/sendMessage?${getParameters(answer)}", null, String.class)
-        def code = new RestTemplate().postForEntity("${api}${answer.accessToken}/${method}?${getParameters(answer)}", null, String.class).getStatusCode()
+        def code = new RestTemplate().postForEntity("${api}${answer.accessToken}/${method}?${getParameters(answer)}".toString(), null, String.class).getStatusCode()
         if (code == HttpStatus.OK) {
             communicationApi.completedMessage(mess["id"] as String)
         }

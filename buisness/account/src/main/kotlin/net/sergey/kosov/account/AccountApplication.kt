@@ -50,7 +50,7 @@ class AccountApplication {
                             "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg")))
             val save = accountService.save(Account(marketName = "admin", description = "",
                     images = listOf("https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
-                    "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
+                            "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                             "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg"), users = listOf("test", "admin")))
             userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "admin", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = save))
             userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "test", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = test))
@@ -66,10 +66,6 @@ fun main(args: Array<String>) {
 
 @Configuration
 class CustomResourceServerConfigurerAdapter : ResourceServerConfigurerAdapter() {
-
-    @Autowired
-    private lateinit var sso: ResourceServerProperties
-
     @Bean
     @ConfigurationProperties(prefix = "security.oauth2.client")
     fun clientCredentialsResourceDetails(): ClientCredentialsResourceDetails {
@@ -89,12 +85,12 @@ class CustomResourceServerConfigurerAdapter : ResourceServerConfigurerAdapter() 
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .antMatchers("/create", "/product/*", "/products/market/*").permitAll()
+                .antMatchers("/create").permitAll()
                 .anyRequest().authenticated()
     }
 
     @Bean
-    fun tokenServices(): ResourceServerTokenServices {
+    fun tokenServices(sso: ResourceServerProperties): ResourceServerTokenServices {
         return CustomUserInfoTokenServices(sso.userInfoUri, sso.clientId)
     }
 }

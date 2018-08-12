@@ -1,6 +1,8 @@
 package net.sergey.kosov.communication.configuration
 
 import feign.RequestInterceptor
+import net.sergey.kosov.common.security.CustomUserInfoTokenServices
+import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor
 import org.springframework.context.annotation.Bean
@@ -10,6 +12,7 @@ import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext
 import org.springframework.security.oauth2.client.OAuth2RestTemplate
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices
 
 @Configuration
 class CustomResourceServerConfigurerAdapter : ResourceServerConfigurerAdapter() {
@@ -33,7 +36,11 @@ class CustomResourceServerConfigurerAdapter : ResourceServerConfigurerAdapter() 
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .antMatchers("/stream/*", "/product/*", "/products/market/*").permitAll()
                 .anyRequest().authenticated()
+    }
+
+    @Bean
+    fun tokenServices(sso: ResourceServerProperties): ResourceServerTokenServices {
+        return CustomUserInfoTokenServices(sso.userInfoUri, sso.clientId)
     }
 }

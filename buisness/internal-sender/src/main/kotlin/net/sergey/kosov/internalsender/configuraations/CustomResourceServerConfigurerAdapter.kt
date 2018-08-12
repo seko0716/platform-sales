@@ -30,10 +30,8 @@ class CustomResourceServerConfigurerAdapter : ResourceServerConfigurerAdapter() 
         return OAuth2RestTemplate(clientCredentialsResourceDetails())
     }
 
-
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .antMatchers("/stream/*", "/product/*", "/products/market/*").permitAll()
                 .anyRequest().authenticated()
     }
 }

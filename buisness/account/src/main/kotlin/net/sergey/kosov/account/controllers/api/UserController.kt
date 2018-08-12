@@ -3,6 +3,7 @@ package net.sergey.kosov.account.controllers.api
 import net.sergey.kosov.account.domains.User
 import net.sergey.kosov.account.domains.ViewCreationAccount
 import net.sergey.kosov.account.services.UserService
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
@@ -10,7 +11,7 @@ import java.security.Principal
 class UserController(var userService: UserService) {
 
     @GetMapping(path = ["/user/{email:.+}"])
-//    @PreAuthorize("#oauth2.hasScope('server')")
+    @PreAuthorize("#oauth2.hasScope('server')")
     fun getUser(@PathVariable("email") email: String): User {
         return userService.getUser(email)
     }
