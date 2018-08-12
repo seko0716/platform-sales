@@ -221,6 +221,52 @@ function loadOrders() {
 }
 
 
+function showOrder(order) {
+    $("#cancel").hide();
+    $("#complete").hide();
+    $("#delete").hide();
+    console.log(order);
+    getElement("product-title").innerText = order.title;
+    getElement("product-desc").innerText = order.product.description;
+    getElement("product-price").innerText = '$ ' + order.product.price;
+    getElement("product-count").innerText = 'count: ' + order['count'];
+    getElement("product-shop").innerText = order.product.account.marketName;
+
+    if (order.statusHistory.find(function (value) {
+        return "CANCELED" === value.first
+    })) {
+        getElement("progress").innerHTML = "<center>Canceled</center>";
+    } else {
+        if (order.statusHistory.find(function (value) {
+            return "CREATED" === value.first
+        })) {
+            getElement("created").hidden = false;
+        }
+        if (order.statusHistory.find(function (value) {
+            return "COMPLETED" === value.first
+        })) {
+            getElement("completed").hidden = false;
+        }
+        if (order.statusHistory.find(function (value) {
+            return "PROCESSING" === value.first
+        })) {
+            getElement("processing").hidden = false;
+
+        }
+    }
+    if (order.status === "CREATED") {
+        $("#cancel").show();
+    } else if (order.status === "PROCESSING") {
+        $("#complete").show();
+    } else if (order.status === "PROCESSED") {
+        $("#complete").show();
+    } else if (order.status === "COMPLETED") {
+        $("#delete").show();
+    } else if (order.status === "CANCELED") {
+        $("#delete").show();
+    }
+}
+
 function loadOrder() {
     const orderId = getId();
     $("#cancel").hide();
@@ -228,52 +274,13 @@ function loadOrder() {
     $("#delete").hide();
     // $("#complete").hide();
     get("/market/order/" + orderId, function (order) {
-        console.log(order);
-        getElement("product-title").innerText = order.title;
-        getElement("product-desc").innerText = order.product.description;
-        getElement("product-price").innerText = '$ ' + order.product.price;
-        getElement("product-count").innerText = 'count: ' + order['count'];
-        getElement("product-shop").innerText = order.product.account.marketName;
-
-        if (order.statusHistory.find(function (value) {
-            return "CANCELED" === value.first
-        })) {
-            getElement("progress").innerHTML = "<center>Canceled</center>";
-        } else {
-            if (order.statusHistory.find(function (value) {
-                return "CREATED" === value.first
-            })) {
-                getElement("created").hidden = false;
-            }
-            if (order.statusHistory.find(function (value) {
-                return "COMPLETED" === value.first
-            })) {
-                getElement("completed").hidden = false;
-            }
-            if (order.statusHistory.find(function (value) {
-                return "PROCESSING" === value.first
-            })) {
-                getElement("processing").hidden = false;
-
-            }
-        }
-        if (order.status === "CREATED") {
-            $("#cancel").show();
-        } else if (order.status === "PROCESSING") {
-            $("#complete").show();
-        } else if (order.status === "PROCESSED") {
-            $("#complete").show();
-        } else if (order.status === "COMPLETED") {
-            $("#delete").show();
-        } else if (order.status === "CANCELED") {
-            $("#delete").show();
-        }
+        showOrder(order);
     })
 }
 
 function cancelOrderById(id) {
     post("/market/order/cancel/" + id, null, function (order) {
-        loadOrders();
+        showOrder(order);
         const name = order.customer.fullName;
         const message = "Customer " + name + " canceled order " + id;
         sendAccountInternalMessage(message, order.product.account.marketName, id)
@@ -292,7 +299,7 @@ function deleteOrderById(id, operation = loadOrders) {
 function cancelOrder() {
     const id = getId();
     post("/market/order/cancel/" + id, null, function (order) {
-        loadOrder();
+        showOrder(order);
         const name = order.customer.fullName;
         const message = "Customer " + name + " canceled order " + id;
         sendAccountInternalMessage(message, order.product.account.marketName, id)
@@ -315,7 +322,7 @@ function deleteOrder() {
 function completeOrder() {
     const id = getId();
     post("/market/order/complete/" + id, null, function (order) {
-        loadOrder();
+        showOrder(order);
         const name = order.customer.fullName;
         const message = "Customer " + name + " completed order " + id;
         sendAccountInternalMessage(message, order.product.account.marketName, id)
