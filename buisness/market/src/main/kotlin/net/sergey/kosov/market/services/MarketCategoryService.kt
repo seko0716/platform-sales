@@ -13,8 +13,8 @@ import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
 
 @Service
-class MarketCategoryService(var categoryRepository: CategoryRepository,
-                            var accountApi: AccountApi) : CategoryService {
+class MarketCategoryService(private var categoryRepository: CategoryRepository,
+                            private var accountApi: AccountApi) : CategoryService {
 
     override fun create(categoryViewCreation: CategoryViewCreation, currentUserName: String): Category {
         val account: Account = accountApi.getAccount(currentUserName, categoryViewCreation.accountId)

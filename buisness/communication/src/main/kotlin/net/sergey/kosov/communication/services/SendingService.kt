@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class SendingService @Autowired constructor(var template: RabbitTemplate) {
+class SendingService @Autowired constructor(private var template: RabbitTemplate) {
     private val log = LoggerFactory.getLogger(javaClass)
 
     fun send(message: Message): Message {

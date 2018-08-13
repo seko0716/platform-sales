@@ -2,6 +2,7 @@ package net.sergey.kosov.statistic.companions.kafka.configs
 
 import net.sergey.kosov.statistic.companions.kafka.KafkaSink
 import net.sergey.kosov.statistic.companions.kafka.ProductRecommendation
+import net.sergey.kosov.statistic.domains.Product
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -18,6 +19,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.kafka.support.serializer.JsonDeserializer
+import org.springframework.kafka.support.serializer.JsonSerializer
 import scala.Tuple2
 import java.io.Serializable
 
@@ -48,11 +51,11 @@ class BeanConfiguration {
     }
 
     @Bean
-    fun mappingFunc(): (Any, Optional<List<Tuple2<Any, Int>>>, State<List<Tuple2<Any, Int>>>) -> Tuple2<Any, List<Tuple2<Any, Int>>> {
+    fun mappingFunc(): (Product, Optional<List<Tuple2<Product, Int>>>, State<List<Tuple2<Product, Int>>>) -> Tuple2<Product, List<Tuple2<Product, Int>>> {
         return { productId, currentValue, state ->
             val stateValue = if (state.exists()) state.get() else listOf()//[(12,3),(11,3),(15,2),(1,4)]
 
-            val map = mutableMapOf<Any, Int>()
+            val map = mutableMapOf<Product, Int>()
             (currentValue.orElse(listOf()) + stateValue).forEach {
                 map[it._1] = map.getOrDefault(it._1, 0) + it._2
             }
@@ -78,7 +81,7 @@ class BeanConfiguration {
         return mapOf(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to brokers,
                 ConsumerConfig.GROUP_ID_CONFIG to groupId,
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
-                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java)
+                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java)
     }
 
     @Bean
@@ -86,6 +89,6 @@ class BeanConfiguration {
     fun kafkaProducerProperties(@Value("\${kafka.brokers}") brokers: String): MutableMap<String, String> {
         return mutableMapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to brokers,
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java.name,
-                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java.name)
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java.name)
     }
 }

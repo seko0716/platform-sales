@@ -103,6 +103,16 @@ function loadProduct() {
             "</table>";
 
         _fillData(template, product.characteristic, "#characteristics");
+
+        sendStatistic(product)
+    })
+}
+
+function sendStatistic(product) {
+    var data = product;
+    data.account = product.account.marketName;
+    put("/statistic/viewing", data, function () {
+        console.log("send statistic")
     })
 }
 

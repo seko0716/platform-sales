@@ -1,9 +1,11 @@
 package net.sergey.kosov.statistic.domains
 
+import java.io.Serializable
+
 data class Category(var title: String,
                     var description: String = "",
                     var parent: Category? = null,
-                    var characteristics: List<Characteristic> = ArrayList()) : Iterable<Category> {
+                    var characteristics: List<Characteristic> = ArrayList()) : Iterable<Category>, Serializable {
 
     override fun iterator(): Iterator<Category> {
         return CategoryIterator(this)

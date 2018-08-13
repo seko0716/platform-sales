@@ -1,5 +1,7 @@
 package net.sergey.kosov.statistic.companions.kafka
 
+import net.sergey.kosov.statistic.domains.KafkaData
+import net.sergey.kosov.statistic.domains.Product
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.spark.api.java.JavaPairRDD
 import org.apache.spark.api.java.Optional
@@ -13,12 +15,12 @@ import scala.Tuple2
 import java.util.*
 
 class ProductRecommendation constructor(var kafkaSink: Broadcast<KafkaSink>,
-                                        var mappingFunc: Broadcast<Function3<Any, Optional<List<Tuple2<Any, Int>>>, State<List<Tuple2<Any, Int>>>, Tuple2<Any, List<Tuple2<Any, Int>>>>>) : Serializable {
+                                        var mappingFunc: Broadcast<Function3<Product, Optional<List<Tuple2<Product, Int>>>, State<List<Tuple2<Product, Int>>>, Tuple2<Product, List<Tuple2<Product, Int>>>>>) : Serializable {
 
-    fun calculate(stream: JavaInputDStream<ConsumerRecord<String, String>>, jssc: JavaStreamingContext) {
+    fun calculate(stream: JavaInputDStream<ConsumerRecord<String, KafkaData>>, jssc: JavaStreamingContext) {
         val dstream = stream
                 .mapToPair { parseEvent(it.value()) }
-                .reduceByKey { list1, list2 -> list1.union(list2).distinct().sorted() }
+                .reduceByKey { list1, list2 -> list1.union(list2).distinct() }
                 .filter { it._2().size > 1 }
                 .flatMap { createPairs(it) }
                 .mapToPair { Tuple2(it, 1) }
@@ -40,14 +42,13 @@ class ProductRecommendation constructor(var kafkaSink: Broadcast<KafkaSink>,
         jssc.awaitTermination()
     }
 
-    private fun parseEvent(it: String): Tuple2<String, List<String>> {
-        val split = it.split(" ")
-        return Tuple2(split[0], listOf(split[1]))
+    private fun parseEvent(kafkaData: KafkaData): Tuple2<String, List<Product>> {
+        return Tuple2(kafkaData.sessionId, listOf(kafkaData.product))
     }
 
-    private fun createPairs(it: Tuple2<String, List<String>>?): MutableIterator<Tuple2<*, *>> {
-        val result = ArrayList<Tuple2<*, *>>()
-        for (i in 0 until it!!._2().size - 1) {
+    private fun createPairs(it: Tuple2<String, List<Product>>): MutableIterator<Tuple2<Product, Product>> {
+        val result = ArrayList<Tuple2<Product, Product>>()
+        for (i in 0 until it._2().size - 1) {
             val key = it._2()[i]
             for (j in i + 1 until it._2().size) {
                 result.add(Tuple2(key, it._2()[j]))
@@ -56,7 +57,7 @@ class ProductRecommendation constructor(var kafkaSink: Broadcast<KafkaSink>,
         return result.iterator()
     }
 
-    private fun getInitialRDD(jssc: JavaStreamingContext): JavaPairRDD<Any, List<Tuple2<Any, Int>>> {
+    private fun getInitialRDD(jssc: JavaStreamingContext): JavaPairRDD<Product, List<Tuple2<Product, Int>>> {
         return jssc.sparkContext().parallelizePairs(listOf())
     }
 }

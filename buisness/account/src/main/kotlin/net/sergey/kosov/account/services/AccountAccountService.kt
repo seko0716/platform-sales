@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class AccountAccountService(var accountRepository: AccountRepository,
-                            var userService: UserService) : AccountService {
+class AccountAccountService(private var accountRepository: AccountRepository,
+                            private var userService: UserService) : AccountService {
     @Transactional
     override fun createAccount(viewCreationAccount: ViewCreationAccount): Account {
         val account = Account(marketName = viewCreationAccount.marketName, images = listOf(viewCreationAccount.email))

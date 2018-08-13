@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
-class MessageService @Autowired constructor(var accountApi: AccountApi,
-                                            var sendingService: SendingService,
-                                            var repository: MessageRepository) {
+class MessageService @Autowired constructor(private var accountApi: AccountApi,
+                                            private var sendingService: SendingService,
+                                            private var repository: MessageRepository) {
     private val log = LoggerFactory.getLogger(javaClass)
 
     fun completeMessage(id: ObjectId) {

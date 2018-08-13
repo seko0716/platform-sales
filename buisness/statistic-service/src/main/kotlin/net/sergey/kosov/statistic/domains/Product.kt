@@ -1,7 +1,17 @@
 package net.sergey.kosov.statistic.domains
 
+import java.io.Serializable
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
-data class Product(val id: String,
-                   val title: String,
-                   val date: LocalDateTime)
+data class Product(var id: String,
+                   var title: String,
+                   var description: String,
+                   var account: String,
+                   var price: BigDecimal,
+                   var category: Category,
+                   var characteristic: List<Characteristic> = category.characteristics,
+                   var tags: List<String> = listOf(),
+                   var productInfo: String = "",
+                   var enabled: Boolean = false,
+                   val date: LocalDateTime = LocalDateTime.now()) : Serializable

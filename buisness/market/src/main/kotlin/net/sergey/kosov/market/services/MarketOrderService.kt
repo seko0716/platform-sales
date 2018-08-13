@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
-class MarketOrderService @Autowired constructor(var orderRepository: OrderRepository,
-                                                val productService: ProductService,
-                                                val accountApi: AccountApi) : OrderService {
+class MarketOrderService @Autowired constructor(private var orderRepository: OrderRepository,
+                                                private val productService: ProductService,
+                                                private val accountApi: AccountApi) : OrderService {
     private val cancelableStatuses = listOf(CREATED)
     private val completeStatuses = listOf(PROCESSING, PROCESSED)
     private val deletableStatuses = listOf(CANCELED, COMPLETED, IN_A_CART)

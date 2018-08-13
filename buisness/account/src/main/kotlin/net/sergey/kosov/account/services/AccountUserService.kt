@@ -10,8 +10,8 @@ import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
 
 @Service
-class AccountUserService(var userRepository: UserRepository,
-                         var authUserClient: AuthUserClient) : UserService {
+class AccountUserService(private var userRepository: UserRepository,
+                         private var authUserClient: AuthUserClient) : UserService {
     override fun updateUser(name: String, viewCreationAccount: ViewCreationAccount): User {
         val user = getUser(name)
         user.apply {

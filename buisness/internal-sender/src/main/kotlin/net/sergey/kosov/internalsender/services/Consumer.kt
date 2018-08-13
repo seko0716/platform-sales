@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class Consumer @Autowired constructor(var sseService: SseService) {
+class Consumer @Autowired constructor(private var sseService: SseService) {
 
     @RabbitListener(queues = ["internal"])
     fun onMessage(message: Message) {
