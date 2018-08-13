@@ -9,10 +9,7 @@ security:
 
 server:
   context-path: /statistic
-  port: 8082
-
-
-
+  port: 8084
 
 ---
 
@@ -23,8 +20,15 @@ security:
   oauth2:
     client:
       clientId: statistic-service
-      clientSecret: ${STATISTIC_SERVICE_PASSWORD}
+      clientSecret: statistic
       accessTokenUri: http://192.168.0.105:5000/uaa/oauth/token
       grant-type: client_credentials
       scope: server
 
+server:
+  context-path: /statistic
+  port: 8084
+
+logging:
+  level:
+    o.apache.coyote.http11.Http11Processor: warn
