@@ -32,7 +32,10 @@ spark:
   appName: ProductRecommendation
   checkpointDirectory: ./checkpoint
   durations: 30
-
+elasticsearch:
+  searchSize: 10
+  clusterNodesStr: localhost:9300
+  clusterName: docker-cluster
 
 security:
   oauth2:

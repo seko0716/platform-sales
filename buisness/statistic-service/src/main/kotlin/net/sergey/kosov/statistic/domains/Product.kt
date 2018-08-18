@@ -1,9 +1,11 @@
 package net.sergey.kosov.statistic.domains
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import net.sergey.kosov.common.annotations.NoArgs
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @NoArgs
@@ -17,4 +19,5 @@ data class Product(var id: String,
                    var tags: List<String> = listOf(),
                    var productInfo: String = "",
                    var enabled: Boolean = false,
-                   val date: LocalDateTime = LocalDateTime.now()) : Serializable
+                   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                   var date: String = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)) : Serializable
