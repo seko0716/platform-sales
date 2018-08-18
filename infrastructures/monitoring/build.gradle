@@ -19,15 +19,22 @@ repositories {
 }
 
 dependencies {
+//    groovy
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+
+//    cloud
     compile 'org.springframework.cloud:spring-cloud-starter-config'
     compile 'org.springframework.cloud:spring-cloud-starter-turbine-stream'
     compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
     compile 'org.springframework.cloud:spring-cloud-starter-hystrix-dashboard'
+
+//    logging
     compile 'net.logstash.logback:logstash-logback-encoder:4.11'
     compile('ch.qos.logback:logback-core')
     compile('ch.qos.logback:logback-classic')
 
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+//    test
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
 dependencyManagement {
