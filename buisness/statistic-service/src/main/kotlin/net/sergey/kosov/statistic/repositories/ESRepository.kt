@@ -14,13 +14,13 @@ class ESRepository @Autowired constructor(val client: Client, val elasticSearchP
 
     fun findByQuery(query: QueryBuilder, size: Int = elasticSearchProperties.searchSize): List<Map<String, Object>> {
         val searchResponse = findByQuery(query, size, "viewing_products", arrayOf("product"))
-        return DomainWrapper().toProduct(searchResponse)
+        return searchResponse.hits.hits.map { it.getSourceAsMap()["product"] as Map<String, Object> }
     }
 
-    fun findCompanionsById(id: String): MutableMap<String, Any> {
+    fun findCompanionsById(id: String): List<Map<String, Object>> {
         val searchResponse = client.prepareGet("companions", null, id)
                 .setFetchSource("companions", null)
-                .get().getSourceAsMap()
+                .get().getSourceAsMap()["companions"] as List<Map<String, Object>>
         return searchResponse
     }
 

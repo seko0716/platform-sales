@@ -24,8 +24,8 @@ class RestController @Autowired constructor(val kafkaService: KafkaService, val 
 
     @PreAuthorize("permitAll()")
     @GetMapping(path = ["/companions/{productId}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
-    fun getCompanions(@PathVariable("productId") productId: String): MutableMap<String, Any> {
-        return productService.getCompanions(productId)
+    fun getCompanions(@PathVariable("productId") productId: String): List<Map<String, Object>> {
+        return productService.getCompanions(productId = productId)
     }
 
     @PreAuthorize("permitAll()")

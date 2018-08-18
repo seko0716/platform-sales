@@ -14,7 +14,7 @@ class ProductService @Autowired constructor(val esRepository: ESRepository) {
         return esRepository.findByQuery(QueryBuilders.termQuery("sessionId.keyword", sessionId))
     }
 
-    fun getCompanions(productId: String): MutableMap<String, Any> {
-        return esRepository.findCompanionsById(productId)
+    fun getCompanions(productId: String): List<Map<String, Object>> {
+        return esRepository.findCompanionsById(id = productId)
     }
 }

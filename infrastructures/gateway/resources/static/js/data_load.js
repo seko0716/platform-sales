@@ -37,9 +37,9 @@ function loadProducts() {
 }
 
 
-function loadChart() {
+function recentlyViewed() {
 
-    get("/market/products/chart", function (products) {
+    get("/statistic/recentlyViewed", function (products) {
         const template =
             "{{#.}}<a href=\"/view/product/{{id}}\"><div class=\"col-md-6\">" +
             "  <div class=\"thumbnail\">" +
