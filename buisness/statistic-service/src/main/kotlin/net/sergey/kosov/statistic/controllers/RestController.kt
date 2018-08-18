@@ -23,11 +23,9 @@ class RestController @Autowired constructor(val kafkaService: KafkaService, val 
     }
 
     @PreAuthorize("permitAll()")
-    @GetMapping(path = ["/companions/{productId}/{count}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
-    fun getCompanions(principal: Principal,
-                      @PathVariable("productId") productId: String,
-                      @PathVariable("count") chartSize: Int): List<Product> {
-        return listOf()
+    @GetMapping(path = ["/companions/{productId}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    fun getCompanions(@PathVariable("productId") productId: String): MutableMap<String, Any> {
+        return productService.getCompanions(productId)
     }
 
     @PreAuthorize("permitAll()")

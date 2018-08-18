@@ -11,6 +11,10 @@ import javax.servlet.http.HttpSession
 class ProductService @Autowired constructor(val esRepository: ESRepository) {
     fun getRecentlyViewed(login: String?, httpSession: HttpSession): List<Map<String, Object>> {
         val sessionId = login ?: httpSession.id
-        return esRepository.findByQuery(QueryBuilders.termQuery("sessionId", sessionId))
+        return esRepository.findByQuery(QueryBuilders.termQuery("sessionId.keyword", sessionId))
+    }
+
+    fun getCompanions(productId: String): MutableMap<String, Any> {
+        return esRepository.findCompanionsById(productId)
     }
 }
