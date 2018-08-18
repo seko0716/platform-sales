@@ -33,7 +33,7 @@ class CustomResourceServerConfigurerAdapter : ResourceServerConfigurerAdapter() 
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .antMatchers("/viewing", "/recentlyViewed").permitAll()
+                .antMatchers("/viewing", "/recentlyViewed", "/companions/**").permitAll()
                 .anyRequest().authenticated()
     }
 }

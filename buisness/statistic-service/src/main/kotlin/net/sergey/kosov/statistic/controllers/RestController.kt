@@ -22,6 +22,7 @@ class RestController @Autowired constructor(val kafkaService: KafkaService, val 
         return productService.getRecentlyViewed(principal?.name, httpSession)
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping(path = ["/companions/{productId}/{count}"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun getCompanions(principal: Principal,
                       @PathVariable("productId") productId: String,
