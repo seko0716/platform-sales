@@ -2,6 +2,7 @@ package net.sergey.kosov.statistic.companions.kafka.configs
 
 import net.sergey.kosov.statistic.companions.kafka.KafkaSink
 import net.sergey.kosov.statistic.companions.kafka.ProductRecommendation
+import net.sergey.kosov.statistic.domains.KafkaData
 import net.sergey.kosov.statistic.domains.Product
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.KafkaProducer
@@ -81,7 +82,7 @@ class BeanConfiguration {
         return mapOf(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to brokers,
                 ConsumerConfig.GROUP_ID_CONFIG to groupId,
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
-                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java)
+                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to KafkaDataJsonDeserializer::class.java)
     }
 
     @Bean
@@ -89,6 +90,12 @@ class BeanConfiguration {
     fun kafkaProducerProperties(@Value("\${kafka.brokers}") brokers: String): MutableMap<String, String> {
         return mutableMapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to brokers,
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java.name,
-                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java.name)
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to KafkaDataJsonSerializer::class.java.name)
     }
+}
+
+class KafkaDataJsonDeserializer : JsonDeserializer<KafkaData>() {
+}
+
+class KafkaDataJsonSerializer : JsonSerializer<KafkaData>() {
 }
