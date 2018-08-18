@@ -34,4 +34,10 @@ class ESRepository @Autowired constructor(val client: Client, val elasticSearchP
                 .addSort("@timestamp", SortOrder.ASC)
                 .get()
     }
+
+    fun insertStatistic(index: String, id: String, order: Map<String, Any>) {
+        client.prepareIndex(index, "doc", id)
+                .setSource(order)
+
+    }
 }

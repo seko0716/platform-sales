@@ -7,7 +7,6 @@ import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 
 interface ProductService {
     fun findProductById(id: String): Product
-    fun getProducts4Chart(userName: String): List<Product>
     fun disabledProduct(id: String): Product
     fun enabledProduct(id: String): Product
     fun createProduct(productViewCreation: ProductViewCreation, userName: String): Product

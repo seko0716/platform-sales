@@ -20,7 +20,7 @@ data class Order(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: O
                  var createdTime: LocalDateTime = LocalDateTime.now(),
                  @Indexed(name = "orders_status")
                  var status: Status = Status.CREATED,
-                 var statusHistory: MutableList<Pair<Status, LocalDateTime>> = mutableListOf(status to createdTime),
+                 var statusHistory: MutableList<StatusHistoryItem> = mutableListOf(StatusHistoryItem(status, createdTime)),
                  var completedTime: LocalDateTime? = null,
                  @JsonSerialize(using = ObjectIdSerializer::class) var messageThreadId: ObjectId? = null) {
     object _Order {
@@ -35,4 +35,7 @@ data class Order(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: O
         const val COMPLETED_TIME = "completedTime"
         const val MESSAGE_THREAD_ID = "messageThreadId"
     }
+
+    @NoArgs
+    data class StatusHistoryItem(var status: Status, var timestamp: LocalDateTime)
 }

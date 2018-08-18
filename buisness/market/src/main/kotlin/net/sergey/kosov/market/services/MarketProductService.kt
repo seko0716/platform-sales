@@ -2,7 +2,6 @@ package net.sergey.kosov.market.services
 
 import net.sergey.kosov.common.exceptions.NotFoundException
 import net.sergey.kosov.market.api.AccountApi
-import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.domains.entity.Category
 import net.sergey.kosov.market.domains.entity.Characteristic
 import net.sergey.kosov.market.domains.entity.Product
@@ -10,17 +9,14 @@ import net.sergey.kosov.market.domains.entity.Product._Product
 import net.sergey.kosov.market.domains.view.wrappers.ProductFilter
 import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
 import net.sergey.kosov.market.repository.product.ProductRepository
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
 
 @Service
 class MarketProductService(private val productRepository: ProductRepository,
-                           private val statisticApi: StatisticApi,
                            private val accountApi: AccountApi,
-                           private val categoryService: CategoryService,
-                           @Value("\${chart.size}") private var chartSize: Int) : ProductService {
+                           private val categoryService: CategoryService) : ProductService {
 
     override fun getProducts4Market(marketName: String): List<Product> {
         return productRepository.findByQuery(getProductQuery().addCriteria(getAccountCriteria(marketName)))
@@ -64,11 +60,6 @@ class MarketProductService(private val productRepository: ProductRepository,
 
     override fun findProductById(id: String): Product {
         return productRepository.findOne(id) ?: throw NotFoundException("can not found product by id $id")
-    }
-
-    override fun getProducts4Chart(userName: String): List<Product> {
-        val productsIdsChart = statisticApi.getChart(username = userName, chartSize = chartSize)
-        return productRepository.findAll(productsIdsChart).toList()
     }
 
     override fun disabledProduct(id: String) = productRepository.save(findProductById(id).apply { enabled = false })

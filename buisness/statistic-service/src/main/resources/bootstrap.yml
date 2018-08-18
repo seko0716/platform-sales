@@ -31,7 +31,7 @@ spark:
   master: local[*]
   appName: ProductRecommendation
   checkpointDirectory: ./checkpoint
-  durations: 30
+  durations: 900
 elasticsearch:
   searchSize: 10
   clusterNodesStr: localhost:9300

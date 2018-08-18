@@ -1,7 +1,6 @@
 package net.sergey.kosov.market.services
 
 import net.sergey.kosov.market.api.AccountApi
-import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.configuration.ConfigurationFeign
 import net.sergey.kosov.market.domains.entity.Account
 import net.sergey.kosov.market.domains.entity.Category
@@ -27,8 +26,6 @@ class TestProductService {
     @Autowired
     private lateinit var productService: ProductService
     @MockBean
-    private lateinit var statisticService: StatisticApi
-    @MockBean
     private lateinit var accountApi: AccountApi
     @MockBean
     private lateinit var categoryService: CategoryService
@@ -45,7 +42,6 @@ class TestProductService {
                     ProductViewCreation(title = "name!!$it", description = "description!!", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.", accountId = "1"),
                     "1").id.toString()
         }
-        Mockito.doReturn(goodsChartIds).`when`(statisticService).getChart("name", 100)
     }
 
     @Test

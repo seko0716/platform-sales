@@ -2,6 +2,7 @@ package net.sergey.kosov.market.services
 
 import net.sergey.kosov.common.exceptions.NotFoundException
 import net.sergey.kosov.market.api.AccountApi
+import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.domains.entity.Order
 import net.sergey.kosov.market.domains.entity.Order._Order
 import net.sergey.kosov.market.domains.entity.Product
@@ -20,6 +21,7 @@ import java.time.LocalDateTime
 @Service
 class MarketOrderService @Autowired constructor(private var orderRepository: OrderRepository,
                                                 private val productService: ProductService,
+                                                private val statisticApi: StatisticApi,
                                                 private val accountApi: AccountApi) : OrderService {
     private val cancelableStatuses = listOf(CREATED)
     private val completeStatuses = listOf(PROCESSING, PROCESSED)
@@ -47,6 +49,7 @@ class MarketOrderService @Autowired constructor(private var orderRepository: Ord
 
     override fun create(orderViewCreation: OrderViewCreation, customerName: String): Order {
         val order = createOrder(customerName, orderViewCreation.productId, orderViewCreation.count)
+        statisticApi.orderAction(order)
         return orderRepository.insert(order)
     }
 
@@ -76,12 +79,16 @@ class MarketOrderService @Autowired constructor(private var orderRepository: Ord
 
     override fun processingOrder(orderId: String, userName: String): Order {
         val order = findOrderForSeller(userName, orderId)
-        return orderRepository.save(changeStatus(order, PROCESSING))
+        val result = orderRepository.save(changeStatus(order, PROCESSING))
+        statisticApi.orderAction(result)
+        return result
     }
 
     override fun processedOrder(orderId: String, userName: String): Order {
         val order = findOrderForCustomer(userName, orderId)
-        return orderRepository.save(changeStatus(order, PROCESSED))
+        val result = orderRepository.save(changeStatus(order, PROCESSED))
+        statisticApi.orderAction(result)
+        return result
     }
 
     private fun findOrderForSeller(userName: String, orderId: String): Order {
@@ -97,12 +104,16 @@ class MarketOrderService @Autowired constructor(private var orderRepository: Ord
 
     override fun completeOrder(orderId: String, userName: String): Order {
         val order = findOrderForCustomer(userName, orderId)
-        return orderRepository.save(changeStatus(order, COMPLETED))
+        val result = orderRepository.save(changeStatus(order, COMPLETED))
+        statisticApi.orderAction(result)
+        return result
     }
 
     override fun cancelOrder(orderId: String, userName: String): Order {
         val order = findOrderForCustomer(userName, orderId)
-        return orderRepository.save(changeStatus(order, CANCELED))
+        val result = orderRepository.save(changeStatus(order, CANCELED))
+        statisticApi.orderAction(result)
+        return result
     }
 
     private fun findOrderForCustomer(userName: String, orderId: String): Order {
@@ -113,10 +124,10 @@ class MarketOrderService @Autowired constructor(private var orderRepository: Ord
     }
 
     private fun changeStatus(order: Order, status: Status): Order {
-        if (order.statusHistory.any { it.first == COMPLETED }) {
+        if (order.statusHistory.any { it.status == COMPLETED }) {
             throw IllegalStateException("Нельзя сетить статус после $COMPLETED-- ордер звершен")
         }
-        if (order.statusHistory.any { it.first == IN_A_CART }) {
+        if (order.statusHistory.any { it.status == IN_A_CART }) {
             throw IllegalStateException("Нельзя сетить статус $IN_A_CART")
         }
 
@@ -151,7 +162,7 @@ class MarketOrderService @Autowired constructor(private var orderRepository: Ord
 
         return order.apply {
             this.status = status
-            this.statusHistory.add(Pair(status, LocalDateTime.now()))
+            this.statusHistory.add(Order.StatusHistoryItem(status, LocalDateTime.now()))
         }
     }
 
