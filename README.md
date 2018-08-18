@@ -7,31 +7,31 @@ This is my final qualification master's work.
 
 functions:
 - CRUD for products, categories and orders +
-- product cart +
-- account creation +
-- add/remove users to account +
-- internal messaging (communication-service->rabbit->internal-sender) +
-- external messaging (communication-service->rabbit->external-sender(telegram, vk)) -
-- calculation companion-products (statistic-service->kafka->spark->kafka->elk) +- need add logstash config
+- Product cart +
+- Account creation +
+- Add/remove users to account +
+- Internal messaging (communication-service->rabbit->internal-sender) +
+- External messaging (communication-service->rabbit->external-sender(telegram, vk)) -
+- Calculation companion-products (statistic-service->kafka->spark->kafka->elk) +
 - Customer churn forecast (statistic-service->spark MLib) -
-- the history of viewed products (statistic-service->kafka->spark->kafka->elk) +- need add logstash config
-- load balancing (ribbon) +
-- routing (api gateway - zuul) +
-- external configuration +
-- service discovery (eureka) +
-- security (auth2.0) +
-- authorisation with social networks -
-- log analytics +- need create dashboards
-- sales analysis -
+- History of viewed products (statistic-service->kafka->kafka->elk) +
+- Load balancing (ribbon) +
+- Routing (api gateway - zuul) +
+- External configuration +
+- Service discovery (eureka) +
+- Security (auth2.0) +
+- Authorisation with social networks -
+- Log analytics +- need create dashboards
+- Sales analysis -
 
 
 
 to do:
-- sales analysis
-- authorisation with social networks
-- external messaging (communication-service->rabbit->external-sender(telegram, vk))
-- create logstash config for companion-products and history of viewed products
+- Sales analysis
+- Authorisation with social networks
+- External messaging (communication-service->rabbit->external-sender(telegram, vk))
 - Customer churn forecast (statistic-service->spark MLib)
+- Create dashboards for log analytics
 
 ![](https://github.com/Sergey34/platform-sales/blob/feature/market-dev/img/011.png)
 ![](https://github.com/Sergey34/platform-sales/blob/feature/market-dev/img/012.png)
