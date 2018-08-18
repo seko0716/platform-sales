@@ -34,36 +34,45 @@ repositories {
 }
 
 dependencies {
+//    kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.3")
 
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    compile 'com.fasterxml.jackson.core:jackson-databind'
+//    security
+    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
+    compile 'org.springframework.security.oauth:spring-security-oauth2'
+    compile 'org.springframework.boot:spring-boot-starter-security'
 
-
-    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+//    cloud
     compile 'org.springframework.cloud:spring-cloud-starter-config'
     compile 'org.springframework.cloud:spring-cloud-starter-feign'
-    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
-    compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.security.oauth:spring-security-oauth2'
+    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+//    web
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+
+//  db
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+
+//    common
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.3")
+    compile 'com.fasterxml.jackson.core:jackson-databind'
     compile project(':infrastructures:common')
 
+//    logging
     compile 'net.logstash.logback:logstash-logback-encoder:4.11'
     compile('ch.qos.logback:logback-core')
     compile('ch.qos.logback:logback-classic')
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
-//    for development
-    compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    compile 'net.sourceforge.nekohtml:nekohtml'
+//    rabbit
+    compile 'org.springframework.amqp:spring-rabbit'
 
+//    test
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 
 }
 

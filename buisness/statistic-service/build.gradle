@@ -35,31 +35,38 @@ repositories {
 }
 
 dependencies {
+//    kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
+//    security
+    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
+    compile 'org.springframework.security.oauth:spring-security-oauth2'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+
+//    cloud
     compile 'org.springframework.cloud:spring-cloud-starter-config'
     compile 'org.springframework.cloud:spring-cloud-starter-feign'
-    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
-
     compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.security.oauth:spring-security-oauth2'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
+//    common
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    compile project(':infrastructures:common')
+
+//    logging
     compile 'net.logstash.logback:logstash-logback-encoder:4.11'
     compile('ch.qos.logback:logback-core')
     compile('ch.qos.logback:logback-classic')
 
-    compile project(':infrastructures:common')
-    compile 'org.springframework.kafka:spring-kafka'
-
+//    spark/kafka
     compile('org.apache.spark:spark-core_2.11:2.3.1')
     compile('org.apache.spark:spark-streaming_2.11:2.3.1')
     compile 'org.apache.spark:spark-streaming-kafka-0-10_2.11:2.3.1'
-
+    compile 'org.springframework.kafka:spring-kafka'
 //    compile('org.apache.spark:spark-mllib_2.11:2.3.1')
 
+//    test
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+
 }
 
 dependencyManagement {
