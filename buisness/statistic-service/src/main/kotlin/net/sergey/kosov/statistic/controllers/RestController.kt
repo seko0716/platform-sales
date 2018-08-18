@@ -4,6 +4,7 @@ import net.sergey.kosov.statistic.domains.Product
 import net.sergey.kosov.statistic.services.KafkaService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.annotation.RestController
 import java.security.Principal
@@ -23,9 +24,10 @@ class RestController @Autowired constructor(val kafkaService: KafkaService) {
         return listOf()
     }
 
+    @PreAuthorize("permitAll()")
     @PutMapping("/viewing")
-    fun viewing(session: HttpSession, @RequestBody product: Product) {
-        kafkaService.send(session, product)
+    fun viewing(session: HttpSession, principal: Principal?, @RequestBody product: Product) {
+        kafkaService.send(session, principal?.name, product)
     }
 
     @PostMapping("/validateProduct")

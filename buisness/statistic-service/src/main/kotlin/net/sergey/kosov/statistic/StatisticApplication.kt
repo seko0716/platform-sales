@@ -1,20 +1,30 @@
 package net.sergey.kosov.statistic
 
+import net.sergey.kosov.common.listeners.ContextRefreshListener
 import net.sergey.kosov.statistic.companions.kafka.configs.KafkaProperties
 import net.sergey.kosov.statistic.domains.KafkaData
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.context.annotation.Bean
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.support.serializer.JsonSerializer
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer
 
 
 @SpringBootApplication
-class MarketApplication {
+@EnableOAuth2Client
+@EnableDiscoveryClient
+@EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+class StatisticApplication {
     @Bean
     fun producerFactory(kafkaProperties: KafkaProperties): ProducerFactory<String, KafkaData> {
         return DefaultKafkaProducerFactory(producerConfigs(kafkaProperties))
@@ -34,8 +44,15 @@ class MarketApplication {
     fun kafkaTemplate(kafkaProperties: KafkaProperties): KafkaTemplate<String, KafkaData> {
         return KafkaTemplate(producerFactory(kafkaProperties))
     }
+
+    @Bean
+    fun contextRefreshListener(beanFactory: ConfigurableListableBeanFactory): ContextRefreshListener {
+        return ContextRefreshListener(beanFactory)
+    }
 }
 
 fun main(args: Array<String>) {
-    SpringApplication.run(MarketApplication::class.java, *args)
+    SpringApplication.run(StatisticApplication::class.java, *args)
 }
+
+

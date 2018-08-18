@@ -48,7 +48,6 @@ zuul:
       serviceId: communication-service
       stripPrefix: false
       sensitiveHeaders:
-
     internal-sender:
       path: /internalsender/**
       serviceId: internal-sender
@@ -56,7 +55,7 @@ zuul:
       sensitiveHeaders:
     statistic-service:
       path: /statistic/**
-      serviceId: statistic-service:
+      serviceId: statistic-service
       stripPrefix: false
       sensitiveHeaders:
 

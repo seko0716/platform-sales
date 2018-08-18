@@ -12,7 +12,8 @@ import javax.servlet.http.HttpSession
 class KafkaService @Autowired constructor(private val kafkaTemplate: KafkaTemplate<String, KafkaData>,
                                           private val kafkaProperties: KafkaProperties) {
 
-    fun send(session: HttpSession, product: Product) {
-        kafkaProperties.inputTopics.forEach { kafkaTemplate.send(it, KafkaData(session.id, product)) }
+    fun send(session: HttpSession, login: String?, product: Product) {
+        val id = login ?: session.id
+        kafkaProperties.inputTopics.forEach { kafkaTemplate.send(it, id, KafkaData(id, product)) }
     }
 }

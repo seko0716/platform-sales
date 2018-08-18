@@ -9,3 +9,35 @@ spring:
       username: user
   profiles:
     active: test
+---
+spring:
+  application:
+    name: statistic-service
+  profiles: test
+  cloud:
+    config:
+      uri: http://192.168.0.105:8888
+      fail-fast: true
+      password: 11
+      username: user
+
+kafka:
+  brokers: 192.168.0.106:9092
+  groupId: wc
+  inputTopics: wc-topic
+  outputTopic: wc-result
+spark:
+  master: local[*]
+  appName: ProductRecommendation
+  checkpointDirectory: ./checkpoint
+  durations: 30
+
+
+security:
+  oauth2:
+    client:
+      clientId: statistic-service
+      clientSecret: market
+      accessTokenUri: http://192.168.0.105:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server

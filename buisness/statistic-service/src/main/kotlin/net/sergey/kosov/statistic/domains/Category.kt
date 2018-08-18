@@ -1,7 +1,9 @@
 package net.sergey.kosov.statistic.domains
 
+import net.sergey.kosov.common.annotations.NoArgs
 import java.io.Serializable
 
+@NoArgs
 data class Category(var title: String,
                     var description: String = "",
                     var parent: Category? = null,

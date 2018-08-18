@@ -1,6 +1,8 @@
 package net.sergey.kosov.statistic.companions.kafka
 
 import net.sergey.kosov.statistic.companions.kafka.configs.KafkaProperties
+import net.sergey.kosov.statistic.companions.kafka.domains.KafkaProductResult
+import net.sergey.kosov.statistic.companions.kafka.domains.ProductCount
 import net.sergey.kosov.statistic.domains.Product
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -11,14 +13,23 @@ import java.util.concurrent.Future
 
 class KafkaSink(var kafkaProperties: KafkaProperties,
                 var createProducer: (kafkaProperties: Map<String, String>)
-                -> KafkaProducer<String, Tuple2<Product, List<Tuple2<Product, Int>>>>) : Serializable {
+                -> KafkaProducer<String, KafkaProductResult>) : Serializable {
 
-    private var producer: KafkaProducer<String, Tuple2<Product, List<Tuple2<Product, Int>>>>? = null
+    private lateinit var producer: KafkaProducer<String, KafkaProductResult>
 
     fun send(value: Tuple2<Product, List<Tuple2<Product, Int>>>): Future<RecordMetadata> {
-        if (producer == null) {// потому что надо как-то сериализовать несириализуемое....
+        if (!::producer.isInitialized) {// потому что надо как-то сериализовать несириализуемое....
             producer = createProducer(kafkaProperties.kafkaProducerProperties)
         }
-        return producer?.send(ProducerRecord(kafkaProperties.outputTopic, value))!!
+
+        val result: KafkaProductResult = createResult(value)
+
+        return producer.send(ProducerRecord(kafkaProperties.outputTopic, result))!!
+    }
+
+    private fun createResult(value: Tuple2<Product, List<Tuple2<Product, Int>>>): KafkaProductResult {
+        val companions = value._2.map { ProductCount(it._1, it._2) }
+        return KafkaProductResult(value._1, companions)
     }
 }
+

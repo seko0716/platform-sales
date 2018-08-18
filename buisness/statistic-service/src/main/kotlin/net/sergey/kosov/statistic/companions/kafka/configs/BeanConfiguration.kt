@@ -2,7 +2,8 @@ package net.sergey.kosov.statistic.companions.kafka.configs
 
 import net.sergey.kosov.statistic.companions.kafka.KafkaSink
 import net.sergey.kosov.statistic.companions.kafka.ProductRecommendation
-import net.sergey.kosov.statistic.domains.KafkaData
+import net.sergey.kosov.statistic.companions.kafka.serialization.KafkaDataJsonDeserializer
+import net.sergey.kosov.statistic.companions.kafka.serialization.KafkaDataJsonSerializer
 import net.sergey.kosov.statistic.domains.Product
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.KafkaProducer
@@ -20,8 +21,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
-import org.springframework.kafka.support.serializer.JsonDeserializer
-import org.springframework.kafka.support.serializer.JsonSerializer
 import scala.Tuple2
 import java.io.Serializable
 
@@ -94,8 +93,3 @@ class BeanConfiguration {
     }
 }
 
-class KafkaDataJsonDeserializer : JsonDeserializer<KafkaData>() {
-}
-
-class KafkaDataJsonSerializer : JsonSerializer<KafkaData>() {
-}

@@ -16,6 +16,10 @@ apply plugin: 'kotlin'
 apply plugin: "kotlin-noarg"
 apply plugin: "kotlin-spring"
 apply plugin: 'org.springframework.boot'
+noArg {
+    annotation("net.sergey.kosov.common.annotations.NoArgs")
+}
+
 
 group 'net.sergey.kosov'
 version '1.0-SNAPSHOT'
@@ -32,9 +36,12 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
     compile 'org.springframework.cloud:spring-cloud-starter-config'
     compile 'org.springframework.cloud:spring-cloud-starter-feign'
     compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
+
+    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.security.oauth:spring-security-oauth2'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
@@ -43,7 +50,7 @@ dependencies {
     compile('ch.qos.logback:logback-core')
     compile('ch.qos.logback:logback-classic')
 
-
+    compile project(':infrastructures:common')
     compile 'org.springframework.kafka:spring-kafka'
 
     compile('org.apache.spark:spark-core_2.11:2.3.1')
