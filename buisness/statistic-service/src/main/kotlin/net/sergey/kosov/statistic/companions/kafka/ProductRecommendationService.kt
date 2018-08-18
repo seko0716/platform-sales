@@ -17,7 +17,7 @@ class ProductRecommendationService @Autowired constructor(private var jssc: Java
     @PostRefresh
     fun init() {
         val preferConsistent = LocationStrategies.PreferConsistent()
-        val subscribe = ConsumerStrategies.Subscribe<String, KafkaData>(kafProperties.inputTopics.toList(), kafProperties.kafkaConsumerProperties)
+        val subscribe = ConsumerStrategies.Subscribe<String, KafkaData>(kafProperties.consumerTopics.toList(), kafProperties.kafkaConsumerProperties)
         val stream = KafkaUtils.createDirectStream(jssc, preferConsistent, subscribe)
         Thread(Runnable {
             productRecommendation.calculate(stream, jssc)

@@ -23,9 +23,10 @@ spring:
 
 kafka:
   brokers: 192.168.0.106:9092
-  groupId: wc
-  inputTopics: wc-topic
-  outputTopic: wc-result
+  groupId: statistic-service
+  procurerTopics: companions, viewing
+  consumerTopics: companions
+  outputTopic: companions-statistics
 spark:
   master: local[*]
   appName: ProductRecommendation

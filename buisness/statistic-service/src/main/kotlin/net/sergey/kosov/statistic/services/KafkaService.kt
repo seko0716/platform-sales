@@ -14,6 +14,6 @@ class KafkaService @Autowired constructor(private val kafkaTemplate: KafkaTempla
 
     fun send(session: HttpSession, login: String?, product: Product) {
         val id = login ?: session.id
-        kafkaProperties.inputTopics.forEach { kafkaTemplate.send(it, id, KafkaData(id, product)) }
+        kafkaProperties.procurerTopics.forEach { kafkaTemplate.send(it, id, KafkaData(id, product)) }
     }
 }

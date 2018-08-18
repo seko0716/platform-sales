@@ -14,8 +14,10 @@ class KafkaProperties : Serializable {
     lateinit var groupId: String // = "wc"
     @Value("\${kafka.outputTopic}")
     lateinit var outputTopic: String // = "wc"
-    @Value("\${kafka.inputTopics}")
-    lateinit var inputTopics: Array<String> //= "wc-topic"
+    @Value("\${kafka.consumerTopics}")
+    lateinit var consumerTopics: Array<String> //= "wc-topic"
+    @Value("\${kafka.procurerTopics}")
+    lateinit var procurerTopics: Array<String> //= "wc-topic"
 
     @Autowired
     @Qualifier("kafkaConsumerProperties")
