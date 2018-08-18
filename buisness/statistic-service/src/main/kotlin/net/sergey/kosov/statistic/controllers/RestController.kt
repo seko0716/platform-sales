@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession
 
 @RestController
 class RestController @Autowired constructor(val kafkaService: KafkaService, val productService: ProductService) {
+    @PreAuthorize("permitAll()")
     @GetMapping(path = ["/recentlyViewed"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun getRecentlyViewed(principal: Principal?, httpSession: HttpSession): List<Map<String, Object>> {
         return productService.getRecentlyViewed(principal?.name, httpSession)
