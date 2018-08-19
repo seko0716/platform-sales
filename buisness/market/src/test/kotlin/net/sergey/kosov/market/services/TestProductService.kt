@@ -53,12 +53,6 @@ class TestProductService {
     }
 
     @Test
-    fun getGoods4Chart() {
-        val productList: List<Product> = productService.getProducts4Chart("name")
-        Assert.assertTrue(productList.all { goodsChartIds!!.contains(it.id.toString()) })
-    }
-
-    @Test
     fun disabledGoods() {
         val productViewCreation = ProductViewCreation(title = "name!!", description = "description!!", price = BigDecimal.ZERO, categoryId = "", productInfo = "The Corsair Gaming Series GS600 power supply is the ideal price-performance solution for building or upgrading a Gaming PC. A single +12V rail provides up to 48A of reliable, continuous power for multi-core gaming PCs with multiple graphics cards. The ultra-quiet, dual ball-bearing fan automatically adjusts its speed according to temperature, so it will never intrude on your music and games. Blue LEDs bathe the transparent fan blades in a cool glow. Not feeling blue? You can turn off the lighting with the press of a button.", accountId = "1")
         val goodsCreated = productService.createProduct(productViewCreation, "1")
