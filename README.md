@@ -5,7 +5,7 @@
 This is my final qualification master's work. 
 "Development platform for the sale of products and services with a distributed architecture"
 
-functions:
+# functions:
 - CRUD for products, categories and orders +
 - Product cart +
 - Account creation +
@@ -22,16 +22,15 @@ functions:
 - Security (auth2.0) +
 - Authorisation with social networks -
 - Log analytics +- need create dashboards
-- Sales analysis -
+- Sales analysis +- need create dashboards
 
 
 
-to do:
-- Sales analysis
+# to do:
 - Authorisation with social networks
 - External messaging (communication-service->rabbit->external-sender(telegram, vk))
 - Customer churn forecast (statistic-service->spark MLib)
-- Create dashboards for log analytics
+- Create dashboards for log and sales analytics
 
 ![](https://github.com/Sergey34/platform-sales/blob/feature/market-dev/img/011.png)
 ![](https://github.com/Sergey34/platform-sales/blob/feature/market-dev/img/012.png)

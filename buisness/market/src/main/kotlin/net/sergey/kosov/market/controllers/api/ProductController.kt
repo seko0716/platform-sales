@@ -14,11 +14,6 @@ class ProductController(val productService: ProductService) {
         return productService.findProductById(id)
     }
 
-    @GetMapping("/products/chart")
-    fun getProducts4Chart(principal: Principal): List<Product> {
-        return productService.getProducts4Chart(principal.name)
-    }
-
     @GetMapping("/products")
     fun getProducts(): List<Product> {
         return productService.findProducts()
