@@ -1,5 +1,7 @@
 package net.sergey.kosov.market.services
 
+import net.sergey.kosov.market.api.StatisticApi
+import net.sergey.kosov.market.domains.entity.Order
 import org.springframework.boot.SpringBootConfiguration
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.autoconfigure.domain.EntityScan
@@ -10,6 +12,7 @@ import org.springframework.cloud.netflix.feign.ribbon.FeignRibbonClientAutoConfi
 import org.springframework.cloud.netflix.ribbon.RibbonAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.Primary
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import org.springframework.test.context.ContextConfiguration
@@ -35,4 +38,20 @@ class ServiceConfig {
         return PropertySourcesPlaceholderConfigurer().apply { this.setProperties(properties) }
 
     }
+}
+
+@ContextConfiguration
+class SAConfiguration {
+    @Bean
+    @Primary
+    fun statisticApi(): StatisticApi {
+        return SA()
+    }
+}
+
+class SA : StatisticApi {
+    override fun orderAction(order: Order): Order {
+        return order
+    }
+
 }

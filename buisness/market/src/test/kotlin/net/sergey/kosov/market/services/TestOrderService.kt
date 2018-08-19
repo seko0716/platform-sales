@@ -1,7 +1,6 @@
 package net.sergey.kosov.market.services
 
 import net.sergey.kosov.market.api.AccountApi
-import net.sergey.kosov.market.configuration.ConfigurationFeign
 import net.sergey.kosov.market.domains.entity.*
 import net.sergey.kosov.market.domains.view.wrappers.OrderViewCreation
 import net.sergey.kosov.market.domains.view.wrappers.ProductViewCreation
@@ -21,7 +20,7 @@ import java.math.BigDecimal
 
 @RunWith(SpringRunner::class)
 @ActiveProfiles("test")
-@ContextHierarchy(ContextConfiguration(classes = [ServiceConfig::class, ConfigurationFeign::class]))
+@ContextHierarchy(ContextConfiguration(classes = [ServiceConfig::class, SAConfiguration::class]))
 class TestOrderService {
     @Autowired
     private
