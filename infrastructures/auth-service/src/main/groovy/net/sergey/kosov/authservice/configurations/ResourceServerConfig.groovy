@@ -15,6 +15,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @EnableResourceServer
 @EnableWebSecurity
 class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+
     @Autowired
     void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService userDetailsService) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder())
@@ -23,7 +25,9 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     void configure(HttpSecurity http) throws Exception {
         http
+
                 .authorizeRequests()
+                .antMatchers("/users/current").permitAll()
                 .anyRequest().authenticated().and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

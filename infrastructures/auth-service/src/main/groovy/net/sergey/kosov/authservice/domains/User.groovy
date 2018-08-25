@@ -12,6 +12,7 @@ class User implements UserDetails {
     @Id
     String username
     String password
+    String socialAccountId
 
     @Override
     List<GrantedAuthority> getAuthorities() {
