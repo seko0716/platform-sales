@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import net.sergey.kosov.common.annotations.NoArgs
 import net.sergey.kosov.common.serializers.ObjectIdSerializer
+import net.sergey.kosov.common.utils.DateTimeUtils.Companion.dateTimeUtc
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
@@ -21,7 +22,7 @@ data class Message(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id:
                    var accessToken: String = "",
                    var status: Status = Status.CREATED,
                    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                   var creationDate: LocalDateTime = LocalDateTime.now(),
+                   var creationDate: LocalDateTime = dateTimeUtc(),
                    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                    var completedDate: LocalDateTime? = null)
 

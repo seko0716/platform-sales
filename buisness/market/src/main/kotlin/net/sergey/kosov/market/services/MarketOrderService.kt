@@ -1,6 +1,7 @@
 package net.sergey.kosov.market.services
 
 import net.sergey.kosov.common.exceptions.NotFoundException
+import net.sergey.kosov.common.utils.DateTimeUtils.Companion.dateTimeUtc
 import net.sergey.kosov.market.api.AccountApi
 import net.sergey.kosov.market.api.StatisticApi
 import net.sergey.kosov.market.domains.entity.Order
@@ -16,7 +17,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 @Service
 class MarketOrderService @Autowired constructor(private var orderRepository: OrderRepository,
@@ -137,7 +137,7 @@ class MarketOrderService @Autowired constructor(private var orderRepository: Ord
                 if (order.status !in completeStatuses) {
                     throw IllegalArgumentException("Комплитить можно только ордера в статусе $completeStatuses")
                 }
-                order.completedTime = LocalDateTime.now()
+                order.completedTime = dateTimeUtc()
             }
             PROCESSING -> {
                 if (order.status !in processingStatuses) {
@@ -162,7 +162,7 @@ class MarketOrderService @Autowired constructor(private var orderRepository: Ord
 
         return order.apply {
             this.status = status
-            this.statusHistory.add(Order.StatusHistoryItem(status, LocalDateTime.now()))
+            this.statusHistory.add(Order.StatusHistoryItem(status, dateTimeUtc()))
         }
     }
 

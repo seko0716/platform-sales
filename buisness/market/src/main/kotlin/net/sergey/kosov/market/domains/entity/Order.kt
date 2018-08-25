@@ -3,6 +3,7 @@ package net.sergey.kosov.market.domains.entity
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import net.sergey.kosov.common.annotations.NoArgs
 import net.sergey.kosov.common.serializers.ObjectIdSerializer
+import net.sergey.kosov.common.utils.DateTimeUtils.Companion.dateTimeUtc
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
@@ -17,7 +18,7 @@ data class Order(@Id @JsonSerialize(using = ObjectIdSerializer::class) var id: O
                  var title: String = "Order ${product.title}",
                  var count: Int = 1,
                  var customer: User,
-                 var createdTime: LocalDateTime = LocalDateTime.now(),
+                 var createdTime: LocalDateTime = dateTimeUtc(),
                  @Indexed(name = "orders_status")
                  var status: Status = Status.CREATED,
                  var statusHistory: MutableList<StatusHistoryItem> = mutableListOf(StatusHistoryItem(status, createdTime)),

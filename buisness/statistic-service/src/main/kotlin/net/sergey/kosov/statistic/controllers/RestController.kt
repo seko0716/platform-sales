@@ -1,5 +1,6 @@
 package net.sergey.kosov.statistic.controllers
 
+import net.sergey.kosov.common.utils.DateTimeUtils.Companion.dateTimeUtc
 import net.sergey.kosov.statistic.domains.Order
 import net.sergey.kosov.statistic.domains.Product
 import net.sergey.kosov.statistic.services.KafkaService
@@ -11,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.annotation.RestController
 import java.security.Principal
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 import javax.servlet.http.HttpSession
 
@@ -32,7 +32,7 @@ class RestController @Autowired constructor(val kafkaService: KafkaService, val 
     @PreAuthorize("permitAll()")
     @PutMapping("/viewing")
     fun viewing(session: HttpSession, principal: Principal?, @RequestBody product: Product) {
-        kafkaService.send(session, principal?.name, product.apply { date = LocalDateTime.now().format(ISO_DATE_TIME) })
+        kafkaService.send(session, principal?.name, product.apply { date = dateTimeUtc().format(ISO_DATE_TIME) })
     }
 
     @PreAuthorize("#oauth2.hasScope('server')")

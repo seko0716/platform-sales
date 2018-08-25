@@ -16,7 +16,7 @@ class AccountAccountService(private var accountRepository: AccountRepository,
                             private var userService: UserService) : AccountService {
     @Transactional
     override fun createAccount(viewCreationAccount: ViewCreationAccount): Account {
-        val account = Account(marketName = viewCreationAccount.marketName, images = listOf(viewCreationAccount.email))
+        val account = Account(marketName = viewCreationAccount.marketName, users = listOf(viewCreationAccount.email))
         val user = User(fullName = viewCreationAccount.fullName,
                 firstName = viewCreationAccount.firstName,
                 lastName = viewCreationAccount.lastName,

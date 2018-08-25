@@ -1,5 +1,6 @@
 package net.sergey.kosov.communication.services
 
+import net.sergey.kosov.common.utils.DateTimeUtils.Companion.dateTimeUtc
 import net.sergey.kosov.communication.api.AccountApi
 import net.sergey.kosov.communication.domains.Message
 import net.sergey.kosov.communication.domains.MessageType
@@ -14,7 +15,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 @Service
 class MessageService @Autowired constructor(private var accountApi: AccountApi,
@@ -26,7 +26,7 @@ class MessageService @Autowired constructor(private var accountApi: AccountApi,
         val message: Message = repository.findOne(id)
         repository.save(message.apply {
             this.status = Status.COMPLETED
-            this.completedDate = LocalDateTime.now()
+            this.completedDate = dateTimeUtc()
         })
     }
 

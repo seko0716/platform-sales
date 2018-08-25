@@ -1,6 +1,7 @@
 package net.sergey.kosov.statistic.domains
 
 import net.sergey.kosov.common.annotations.NoArgs
+import net.sergey.kosov.common.utils.DateTimeUtils.Companion.dateTimeUtc
 import org.bson.types.ObjectId
 import java.time.LocalDateTime
 
@@ -10,7 +11,7 @@ data class Order(var id: String,
                  var title: String = "Order ${product.title}",
                  var count: Int = 1,
                  var customer: User,
-                 var createdTime: LocalDateTime = LocalDateTime.now(),
+                 var createdTime: LocalDateTime = dateTimeUtc(),
                  var status: String,
                  var statusHistory: MutableList<StatusHistoryItem>,
                  var completedTime: LocalDateTime? = null,

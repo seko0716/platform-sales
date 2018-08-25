@@ -35,7 +35,7 @@ class DataInit(var productService: ProductService,
                     ), accountId = testAccountId)
             val create = categoryService.create(categoryViewCreation, "test")
             categoryViewCreation.parentId = create.id.toString()
-            val create2 = categoryService.create(categoryViewCreation, "test")
+            categoryService.create(categoryViewCreation, "test")
             categoryViewCreation.parentId = null
             categoryViewCreation.accountId = adminAccountId
             categoryService.create(categoryViewCreation, "admin")

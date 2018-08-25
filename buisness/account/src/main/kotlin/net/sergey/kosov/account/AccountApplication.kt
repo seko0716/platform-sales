@@ -7,6 +7,7 @@ import net.sergey.kosov.account.domains.User
 import net.sergey.kosov.account.repositories.AccountRepository
 import net.sergey.kosov.account.repositories.UserRepository
 import net.sergey.kosov.common.security.CustomUserInfoTokenServices
+import net.sergey.kosov.common.utils.DateTimeUtils.Companion.dateUtc
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -26,7 +27,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices
-import java.time.LocalDate
 import javax.annotation.PostConstruct
 
 @EnableOAuth2Client
@@ -52,8 +52,8 @@ class AccountApplication {
                     images = listOf("https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                             "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
                             "https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg"), users = listOf("test", "admin")))
-            userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "admin", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = save))
-            userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "test", birthDay = LocalDate.now(), country = "", gender = Gender.FEMALE, account = test))
+            userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "admin", birthDay = dateUtc(), country = "", gender = Gender.FEMALE, account = save))
+            userService.save(User(fullName = "fun", firstName = "fn", lastName = "ln", email = "test", birthDay = dateUtc(), country = "", gender = Gender.FEMALE, account = test))
         } catch (e: Exception) {
             e.printStackTrace()
         }
