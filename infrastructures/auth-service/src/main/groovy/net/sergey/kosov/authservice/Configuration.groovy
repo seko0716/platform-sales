@@ -1,5 +1,6 @@
 package net.sergey.kosov.authservice
 
+import com.netflix.discovery.EurekaClient
 import net.sergey.kosov.authservice.configurations.CustomSavedRequestAwareAuthenticationSuccessHandler
 import net.sergey.kosov.authservice.configurations.extractors.OAuth2UserService
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -33,9 +34,9 @@ class Configuration {
 
 
     @Bean
-    CustomSavedRequestAwareAuthenticationSuccessHandler customSavedRequestAwareAuthenticationSuccessHandler() {
-        def handler = new CustomSavedRequestAwareAuthenticationSuccessHandler()
-        handler.setDefaultTargetUrl("http://localhost:4000/view/products")
+    CustomSavedRequestAwareAuthenticationSuccessHandler customSavedRequestAwareAuthenticationSuccessHandler(EurekaClient discoveryClient) {
+        def handler = new CustomSavedRequestAwareAuthenticationSuccessHandler(discoveryClient)
+        handler.setDefaultTargetUrl("http://localhost:4000/view/products")//default
         handler.setAlwaysUseDefaultTargetUrl(true)
         return handler
     }

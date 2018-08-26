@@ -58,4 +58,9 @@ zuul:
       serviceId: statistic-service
       stripPrefix: false
       sensitiveHeaders:
+eureka:
+  instance:
+    home-page-url: http://localhost:4000/
+
+
 
