@@ -1,6 +1,7 @@
 package net.sergey.kosov.authservice.configurations.google
 
 import groovy.util.logging.Slf4j
+import net.sergey.kosov.authservice.configurations.CustomSavedRequestAwareAuthenticationSuccessHandler
 import net.sergey.kosov.authservice.configurations.extractors.AuthoritiesExtractorImpl
 import net.sergey.kosov.authservice.configurations.extractors.GooglePrincipalExtractor
 import net.sergey.kosov.authservice.configurations.extractors.OAuth2UserService
@@ -29,17 +30,20 @@ class GoogleConfiguration {
     UserRepository userStorage
     OAuth2ClientContext oauth2ClientContext
     OAuth2UserService oAuth2UserService
+    CustomSavedRequestAwareAuthenticationSuccessHandler customSavedRequestAwareAuthenticationSuccessHandler
 
-    GoogleConfiguration(UserRepository userStorage, OAuth2ClientContext oauth2ClientContext, OAuth2UserService oAuth2UserService) {
+    GoogleConfiguration(UserRepository userStorage, OAuth2ClientContext oauth2ClientContext, OAuth2UserService oAuth2UserService, CustomSavedRequestAwareAuthenticationSuccessHandler customSavedRequestAwareAuthenticationSuccessHandler) {
         this.userStorage = userStorage
         this.oauth2ClientContext = oauth2ClientContext
         this.oAuth2UserService = oAuth2UserService
+        this.customSavedRequestAwareAuthenticationSuccessHandler = customSavedRequestAwareAuthenticationSuccessHandler
     }
 
     @Bean
     OAuth2ClientAuthenticationProcessingFilter googleFilter(GoogleResourceProperties googleResource,
                                                             GoogleClientProperty googleClient) {
         def googleFilter = new OAuth2ClientAuthenticationProcessingFilter(google().loginUrl)
+        googleFilter.setAuthenticationSuccessHandler(customSavedRequestAwareAuthenticationSuccessHandler)
         def googleTemplate = new OAuth2RestTemplate(googleClient, oauth2ClientContext)
         googleFilter.setRestTemplate(googleTemplate)
         def tokenServices = new UserInfoTokenServices(googleResource.userInfoUri, googleClient.clientId)

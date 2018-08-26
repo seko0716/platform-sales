@@ -1,6 +1,7 @@
 package net.sergey.kosov.authservice.configurations.vk
 
 import groovy.util.logging.Slf4j
+import net.sergey.kosov.authservice.configurations.CustomSavedRequestAwareAuthenticationSuccessHandler
 import net.sergey.kosov.authservice.configurations.extractors.AuthoritiesExtractorImpl
 import net.sergey.kosov.authservice.configurations.extractors.OAuth2UserService
 import net.sergey.kosov.authservice.configurations.extractors.VkPrincipalExtractor
@@ -30,16 +31,20 @@ class VkConfiguration {
     UserRepository userStorage
     OAuth2ClientContext oauth2ClientContext
     OAuth2UserService oAuth2UserService
+    CustomSavedRequestAwareAuthenticationSuccessHandler customSavedRequestAwareAuthenticationSuccessHandler
 
-    VkConfiguration(UserRepository userStorage, OAuth2ClientContext oauth2ClientContext, OAuth2UserService oAuth2UserService) {
+
+    VkConfiguration(UserRepository userStorage, OAuth2ClientContext oauth2ClientContext, OAuth2UserService oAuth2UserService, CustomSavedRequestAwareAuthenticationSuccessHandler customSavedRequestAwareAuthenticationSuccessHandler) {
         this.userStorage = userStorage
         this.oauth2ClientContext = oauth2ClientContext
         this.oAuth2UserService = oAuth2UserService
+        this.customSavedRequestAwareAuthenticationSuccessHandler = customSavedRequestAwareAuthenticationSuccessHandler
     }
 
     @Bean
     OAuth2ClientAuthenticationProcessingFilter vkFilter(VkResourceProperties vkResource, VkClientProperty vkClient) {
         def vkFilter = new OAuth2ClientAuthenticationProcessingFilter(vk().loginUrl)
+        vkFilter.setAuthenticationSuccessHandler(customSavedRequestAwareAuthenticationSuccessHandler)
         def vkTemplate = new OAuth2RestTemplate(vkClient, oauth2ClientContext)
         vkFilter.setRestTemplate(vkTemplate)
         vkTemplate.setAccessTokenProvider(new AccessTokenProviderChain(Arrays.asList(
@@ -51,7 +56,7 @@ class VkConfiguration {
         tokenServices.setAuthoritiesExtractor(vkAuthoritiesExtractor())
         tokenServices.setPrincipalExtractor(vkPrincipalExtractor())
         vkFilter.setTokenServices(tokenServices)
-        log.trace("init google oauth2 filter")
+        log.trace("init vk oauth2 filter")
         return vkFilter
     }
 

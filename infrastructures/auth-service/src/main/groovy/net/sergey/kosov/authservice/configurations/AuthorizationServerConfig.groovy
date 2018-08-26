@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
@@ -71,9 +72,17 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
         return new InMemoryTokenStore()
     }
 
-    @Override
-    void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager).userDetailsService(userDetailsService)
+    @Bean
+    CustomTokenServices customTokenServices(List<OAuth2ClientAuthenticationProcessingFilter> oAuth2ClientAuthenticationProcessingFilters) {
+        def services = new CustomTokenServices(oAuth2ClientAuthenticationProcessingFilters)
+        services.setTokenStore(tokenStore())
+        return services
     }
 
+    @Override
+    void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        super.configure(endpoints)
+        endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager).userDetailsService(userDetailsService)
+                .tokenServices(customTokenServices())
+    }
 }

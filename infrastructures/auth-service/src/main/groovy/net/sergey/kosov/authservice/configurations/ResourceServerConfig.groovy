@@ -8,13 +8,27 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
+import org.springframework.web.filter.CompositeFilter
+
+import javax.servlet.Filter
 
 @Configuration
 @EnableResourceServer
 @EnableWebSecurity
 class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    @Autowired(required = false)
+    List<OAuth2ClientAuthenticationProcessingFilter> oAuth2ClientAuthenticationProcessingFilters
+
+    private Filter ssoFilter() {
+        def filter = new CompositeFilter()
+        filter.setFilters(oAuth2ClientAuthenticationProcessingFilters)
+        return filter
+    }
 
 
     @Autowired
@@ -27,11 +41,11 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http
 
                 .authorizeRequests()
-                .antMatchers("/users/current").permitAll()
                 .anyRequest().authenticated().and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .csrf().disable()
+                .addFilterAfter(ssoFilter(), BasicAuthenticationFilter.class)
     }
 
 }
