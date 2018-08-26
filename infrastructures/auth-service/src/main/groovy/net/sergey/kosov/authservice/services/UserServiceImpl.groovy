@@ -29,11 +29,11 @@ class UserServiceImpl implements UserService {
 
     @PostConstruct
     void init() {
-        def user = new User(username: "admin", password: "11")
+        def user = new User("admin", "11", null)
         String hash = encoder.encode(user.getPassword())
         user.setPassword(hash)
         repository.save(user)
-        user = new User(username: "test", password: "11")
+        user = new User("test", "11", null)
         hash = encoder.encode(user.getPassword())
         user.setPassword(hash)
         repository.save(user)

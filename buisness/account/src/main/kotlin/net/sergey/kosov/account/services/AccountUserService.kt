@@ -31,9 +31,12 @@ class AccountUserService(private var userRepository: UserRepository,
         return userRepository.findByQuery(Query.query(Criteria.where("account").`is`(account)))
     }
 
-    override fun createUser(user: User, password: String): User {
+    override fun createUser(user: User, password: String, social: Boolean): User {
         val authUser = User.User(username = user.email, password = password)
-        authUserClient.createUser(authUser)
+        if (!social) {
+            user.needUpdatePassword = false
+            authUserClient.createUser(authUser)
+        }
         return userRepository.insert(user)
     }
 

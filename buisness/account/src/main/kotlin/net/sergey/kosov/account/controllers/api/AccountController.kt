@@ -30,7 +30,13 @@ class AccountController(var accountService: AccountService) {
     @PreAuthorize("permitAll()")
     @PutMapping(path = ["/create"])
     fun createAccount(@RequestBody viewCreationAccount: ViewCreationAccount): Account {
-        return accountService.createAccount(viewCreationAccount)
+        return accountService.createAccount(viewCreationAccount, false)
+    }
+
+    @PreAuthorize("#oauth2.hasScope('server')")
+    @PutMapping(path = ["/create/social"])
+    fun createAccountSocial(@RequestBody viewCreationAccount: ViewCreationAccount): Account {
+        return accountService.createAccountSocial(viewCreationAccount)
     }
 
     @PostMapping(path = ["/addUser/{marketName}/{uuid}"])

@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 class AccountAccountService(private var accountRepository: AccountRepository,
                             private var userService: UserService) : AccountService {
     @Transactional
-    override fun createAccount(viewCreationAccount: ViewCreationAccount): Account {
+    override fun createAccount(viewCreationAccount: ViewCreationAccount, social: Boolean): Account {
         val account = Account(marketName = viewCreationAccount.marketName, users = listOf(viewCreationAccount.email))
         val user = User(fullName = viewCreationAccount.fullName,
                 firstName = viewCreationAccount.firstName,
@@ -25,8 +25,12 @@ class AccountAccountService(private var accountRepository: AccountRepository,
                 country = viewCreationAccount.country,
                 gender = viewCreationAccount.gender,
                 account = account)
-        userService.createUser(user, viewCreationAccount.password)
+        userService.createUser(user, viewCreationAccount.password, social)
         return accountRepository.insert(account)
+    }
+
+    override fun createAccountSocial(viewCreationAccount: ViewCreationAccount): Account {
+        return createAccount(viewCreationAccount, true)
     }
 
     override fun getAccountByUser(name: String): Account {

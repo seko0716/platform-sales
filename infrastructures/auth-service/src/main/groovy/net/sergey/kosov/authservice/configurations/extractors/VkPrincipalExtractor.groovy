@@ -2,7 +2,9 @@ package net.sergey.kosov.authservice.configurations.extractors
 
 
 import groovy.util.logging.Slf4j
+import net.sergey.kosov.authservice.api.AccountApi
 import net.sergey.kosov.authservice.domains.User
+import net.sergey.kosov.authservice.domains.ViewCreationAccount
 import net.sergey.kosov.authservice.properties.vk.VkProperties
 import net.sergey.kosov.authservice.repository.UserRepository
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor
@@ -12,11 +14,13 @@ class VkPrincipalExtractor implements PrincipalExtractor {
     UserRepository userStorage
     VkProperties vk
     OAuth2UserService oAuth2UserService
+    AccountApi accountApi
 
-    VkPrincipalExtractor(UserRepository userStorage, VkProperties vk, OAuth2UserService oAuth2UserService) {
+    VkPrincipalExtractor(UserRepository userStorage, VkProperties vk, OAuth2UserService oAuth2UserService, AccountApi accountApi) {
         this.userStorage = userStorage
         this.vk = vk
         this.oAuth2UserService = oAuth2UserService
+        this.accountApi = accountApi
     }
     private def authServiceType = "VK"
 
@@ -33,6 +37,9 @@ class VkPrincipalExtractor implements PrincipalExtractor {
                     "pass",
                     socialAccountId)
             userT = userStorage.save(userT)
+
+            createAccount(result)
+
             log.debug("user be created {}", userT)
             user = userT
         }
@@ -41,4 +48,16 @@ class VkPrincipalExtractor implements PrincipalExtractor {
         return user
     }
 
+
+    private void createAccount(Map<String, String> user) {
+        def creationAccount = ViewCreationAccount.builder()
+                .email(user[vk.loginField])
+                .firstName(user[vk.firstNameField])
+                .lastName(user[vk.lastNameField])
+                .fullName(user[vk.firstNameField] + " " + user[vk.lastNameField])
+                .password("pass")
+                .marketName(user[vk.loginField]).build()
+
+        accountApi.createAccountSocial(creationAccount)
+    }
 }

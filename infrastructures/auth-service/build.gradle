@@ -24,11 +24,13 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
 
 //    security
+    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
     compile 'org.springframework.security.oauth:spring-security-oauth2'
     compile 'org.springframework.boot:spring-boot-starter-security'
 
 //    cloud
     compile 'org.springframework.cloud:spring-cloud-starter-config'
+    compile 'org.springframework.cloud:spring-cloud-starter-feign'
     compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 //    web
@@ -37,6 +39,9 @@ dependencies {
 //    db
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+
+//    common
+    compile project(':infrastructures:common')
 
 //    logging
     compile 'net.logstash.logback:logstash-logback-encoder:4.11'

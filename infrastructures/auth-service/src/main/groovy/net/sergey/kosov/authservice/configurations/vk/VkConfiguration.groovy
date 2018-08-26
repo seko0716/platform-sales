@@ -1,6 +1,7 @@
 package net.sergey.kosov.authservice.configurations.vk
 
 import groovy.util.logging.Slf4j
+import net.sergey.kosov.authservice.api.AccountApi
 import net.sergey.kosov.authservice.configurations.CustomSavedRequestAwareAuthenticationSuccessHandler
 import net.sergey.kosov.authservice.configurations.extractors.AuthoritiesExtractorImpl
 import net.sergey.kosov.authservice.configurations.extractors.OAuth2UserService
@@ -79,8 +80,8 @@ class VkConfiguration {
     }
 
     @Bean
-    VkPrincipalExtractor vkPrincipalExtractor() {
-        return new VkPrincipalExtractor(userStorage, vk(), oAuth2UserService)
+    VkPrincipalExtractor vkPrincipalExtractor(AccountApi accountApi) {
+        return new VkPrincipalExtractor(userStorage, vk(), oAuth2UserService, accountApi)
     }
 
     @Bean("vkTokenProvider")

@@ -9,6 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails
 @Canonical
 @Document(collection = "users")
 class User implements UserDetails {
+    User(String username, String password, String socialAccountId) {
+        this.username = username
+        this.password = password
+        this.socialAccountId = socialAccountId
+    }
     @Id
     String username
     String password

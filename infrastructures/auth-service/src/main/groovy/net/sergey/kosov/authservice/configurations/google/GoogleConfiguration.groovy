@@ -1,6 +1,7 @@
 package net.sergey.kosov.authservice.configurations.google
 
 import groovy.util.logging.Slf4j
+import net.sergey.kosov.authservice.api.AccountApi
 import net.sergey.kosov.authservice.configurations.CustomSavedRequestAwareAuthenticationSuccessHandler
 import net.sergey.kosov.authservice.configurations.extractors.AuthoritiesExtractorImpl
 import net.sergey.kosov.authservice.configurations.extractors.GooglePrincipalExtractor
@@ -74,8 +75,8 @@ class GoogleConfiguration {
     }
 
     @Bean("googlePrincipalExtractor")
-    GooglePrincipalExtractor googlePrincipalExtractor() {
-        return new GooglePrincipalExtractor(userStorage, google(), oAuth2UserService)
+    GooglePrincipalExtractor googlePrincipalExtractor(AccountApi accountApi) {
+        return new GooglePrincipalExtractor(userStorage, google(), oAuth2UserService, accountApi)
     }
 
     @Bean
