@@ -20,14 +20,13 @@ This is my final qualification master's work.
 - External configuration +
 - Service discovery (eureka) +
 - Security (auth2.0) +
-- Authorisation with social networks -
+- Authorisation with social networks (vk and google)+
 - Log analytics +- need create dashboards
 - Sales analysis +- need create dashboards
 
 
 
 # to do:
-- Authorisation with social networks
 - External messaging (communication-service->rabbit->external-sender(telegram, vk))
 - Customer churn forecast (statistic-service->spark MLib)
 - Create dashboards for log and sales analytics
