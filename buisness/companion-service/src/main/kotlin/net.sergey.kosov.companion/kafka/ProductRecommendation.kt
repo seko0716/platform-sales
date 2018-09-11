@@ -1,7 +1,8 @@
-package net.sergey.kosov.statistic.companions.kafka
+package net.sergey.kosov.companion.kafka
 
-import net.sergey.kosov.statistic.domains.KafkaData
-import net.sergey.kosov.statistic.domains.Product
+
+import net.sergey.kosov.companion.domains.KafkaData
+import net.sergey.kosov.companion.domains.Product
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.spark.api.java.JavaPairRDD
 import org.apache.spark.api.java.Optional

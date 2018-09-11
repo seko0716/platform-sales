@@ -1,4 +1,5 @@
-package net.sergey.kosov.statistic.companions.kafka.serialization
+package net.sergey.kosov.statistic.serialization
+
 
 import net.sergey.kosov.statistic.domains.KafkaData
 import org.springframework.kafka.support.serializer.JsonSerializer

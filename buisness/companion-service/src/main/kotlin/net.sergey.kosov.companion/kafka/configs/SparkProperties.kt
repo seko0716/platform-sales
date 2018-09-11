@@ -1,4 +1,4 @@
-package net.sergey.kosov.statistic.companions.kafka.configs
+package net.sergey.kosov.companion.kafka.configs
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component

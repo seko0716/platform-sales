@@ -1,10 +1,11 @@
-package net.sergey.kosov.statistic.companions.kafka.configs
+package net.sergey.kosov.companion.kafka.configs
 
-import net.sergey.kosov.statistic.companions.kafka.KafkaSink
-import net.sergey.kosov.statistic.companions.kafka.ProductRecommendation
-import net.sergey.kosov.statistic.companions.kafka.serialization.KafkaDataJsonDeserializer
-import net.sergey.kosov.statistic.companions.kafka.serialization.KafkaDataJsonSerializer
-import net.sergey.kosov.statistic.domains.Product
+import net.sergey.kosov.companion.domains.Product
+import net.sergey.kosov.companion.kafka.KafkaSink
+import net.sergey.kosov.companion.kafka.ProductRecommendation
+import net.sergey.kosov.companion.kafka.serialization.KafkaDataJsonDeserializer
+import net.sergey.kosov.companion.kafka.serialization.KafkaDataJsonSerializer
+
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -24,7 +25,7 @@ import org.springframework.context.annotation.Configuration
 import scala.Tuple2
 import java.io.Serializable
 
-@ComponentScan(basePackages = ["net.sergey.kosov.statistic.companions.kafka"])
+@ComponentScan(basePackages = ["net.sergey.kosov.companion"])
 @Configuration
 class BeanConfiguration {
 

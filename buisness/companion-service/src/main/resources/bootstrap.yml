@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: companion-service
+  cloud:
+    config:
+      uri: http://config:8888
+      fail-fast: true
+      password: ${CONFIG_SERVICE_PASSWORD}
+      username: user
+  profiles:
+    active: test
+---
+spring:
+  application:
+    name: companion-service
+  profiles: test
+  cloud:
+    config:
+      uri: http://192.168.0.106:8888
+      fail-fast: true
+      password: 11
+      username: user
+
+kafka:
+  brokers: 192.168.0.106:9092
+  groupId: companion-service
+  procurerTopics: companions, viewing
+  consumerTopics: companions
+  outputTopic: companions-statistics
+spark:
+  master: local[*]
+  appName: ProductRecommendation
+  checkpointDirectory: ./checkpoint
+  durations: 900
+elasticsearch:
+  searchSize: 10
+  clusterNodesStr: localhost:9300
+  clusterName: docker-cluster
+
+security:
+  oauth2:
+    client:
+      clientId: companion-service
+      clientSecret: market
+      accessTokenUri: http://192.168.0.105:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server

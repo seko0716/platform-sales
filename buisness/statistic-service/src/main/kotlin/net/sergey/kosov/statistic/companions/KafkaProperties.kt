@@ -1,4 +1,4 @@
-package net.sergey.kosov.statistic.companions.kafka.configs
+package net.sergey.kosov.statistic.companions
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier

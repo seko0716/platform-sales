@@ -1,6 +1,6 @@
 package net.sergey.kosov.statistic.services
 
-import net.sergey.kosov.statistic.companions.kafka.configs.KafkaProperties
+import net.sergey.kosov.statistic.companions.KafkaProperties
 import net.sergey.kosov.statistic.domains.KafkaData
 import net.sergey.kosov.statistic.domains.Product
 import org.springframework.beans.factory.annotation.Autowired

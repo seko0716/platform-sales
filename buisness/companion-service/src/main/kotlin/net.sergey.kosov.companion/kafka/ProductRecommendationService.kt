@@ -1,8 +1,8 @@
-package net.sergey.kosov.statistic.companions.kafka
+package net.sergey.kosov.companion.kafka
 
 import net.sergey.kosov.common.annotations.PostRefresh
-import net.sergey.kosov.statistic.companions.kafka.configs.KafkaProperties
-import net.sergey.kosov.statistic.domains.KafkaData
+import net.sergey.kosov.companion.domains.KafkaData
+import net.sergey.kosov.companion.kafka.configs.KafkaProperties
 import org.apache.spark.streaming.api.java.JavaStreamingContext
 import org.apache.spark.streaming.kafka010.ConsumerStrategies
 import org.apache.spark.streaming.kafka010.KafkaUtils

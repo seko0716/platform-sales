@@ -1,9 +1,9 @@
-package net.sergey.kosov.statistic.companions.kafka
+package net.sergey.kosov.companion.kafka
 
-import net.sergey.kosov.statistic.companions.kafka.configs.KafkaProperties
-import net.sergey.kosov.statistic.companions.kafka.domains.KafkaProductResult
-import net.sergey.kosov.statistic.companions.kafka.domains.ProductCount
-import net.sergey.kosov.statistic.domains.Product
+import net.sergey.kosov.companion.domains.Product
+import net.sergey.kosov.companion.kafka.configs.KafkaProperties
+import net.sergey.kosov.companion.kafka.domains.KafkaProductResult
+import net.sergey.kosov.companion.kafka.domains.ProductCount
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
