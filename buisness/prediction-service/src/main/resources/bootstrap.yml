@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: prediction-service
+  cloud:
+    config:
+      uri: http://config:8888
+      fail-fast: true
+      password: ${CONFIG_SERVICE_PASSWORD}
+      username: user
+  profiles:
+    active: test,randomForestClassifier
+---
+spring:
+  application:
+    name: prediction-service
+  profiles: test
+  cloud:
+    config:
+      uri: http://192.168.0.106:8888
+      fail-fast: true
+      password: 11
+      username: user
+
+spark:
+  master: local[*]
+  appName: ChurnPrediction
+  checkpointDirectory: ./checkpoint
+  modelStorage: modelStorage
+  train: 0.7
+  test: 0.3
+elasticsearch:
+  searchSize: 10
+  clusterNodesStr: localhost:9300
+  clusterName: docker-cluster
+
+security:
+  oauth2:
+    client:
+      clientId: prediction-service
+      clientSecret: market
+      accessTokenUri: http://192.168.0.105:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
